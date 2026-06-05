@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Деплой при кожному пуші в main
+  push:
+    branches: [main]
+  # Кнопка ручного запуску у вкладці Actions
+  workflow_dispatch:
+
+# Дозволи для GITHUB_TOKEN, потрібні для деплою на Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Один деплой за раз; не скасовуємо вже запущений
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Спробувати увімкнути Pages автоматично (для public-репо працює)
+          enablement: true
+
+      - name: Upload artifact (публікуємо папку src/)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
