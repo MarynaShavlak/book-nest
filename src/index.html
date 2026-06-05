@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Design System</title>
+
+<!-- Шрифти (у проєкті лиши саме цей <link>) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Без миготіння теми: ставимо data-theme до рендера -->
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!--
+  ДЕМО вшиває tokens.css + typography.css інлайн, щоб працювало автономно.
+  У СВОЄМУ проєкті заміни два <style> нижче на:
+     <link rel="stylesheet" href="tokens.css">
+     <link rel="stylesheet" href="typography.css">
+-->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FBF7F4; --surface:#FDFCFA; --surface-alt:#FAF5F1; --field:#FAF9F7; --border:#E8DFD5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#9B8E82;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-display:clamp(3.25rem,5vw,3.75rem); --fs-h1:clamp(2.75rem,4.2vw,3.25rem);
+  --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem; --fs-title:1.25rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem; --fs-button:1rem; --fs-nav:.9375rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-display:1.05; --lh-heading:1.2; --lh-snug:1.3; --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#2C2219; --border:#3A2D23;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#8E8275;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито; @import шрифтів замінено на <link> вище) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.display,h1,.h1,h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0}
+.display{font-size:var(--fs-display);font-weight:var(--fw-bold);line-height:var(--lh-display);letter-spacing:var(--tracking-display)}
+h1,.h1{font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:var(--lh-heading)}
+h3,.h3{font-family:var(--font-sans);font-size:var(--fs-h3);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);margin:0}
+.section-title{font-family:var(--font-sans);font-size:var(--fs-title);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink)}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.text-sm,small{font-size:var(--fs-sm);line-height:1.45}
+.hint{font-size:var(--fs-xs);line-height:1.4;color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+.label--required::after{content:" *";color:var(--danger)}
+button,.btn{font-family:var(--font-sans);font-size:var(--fs-button);font-weight:var(--fw-semibold);line-height:1}
+.nav-link{font-family:var(--font-sans);font-size:var(--fs-nav);font-weight:var(--fw-medium)}
+.logo{font-family:var(--font-serif);font-weight:var(--fw-bold);color:var(--ink)}
+a{color:var(--primary);text-underline-offset:2px}
+a:hover{color:var(--primary-hover)}
+</style>
+
+<!-- ===== Стилі самої демо-сторінки ===== -->
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+body::before{content:"";position:fixed;inset:0 0 auto 0;height:340px;pointer-events:none;
+  background:radial-gradient(120% 100% at 80% -20%, color-mix(in srgb,var(--accent-soft) 40%, transparent), transparent 60%);opacity:.7}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px 96px;position:relative}
+
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:34px;height:34px;color:var(--primary)}
+.brand .logo{font-size:1.3rem;line-height:1}
+.brand .tagline{display:block;color:var(--muted);font-size:.72rem;font-weight:400;font-family:var(--font-sans);margin-top:2px}
+.toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:var(--surface);
+  border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:var(--radius);
+  font-weight:600;font-size:.875rem;box-shadow:var(--shadow-card);transition:.2s}
+.toggle:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.toggle svg{width:18px;height:18px}
+
+/* Sections */
+.hero{padding:60px 0 8px}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.hero .display{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hero .display svg{width:.7em;height:.7em;color:var(--primary);opacity:.85}
+.hero .lead{max-width:52ch;margin-top:16px}
+.block{padding:44px 0;border-top:1px solid var(--border);margin-top:44px}
+.block>h2{margin-bottom:8px}
+.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:26px;max-width:60ch}
+
+/* Type specimens */
+.specimen{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:baseline;padding:16px 0;border-bottom:1px dashed var(--border)}
+.specimen:last-child{border-bottom:0}
+.specimen .meta{font-size:.72rem;color:var(--muted);text-align:right;white-space:nowrap}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.t-button{font-family:var(--font-sans);font-size:var(--fs-button);font-weight:var(--fw-semibold);color:var(--text)}
+.t-nav{font-family:var(--font-sans);font-size:var(--fs-nav);font-weight:var(--fw-medium);color:var(--text)}
+
+/* Swatches */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px}
+.swatch{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-card)}
+.swatch .chip{height:60px}
+.swatch .chip.text{display:grid;place-items:center;font-family:var(--font-serif);font-size:1.7rem;font-weight:700}
+.swatch .info{padding:9px 12px}
+.swatch .name{font-size:.8125rem;font-weight:600;color:var(--text)}
+.swatch .hex{font-size:.72rem;color:var(--muted);margin-top:1px}
+
+/* Elevation + radii */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.tile{height:96px;background:var(--surface);border-radius:var(--radius-md);display:flex;align-items:flex-end;justify-content:center;padding:10px}
+.tile span{font-size:.72rem;color:var(--muted)}
+.radii{display:flex;flex-wrap:wrap;gap:18px}
+.radii .r{width:104px;height:74px;background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent-soft-fg);display:grid;place-items:center;font-size:.72rem;text-align:center;padding:6px}
+
+/* Components grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.card>h3{margin-bottom:16px}
+.card .eyebrow{margin-bottom:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.stack{display:flex;flex-direction:column;gap:12px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;padding:11px 18px;border-radius:var(--radius);transition:.2s}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow-btn)}
+.btn-primary:hover{background:var(--primary-hover);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{background:var(--surface-alt)}
+.btn-social{background:var(--surface);border:1px solid var(--border);color:var(--text);width:100%}
+.btn-social:hover{background:var(--surface-alt)}
+.btn-social svg{width:20px;height:20px}
+.btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;transform:none}
+
+/* Fields */
+.field .label{display:block;margin-bottom:6px}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap .ico{position:absolute;left:12px;color:var(--icon);display:flex;pointer-events:none}
+.input-wrap .ico svg{width:18px;height:18px}
+.input-wrap .ico.right{left:auto;right:12px;pointer-events:auto;cursor:pointer}
+.input{width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius);padding:11px 14px 11px 40px;color:var(--text);font:inherit;font-size:var(--fs-body);outline:0;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:var(--muted)}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+select.input{appearance:none;cursor:pointer;padding-left:14px}
+textarea.input{padding-left:14px;resize:vertical;min-height:84px}
+.counter{margin-top:6px;text-align:right}
+
+/* Segmented */
+.segmented{display:inline-flex;background:var(--field);border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px;gap:4px}
+.segmented button{border:1px solid transparent;background:transparent;color:var(--text);padding:8px 16px;border-radius:calc(var(--radius-sm) - 3px);cursor:pointer;font-weight:600;font-size:.875rem;transition:.15s}
+.segmented button.is-active{background:var(--accent-soft);color:var(--accent-soft-fg);border-color:var(--accent-border)}
+
+/* Status chips */
+.chip-status{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:8px 14px;border-radius:var(--radius-xs);cursor:pointer;font-size:.875rem;font-weight:500;transition:.15s}
+.chip-status .dot{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;opacity:.55}
+.chip-status.is-selected{background:var(--chip-bg);color:var(--chip-fg);border-color:transparent}
+.chip-status.is-selected .dot{background:currentColor;opacity:1;border-color:currentColor}
+
+/* Tags */
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--tag-bg);color:var(--tag-fg);padding:6px 10px;border-radius:var(--radius-xs);font-size:.8125rem}
+.tag button{border:0;background:transparent;color:var(--tag-fg);cursor:pointer;display:flex;opacity:.65;padding:0}
+.tag button svg{width:14px;height:14px}
+.tag button:hover{opacity:1}
+.clear-all{margin-left:auto;background:0;border:0;color:var(--primary);cursor:pointer;font-weight:600;font-size:.8125rem}
+.clear-all:hover{color:var(--primary-hover)}
+
+/* Alerts */
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius);font-size:.9375rem;line-height:1.45}
+.alert svg{width:18px;height:18px;flex:0 0 auto;margin-top:1px}
+.alert b{font-weight:600}
+.alert-success{background:var(--success-bg);color:var(--success)}
+.alert-warning{background:var(--warning-bg);color:var(--warning)}
+.alert-danger{background:var(--danger-bg);color:var(--danger)}
+.alert-info{background:var(--info-bg);color:var(--info)}
+
+/* Card composition */
+.card-head{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+.badge{width:28px;height:28px;border-radius:var(--radius-full);background:var(--chip-bg);color:var(--chip-fg);display:grid;place-items:center;font-weight:700;font-size:.875rem}
+
+/* Nav */
+.nav-demo{display:flex;flex-direction:column;gap:4px}
+.nav-link{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--radius);color:var(--text);cursor:pointer;text-decoration:none}
+.nav-link .ico{color:var(--icon);display:flex}
+.nav-link .ico svg{width:19px;height:19px}
+.nav-link.is-active{background:var(--accent-soft);color:var(--accent-soft-fg)}
+.nav-link.is-active .ico{color:var(--accent-soft-fg)}
+.nav-link:not(.is-active):hover{background:var(--surface-alt)}
+
+footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.8125rem;text-align:center}
+
+/* Reveal on load */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(12px);animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+  .reveal:nth-of-type(1){animation-delay:.04s}.reveal:nth-of-type(2){animation-delay:.10s}
+  .reveal:nth-of-type(3){animation-delay:.16s}.reveal:nth-of-type(4){animation-delay:.22s}
+  .reveal:nth-of-type(5){animation-delay:.28s}.reveal:nth-of-type(6){animation-delay:.34s}
+  .reveal:nth-of-type(7){animation-delay:.40s}
+}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (max-width:560px){.specimen{grid-template-columns:1fr}.specimen .meta{text-align:left}}
+</style>
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-at" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13C4 6 12 4 20 4c0 8-3 16-9 16z"/><path d="M4 20c2.5-2.5 5-6.5 8-9.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86"/><path d="M15 9l-6 6M9 9l6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 12 2l9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-google" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.3 29.3 35 24 35c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 16.3 3 9.7 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 43c5.2 0 9.9-1.7 13.6-4.7l-6.3-5.2C29.1 34.8 26.7 35 24 35c-5.3 0-9.7-2.7-11.3-6.9l-6.6 5.1C9.5 38.6 16.2 43 24 43z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.3 5.2C39.9 36.2 44 30.7 44 23c0-1.3-.1-2.6-.4-3.5z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17.39 2.94 12.9 4.7 9.82c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.4M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></symbol>
+</svg>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="brand">
+    <svg class="mark"><use href="#i-book"/></svg>
+    <div>
+      <span class="logo">BookNest</span>
+      <span class="tagline">design system · затишна лляна естетика</span>
+    </div>
+  </div>
+  <button class="toggle" id="themeToggle" aria-label="Перемкнути тему">
+    <svg id="ticon"><use href="#i-moon"/></svg><span id="tlabel">Темна</span>
+  </button>
+</header>
+
+<div class="wrap">
+
+  <!-- Hero -->
+  <section class="hero reveal">
+    <div class="eyebrow">Жива документація</div>
+    <div class="display">BookNest <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></div>
+    <p class="lead">Токени, типографіка та компоненти в одному місці. Перемкни тему вгорі — усе нижче побудоване на CSS-змінних і миттєво оновлюється. Hex у свотчах рахується наживо з обчислених стилів.</p>
+  </section>
+
+  <!-- Typography -->
+  <section class="block reveal">
+    <h2>Типографіка</h2>
+    <p class="sub">Заголовки — Playfair Display (serif), інтерфейс — Manrope (sans). Великі розміри на <span class="mono">clamp()</span> масштабуються між min і max.</p>
+
+    <div class="specimen"><span class="display">Додати книгу</span><span class="meta">.display · serif · 52→60 / 700 / 1.05</span></div>
+    <div class="specimen"><span class="h1">Створити акаунт</span><span class="meta">H1 · serif · 44→52 / 700 / 1.1</span></div>
+    <div class="specimen"><span class="h2">Твоя книжкова подорож</span><span class="meta">H2 · serif · 28→34 / 600 / 1.2</span></div>
+    <div class="specimen"><span class="h3">Підзаголовок розділу</span><span class="meta">H3 · sans · 22 / 600</span></div>
+    <div class="specimen"><span class="section-title">Основна інформація</span><span class="meta">.section-title · sans · 20 / 600</span></div>
+    <div class="specimen"><span class="lead">Реєструйся, щоб почати свою книжкову подорож.</span><span class="meta">.lead · sans · 16 / 400 · muted</span></div>
+    <div class="specimen"><span>Зберігай, впорядковуй та відстежуй свої книжкові пригоди в одному місці — спокійно й без поспіху.</span><span class="meta">body · sans · 16 / 400 / 1.5</span></div>
+    <div class="specimen"><span class="label">Назва книги</span><span class="meta">.label · sans · 14 / 600</span></div>
+    <div class="specimen"><span class="text-sm">Як до вас звертатися в додатку</span><span class="meta">.text-sm · sans · 13 / 400</span></div>
+    <div class="specimen"><span class="hint">Натисніть Enter, щоб додати тег · 0/500</span><span class="meta">.hint · sans · 12 · muted</span></div>
+    <div class="specimen"><span class="t-button">Зберегти книгу</span><span class="meta">button · sans · 16 / 600</span></div>
+    <div class="specimen"><span class="t-nav">Моя бібліотека</span><span class="meta">nav · sans · 15 / 500</span></div>
+  </section>
+
+  <!-- Colors -->
+  <section class="block reveal">
+    <h2>Кольори</h2>
+    <p class="sub">Семантичні токени. Hex оновлюється при зміні теми.</p>
+
+    <div class="eyebrow" style="margin:8px 0 14px">Поверхні</div>
+    <div class="swatches">
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--bg)"></div><div class="info"><div class="name">--bg</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--surface)"></div><div class="info"><div class="name">--surface</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--surface-alt)"></div><div class="info"><div class="name">--surface-alt</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--field)"></div><div class="info"><div class="name">--field</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--border)"></div><div class="info"><div class="name">--border</div><div class="hex mono">—</div></div></div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 14px">Текст</div>
+    <div class="swatches">
+      <div class="swatch" data-prop="color"><div class="chip text" style="color:var(--ink);background:var(--surface)">Aa</div><div class="info"><div class="name">--ink</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="color"><div class="chip text" style="color:var(--text);background:var(--surface)">Aa</div><div class="info"><div class="name">--text</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="color"><div class="chip text" style="color:var(--text-secondary);background:var(--surface)">Aa</div><div class="info"><div class="name">--text-secondary</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="color"><div class="chip text" style="color:var(--muted);background:var(--surface)">Aa</div><div class="info"><div class="name">--muted</div><div class="hex mono">—</div></div></div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 14px">Бренд та акцент</div>
+    <div class="swatches">
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--primary)"></div><div class="info"><div class="name">--primary</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--primary-hover)"></div><div class="info"><div class="name">--primary-hover</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--chip-bg)"></div><div class="info"><div class="name">--chip-bg / --icon</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--accent-soft)"></div><div class="info"><div class="name">--accent-soft</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--accent-border)"></div><div class="info"><div class="name">--accent-border</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--tag-bg)"></div><div class="info"><div class="name">--tag-bg</div><div class="hex mono">—</div></div></div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 14px">Статуси</div>
+    <div class="swatches">
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--success)"></div><div class="info"><div class="name">--success</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--warning)"></div><div class="info"><div class="name">--warning</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--danger)"></div><div class="info"><div class="name">--danger</div><div class="hex mono">—</div></div></div>
+      <div class="swatch" data-prop="bg"><div class="chip" style="background:var(--info)"></div><div class="info"><div class="name">--info</div><div class="hex mono">—</div></div></div>
+    </div>
+  </section>
+
+  <!-- Elevation + radii -->
+  <section class="block reveal">
+    <h2>Тіні та радіуси</h2>
+    <p class="sub">Тіні теплі (на світлому) та глибші (на темному). Радіуси — від чипів до великих карток.</p>
+    <div class="tiles">
+      <div class="tile" style="box-shadow:var(--shadow-card)"><span>--shadow-card</span></div>
+      <div class="tile" style="box-shadow:var(--shadow-hover)"><span>--shadow-hover</span></div>
+      <div class="tile" style="box-shadow:var(--shadow-pop)"><span>--shadow-pop</span></div>
+      <div class="tile" style="box-shadow:var(--shadow-page)"><span>--shadow-page</span></div>
+      <div class="tile" style="box-shadow:var(--shadow-btn)"><span>--shadow-btn</span></div>
+    </div>
+    <div class="radii" style="margin-top:24px">
+      <div class="r" style="border-radius:var(--radius-lg)">--radius-lg<br>24</div>
+      <div class="r" style="border-radius:var(--radius-md)">--radius-md<br>16</div>
+      <div class="r" style="border-radius:var(--radius)">--radius<br>12</div>
+      <div class="r" style="border-radius:var(--radius-sm)">--radius-sm<br>10</div>
+      <div class="r" style="border-radius:var(--radius-xs)">--radius-xs<br>8</div>
+      <div class="r" style="border-radius:var(--radius-full);width:74px">full</div>
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="block reveal">
+    <h2>Компоненти</h2>
+    <p class="sub">Усе на токенах — клікай, фокусуй, видаляй теги, перемикай тему.</p>
+    <div class="grid">
+
+      <div class="card">
+        <h3>Кнопки</h3>
+        <div class="stack">
+          <div class="row">
+            <button class="btn btn-primary"><svg><use href="#i-bookmark"/></svg>Зберегти книгу</button>
+            <button class="btn btn-ghost">Скасувати</button>
+          </div>
+          <button class="btn btn-social"><svg><use href="#i-google"/></svg>Продовжити з Google</button>
+          <button class="btn btn-social"><svg><use href="#i-apple"/></svg>Продовжити з Apple</button>
+          <button class="btn btn-primary" disabled>Недоступно</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Поля</h3>
+        <div class="field">
+          <label class="label label--required">Ім'я</label>
+          <div class="input-wrap"><span class="ico"><svg><use href="#i-user"/></svg></span><input class="input" placeholder="Введіть ваше ім'я"></div>
+        </div>
+        <div class="field">
+          <label class="label">Пароль</label>
+          <div class="input-wrap"><span class="ico"><svg><use href="#i-lock"/></svg></span><input class="input" type="password" value="booknest" id="pw"><span class="ico right" id="pwToggle"><svg><use href="#i-eye"/></svg></span></div>
+          <div class="hint" style="margin-top:6px">Мінімум 8 символів</div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="label">Мова</label>
+          <div class="input-wrap"><span class="ico"><svg><use href="#i-chevron"/></svg></span><select class="input" style="padding-left:40px"><option>Українська</option><option>English</option></select></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Сегментний тогл</h3>
+        <div class="stack">
+          <div class="segmented" data-segmented><button>Соло книга</button><button class="is-active">Частина серії</button></div>
+          <div class="segmented" data-segmented><button class="is-active">Серія завершена</button><button>Серія ще виходить</button></div>
+        </div>
+        <h3 style="margin:22px 0 14px">Статус читання</h3>
+        <div class="row" data-singleselect>
+          <span class="chip-status is-selected"><span class="dot"></span>Не читано</span>
+          <span class="chip-status"><span class="dot"></span>Читаю</span>
+          <span class="chip-status"><span class="dot"></span>Прочитано</span>
+          <span class="chip-status"><span class="dot"></span>Покинуто</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Теги</h3>
+        <div class="row" style="margin-bottom:4px">
+          <span class="tag">Fantasy <button aria-label="Видалити"><svg><use href="#i-x"/></svg></button></span>
+          <span class="tag">Young Adult <button aria-label="Видалити"><svg><use href="#i-x"/></svg></button></span>
+          <span class="tag">slow burn <button aria-label="Видалити"><svg><use href="#i-x"/></svg></button></span>
+          <button class="clear-all">Очистити все</button>
+        </div>
+        <h3 style="margin:22px 0 14px">Сповіщення</h3>
+        <div class="stack">
+          <div class="alert alert-success"><svg><use href="#i-check"/></svg><span><b>Готово.</b> Книгу додано до бібліотеки.</span></div>
+          <div class="alert alert-warning"><svg><use href="#i-warn"/></svg><span><b>Увага.</b> Обкладинка більша за 5 МБ.</span></div>
+          <div class="alert alert-danger"><svg><use href="#i-danger"/></svg><span><b>Помилка.</b> Паролі не збігаються.</span></div>
+          <div class="alert alert-info"><svg><use href="#i-info"/></svg><span><b>Підказка.</b> Серію можна створити прямо тут.</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><span class="badge">1</span><span class="section-title">Основна інформація</span></div>
+        <div class="field">
+          <label class="label label--required">Назва книги</label>
+          <div class="input-wrap"><span class="ico"><svg><use href="#i-book"/></svg></span><input class="input" placeholder="Введіть назву книги"></div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="label label--required">Автор</label>
+          <div class="input-wrap"><span class="ico"><svg><use href="#i-user"/></svg></span><input class="input" placeholder="Введіть ім'я автора"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Навігація</h3>
+        <nav class="nav-demo">
+          <a class="nav-link"><span class="ico"><svg><use href="#i-home"/></svg></span>Dashboard</a>
+          <a class="nav-link is-active"><span class="ico"><svg><use href="#i-book"/></svg></span>Моя бібліотека</a>
+          <a class="nav-link"><span class="ico"><svg><use href="#i-list"/></svg></span>Списки</a>
+          <a class="nav-link"><span class="ico"><svg><use href="#i-heart"/></svg></span>Улюблені</a>
+        </nav>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>BookNest design system · світла / темна тема · побудовано на <span class="mono">tokens.css</span> + <span class="mono">typography.css</span></footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var btn=document.getElementById('themeToggle');
+  var icon=document.getElementById('ticon');
+  var label=document.getElementById('tlabel');
+
+  function applyIcon(){
+    var dark=root.dataset.theme==='dark';
+    icon.firstElementChild.setAttribute('href', dark?'#i-sun':'#i-moon');
+    label.textContent= dark?'Світла':'Темна';
+  }
+  function rgbToHex(c){
+    var m=(c||'').match(/\d+(\.\d+)?/g);
+    if(!m||m.length<3) return c;
+    return '#'+m.slice(0,3).map(function(n){return Math.round(+n).toString(16).padStart(2,'0');}).join('').toUpperCase();
+  }
+  function refreshHex(){
+    document.querySelectorAll('.swatch').forEach(function(s){
+      var chip=s.querySelector('.chip'), out=s.querySelector('.hex');
+      if(!chip||!out) return;
+      var cs=getComputedStyle(chip);
+      out.textContent=rgbToHex(s.dataset.prop==='color'?cs.color:cs.backgroundColor);
+    });
+  }
+  function setTheme(t){ root.dataset.theme=t; localStorage.setItem('theme',t); applyIcon(); requestAnimationFrame(refreshHex); }
+
+  applyIcon();
+  btn.addEventListener('click',function(){ setTheme(root.dataset.theme==='dark'?'light':'dark'); });
+
+  // показати пароль
+  var pwT=document.getElementById('pwToggle'), pw=document.getElementById('pw');
+  if(pwT&&pw) pwT.addEventListener('click',function(){ pw.type = pw.type==='password'?'text':'password'; });
+
+  // сегментні тогли (single-select)
+  document.querySelectorAll('[data-segmented]').forEach(function(g){
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      g.querySelectorAll('button').forEach(function(x){x.classList.remove('is-active');});
+      b.classList.add('is-active');
+    });
+  });
+  // статус-чипи (single-select)
+  document.querySelectorAll('[data-singleselect]').forEach(function(g){
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('.chip-status'); if(!b) return;
+      g.querySelectorAll('.chip-status').forEach(function(x){x.classList.remove('is-selected');});
+      b.classList.add('is-selected');
+    });
+  });
+  // видалення тегів + очистити все
+  document.querySelectorAll('.tag button').forEach(function(b){
+    b.addEventListener('click',function(){ b.closest('.tag').remove(); });
+  });
+  document.querySelectorAll('.clear-all').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.parentElement.querySelectorAll('.tag').forEach(function(t){t.remove();});
+    });
+  });
+
+  window.addEventListener('load',refreshHex);
+  refreshHex();
+})();
+</script>
+</body>
+</html>
