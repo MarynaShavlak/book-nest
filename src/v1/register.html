@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest — Створити акаунт</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- без миготіння теми -->
+    <script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+    <!-- стилі: дизайн-система (tokens + typography) + сторінка -->
+    <link rel="stylesheet" href="../tokens.css">
+    <link rel="stylesheet" href="../typography.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+<button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="../icons.svg#i-moon"/></svg></button>
+
+<main class="auth">
+
+    <!-- HERO -->
+    <aside class="hero">
+        <div class="brand">
+            <svg class="mark"><use href="../icons.svg#i-book"/></svg>
+            <div>
+                <span class="logo">BookNest</span>
+                <span class="tagline">твій особистий книжковий простір</span>
+            </div>
+        </div>
+
+        <h2 class="hero-title">Твоя історія починається з першої книги</h2>
+        <p class="lead">Зберігай, впорядковуй та відстежуй свої книжкові пригоди в одному місці.</p>
+
+        <!-- cozy ілюстрація (адаптується під тему через var()) -->
+        <svg class="illus" viewBox="0 0 320 210" role="img" aria-label="Стос книжок і чашка">
+            <line x1="26" y1="181" x2="294" y2="181" stroke="var(--border)" stroke-width="2" stroke-linecap="round"/>
+            <!-- книги -->
+            <rect x="44" y="157" width="158" height="22" rx="4" fill="var(--chip-bg)"/>
+            <rect x="186" y="161" width="10" height="18" rx="2" fill="var(--surface)" opacity=".5"/>
+            <rect x="58" y="135" width="150" height="22" rx="4" fill="var(--primary)"/>
+            <rect x="192" y="139" width="10" height="18" rx="2" fill="var(--on-primary)" opacity=".55"/>
+            <rect x="48" y="113" width="140" height="22" rx="4" fill="var(--accent-border)"/>
+            <rect x="172" y="117" width="10" height="18" rx="2" fill="var(--surface)" opacity=".6"/>
+            <!-- чашка -->
+            <rect x="206" y="92" width="62" height="50" rx="9" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+            <path d="M268 102c15 0 15 24 0 24" fill="none" stroke="var(--border)" stroke-width="4" stroke-linecap="round"/>
+            <path d="M237 110.5c0-3.2 4.6-3.5 4.6-.2 0 2.4-4.6 5.7-4.6 5.7s-4.6-3.3-4.6-5.7c0-3.3 4.6-3 4.6.2z" fill="var(--primary)"/>
+            <!-- пара -->
+            <path d="M224 84c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+            <path d="M240 82c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+            <path d="M256 84c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+            <!-- гілочка -->
+            <path d="M96 113c-7-16-4-31 5-44" fill="none" stroke="var(--icon)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+            <path d="M99 92c-7-2-12 1-14 6 6 2 11-1 14-6z" fill="var(--accent-border)"/>
+            <path d="M103 80c2-7 8-9 14-8-1 6-7 10-14 8z" fill="var(--accent-border)"/>
+        </svg>
+
+        <div class="features">
+            <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-book"/></svg></span><span class="ftext">Уся твоя бібліотека під рукою</span></div>
+            <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-trend"/></svg></span><span class="ftext">Відстежуй прогрес та досягнення</span></div>
+            <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-heart"/></svg></span><span class="ftext">Ділись враженнями та відкривай нове</span></div>
+        </div>
+    </aside>
+
+    <!-- FORM -->
+    <section class="form">
+        <div class="form-top"><span>Вже маєш акаунт?</span><a href="#">Увійти</a></div>
+
+        <h1>Створити акаунт</h1>
+        <p class="lead">Реєструйся, щоб почати свою книжкову подорож</p>
+
+        <div class="alert" id="okAlert"><svg><use href="../icons.svg#i-check"/></svg><span><b>Акаунт створено.</b> Вітаємо у BookNest!</span></div>
+
+        <form id="signupForm" novalidate>
+            <div class="field" id="fName">
+                <label class="label label--required" for="name">Ім'я</label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-user"/></svg></span>
+                    <input class="input" id="name" type="text" placeholder="Введіть ваше ім'я" autocomplete="name"></div>
+                <div class="err">Введіть ваше ім'я</div>
+            </div>
+
+            <div class="field" id="fEmail">
+                <label class="label label--required" for="email">E-mail</label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-mail"/></svg></span>
+                    <input class="input" id="email" type="email" placeholder="Введіть ваш e-mail" autocomplete="email"></div>
+                <div class="err">Невірний формат e-mail</div>
+            </div>
+
+            <div class="field" id="fPw">
+                <label class="label label--required" for="pw">Пароль</label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-lock"/></svg></span>
+                    <input class="input" id="pw" type="password" placeholder="Створіть пароль" autocomplete="new-password">
+                    <span class="ico right pwtoggle" data-target="pw"><svg><use href="../icons.svg#i-eye"/></svg></span></div>
+                <div class="subrow">
+                    <span class="hint">Мінімум 8 символів</span>
+                    <div class="strength" id="strength"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+                </div>
+                <div class="err">Мінімум 8 символів</div>
+            </div>
+
+            <div class="field" id="fPw2">
+                <label class="label label--required" for="pw2">Підтвердьте пароль</label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-lock"/></svg></span>
+                    <input class="input" id="pw2" type="password" placeholder="Повторіть пароль" autocomplete="new-password">
+                    <span class="ico right pwtoggle" data-target="pw2"><svg><use href="../icons.svg#i-eye"/></svg></span></div>
+                <div class="err">Паролі не збігаються</div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="nick">Нікнейм <span class="opt">(необов'язково)</span></label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-at"/></svg></span>
+                    <input class="input" id="nick" type="text" placeholder="Ваш нікнейм" autocomplete="username"></div>
+                <div class="hint" style="margin-top:6px">Як до вас звертатися в додатку</div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="bday">Дата народження <span class="opt">(необов'язково)</span></label>
+                <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-cal"/></svg></span>
+                    <input class="input" id="bday" type="date" placeholder="дд.мм.рррр"></div>
+            </div>
+
+            <div class="field">
+                <label class="label" style="margin-bottom:10px">Я читаю переважно</label>
+                <div class="genres" id="genres">
+                    <span class="genre" data-g="fantasy"><svg><use href="../icons.svg#i-sparkles"/></svg>Фентезі</span>
+                    <span class="genre" data-g="romance"><svg><use href="../icons.svg#i-heart"/></svg>Романтика</span>
+                    <span class="genre" data-g="detective"><svg><use href="../icons.svg#i-search"/></svg>Детективи</span>
+                    <span class="genre" data-g="nonfic"><svg><use href="../icons.svg#i-book"/></svg>Нон-фікшн</span>
+                    <span class="genre" data-g="scifi"><svg><use href="../icons.svg#i-globe"/></svg>Наукова фантастика</span>
+                    <span class="genre" data-g="other"><svg><use href="../icons.svg#i-grid"/></svg>Інше</span>
+                </div>
+            </div>
+
+            <div class="check">
+                <input type="checkbox" id="terms">
+                <label for="terms">Я погоджуюсь з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a></label>
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="submitBtn" disabled>
+                <svg><use href="../icons.svg#i-check"/></svg>Зареєструватися
+            </button>
+
+            <div class="divider">або продовжити з</div>
+            <div class="socials">
+                <button class="btn btn-social" type="button"><svg><use href="../icons.svg#i-google"/></svg>Продовжити з Google</button>
+                <button class="btn btn-social" type="button"><svg><use href="../icons.svg#i-apple"/></svg>Продовжити з Apple</button>
+            </div>
+
+            <div class="secure"><svg><use href="../icons.svg#i-shield"/></svg>Ми дбаємо про безпеку твоїх даних</div>
+        </form>
+    </section>
+</main>
+
+<script src="register.js"></script>
+</body>
+</html>
