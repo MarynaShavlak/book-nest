@@ -91,37 +91,45 @@
                 <div class="err">Невірний формат e-mail</div>
             </div>
 
-            <div class="field" id="fPw">
+            <div class="field pwfield" id="fPw">
                 <label class="label label--required" for="pw">Пароль</label>
                 <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-lock"/></svg></span>
-                    <input class="input" id="pw" type="password" placeholder="Створіть пароль" autocomplete="new-password">
+                    <input class="input" id="pw" type="password" placeholder="Створіть пароль" autocomplete="new-password" maxlength="64">
                     <span class="ico right pwtoggle" data-target="pw"><svg><use href="../icons.svg#i-eye"/></svg></span></div>
                 <div class="subrow">
-                    <span class="hint">Мінімум 8 символів</span>
+                    <span class="hint">Надійність пароля</span>
                     <div class="strength" id="strength"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
                 </div>
-                <div class="err">Мінімум 8 символів</div>
+                <ul class="reqs">
+                    <li class="req" id="rqLen"><svg><use href="../icons.svg#i-circle"/></svg>Щонайменше 8 символів</li>
+                    <li class="req" id="rqCase"><svg><use href="../icons.svg#i-circle"/></svg>Велика та мала літери</li>
+                    <li class="req" id="rqNum"><svg><use href="../icons.svg#i-circle"/></svg>Хоча б одна цифра</li>
+                    <li class="req" id="rqSpec"><svg><use href="../icons.svg#i-circle"/></svg>Хоча б один спецсимвол</li>
+                </ul>
+                <div class="err">Пароль не відповідає вимогам безпеки</div>
             </div>
 
-            <div class="field" id="fPw2">
+            <div class="field pwfield" id="fPw2">
                 <label class="label label--required" for="pw2">Підтвердьте пароль</label>
                 <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-lock"/></svg></span>
-                    <input class="input" id="pw2" type="password" placeholder="Повторіть пароль" autocomplete="new-password">
+                    <input class="input" id="pw2" type="password" placeholder="Повторіть пароль" autocomplete="new-password" maxlength="64">
                     <span class="ico right pwtoggle" data-target="pw2"><svg><use href="../icons.svg#i-eye"/></svg></span></div>
                 <div class="err">Паролі не збігаються</div>
             </div>
 
-            <div class="field">
+            <div class="field" id="fNick">
                 <label class="label" for="nick">Нікнейм <span class="opt">(необов'язково)</span></label>
                 <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-at"/></svg></span>
                     <input class="input" id="nick" type="text" placeholder="Ваш нікнейм" autocomplete="username"></div>
                 <div class="hint" style="margin-top:6px">Як до вас звертатися в додатку</div>
+                <div class="err">Нікнейм: 3–20 символів, латиниця, цифри, _ або .</div>
             </div>
 
-            <div class="field">
+            <div class="field" id="fBday">
                 <label class="label" for="bday">Дата народження <span class="opt">(необов'язково)</span></label>
                 <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-cal"/></svg></span>
                     <input class="input" id="bday" type="date" placeholder="дд.мм.рррр"></div>
+                <div class="err">Реєстрація доступна з 13 років</div>
             </div>
 
             <div class="field">

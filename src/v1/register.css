@@ -69,6 +69,14 @@
         .strength .bar.on{background:var(--primary)}
         .strength.full .bar.on{background:var(--success)}
 
+        /* password requirements checklist */
+        .reqs{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:7px}
+        .req{display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--muted);transition:color .15s}
+        .req svg{width:15px;height:15px;flex:0 0 auto;color:var(--muted);transition:color .15s}
+        .req.ok{color:var(--text)}
+        .req.ok svg{color:var(--success)}
+        .pwfield .input{padding-right:42px}
+
         /* genres */
         .genres{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
         .genre{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);
