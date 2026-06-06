@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BookNest — Вхід</title>
+<title>BookNest — Відновлення паролю</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 <!-- стилі: дизайн-система (tokens + typography) + сторінка -->
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../typography.css">
-<link rel="stylesheet" href="login.css">
+<link rel="stylesheet" href="reset.css">
 </head>
 <body>
 
@@ -32,8 +32,8 @@
       </div>
     </div>
 
-    <h2 class="hero-title">Повернись до своїх історій</h2>
-    <p class="lead">Уся твоя бібліотека, нотатки, цитати та читацькі плани — завжди з тобою.</p>
+    <h2 class="hero-title">Доступ до твоєї бібліотеки завжди з тобою</h2>
+    <p class="lead">Віднови пароль і продовжуй зберігати свої історії, нотатки та улюблені книги.</p>
 
     <svg class="illus" viewBox="0 0 320 210" role="img" aria-label="Стос книжок і чашка">
       <line x1="26" y1="181" x2="294" y2="181" stroke="var(--border)" stroke-width="2" stroke-linecap="round"/>
@@ -55,54 +55,49 @@
     </svg>
 
     <div class="features">
-      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-book"/></svg></span><span class="ftext">Уся твоя бібліотека під рукою</span></div>
-      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-note"/></svg></span><span class="ftext">Нотатки, цитати та персонажі</span></div>
-      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-trend"/></svg></span><span class="ftext">Статистика і цілі читання</span></div>
+      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-mail"/></svg></span><span class="ftext">Ми надішлемо тобі лист із інструкцією</span></div>
+      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-shield"/></svg></span><span class="ftext">Твої дані в безпеці</span></div>
+      <div class="feature"><span class="fico"><svg><use href="../icons.svg#i-clock"/></svg></span><span class="ftext">Посилання дійсне протягом 15 хвилин</span></div>
     </div>
   </aside>
 
   <!-- FORM -->
   <section class="form">
-    <h1>Вхід у BookNest</h1>
-    <p class="lead">Рада знову тебе бачити! 👋</p>
+    <a class="back" href="login.html"><svg><use href="../icons.svg#i-arrow-left"/></svg>Повернутися до входу</a>
 
-    <div class="alert" id="okAlert"><svg><use href="../icons.svg#i-check"/></svg><span><b>Вхід виконано.</b> Ласкаво просимо!</span></div>
+    <h1>Відновлення пароля</h1>
+    <p class="lead">Введи e-mail, який ти використовувала для реєстрації. Ми надішлемо тобі лист із інструкцією щодо відновлення пароля.</p>
 
-    <form id="loginForm" novalidate>
+    <div class="alert" id="okAlert"><svg><use href="../icons.svg#i-check"/></svg><span><b>Лист надіслано.</b> Якщо акаунт із таким e-mail існує, ми надіслали інструкції для відновлення пароля.</span></div>
+
+    <form id="resetForm" novalidate>
       <div class="field" id="fEmail">
-        <label class="label" for="email">E-mail</label>
+        <label class="label label--required" for="email">E-mail</label>
         <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-mail"/></svg></span>
           <input class="input" id="email" type="email" placeholder="Введіть ваш e-mail" autocomplete="email"></div>
-        <div class="err">Невірний формат e-mail</div>
+        <div class="err" id="emailErr">Невірний формат e-mail</div>
       </div>
 
-      <div class="field pwfield" id="fPw">
-        <label class="label" for="pw">Пароль</label>
-        <div class="input-wrap"><span class="ico"><svg><use href="../icons.svg#i-lock"/></svg></span>
-          <input class="input" id="pw" type="password" placeholder="Введіть ваш пароль" autocomplete="current-password">
-          <span class="ico right pwtoggle" data-target="pw"><svg><use href="../icons.svg#i-eye"/></svg></span></div>
-        <div class="err">Введіть пароль</div>
+      <div class="info">
+        <span class="iico"><svg><use href="../icons.svg#i-info"/></svg></span>
+        <div>
+          <div class="info-title">Не пам'ятаєш e-mail?</div>
+          <p class="info-text">На жаль, ми не можемо відновити доступ без e-mail. Спробуй пригадати адресу, яку використовувала під час реєстрації.</p>
+        </div>
       </div>
 
-      <div class="row-between">
-        <label class="cbx"><input type="checkbox" id="remember"><span>Запам'ятати мене</span></label>
-        <a href="reset.html" class="forgot">Забули пароль?</a>
-      </div>
+      <button class="btn btn-primary" type="submit">Надіслати інструкцію</button>
 
-      <button class="btn btn-primary" type="submit">Увійти</button>
-
-      <div class="divider">або увійти за допомогою</div>
+      <div class="divider">або</div>
       <div class="socials">
-        <button class="btn btn-social" type="button"><svg><use href="../icons.svg#i-google"/></svg>Увійти з Google</button>
-        <button class="btn btn-social" type="button"><svg><use href="../icons.svg#i-apple"/></svg>Увійти з Apple</button>
+        <button class="btn btn-social" type="button"><svg><use href="../icons.svg#i-google"/></svg>Увійти через Google</button>
       </div>
 
-      <div class="alt-action">Ще не маєш акаунту? <a href="register.html">Зареєструватися</a></div>
       <div class="secure"><svg><use href="../icons.svg#i-shield"/></svg>Ми дбаємо про безпеку твоїх даних</div>
     </form>
   </section>
 </main>
 
-<script src="login.js"></script>
+<script src="reset.js"></script>
 </body>
 </html>
