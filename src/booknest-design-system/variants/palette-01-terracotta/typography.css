@@ -1,0 +1,127 @@
+/* ============================================================
+   BookNest — Typography
+   Парність: Playfair Display (serif, заголовки) + Manrope (sans, UI/текст)
+   Залежить від tokens.css (--font-*, --fs-*, --fw-*, --lh-*, --ink, --text, --muted).
+
+   Підключення шрифтів — нижче через @import (зручно для одного файлу).
+   Для продакшну краще винести у <head> з preconnect:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+   Кирилицю Google Fonts віддає автоматично (обидві родини її мають).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+/* ── База ───────────────────────────────────────────────── */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Заголовки — serif, елегантні («книжкові») ──────────── */
+.display, h1, .h1, h2, .h2 {
+  font-family: var(--font-serif);
+  color: var(--ink);
+  margin: 0;
+}
+.display {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+h1, .h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+}
+h2, .h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+/* ── Підзаголовки / секції — sans, чисті ────────────────── */
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+  margin: 0;
+}
+.section-title {                 /* заголовок нумерованої картки: «Основна інформація» */
+  font-family: var(--font-sans);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+}
+
+/* ── Лід під заголовком («Реєструйся, щоб…») ────────────── */
+.lead {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--muted);
+}
+
+/* ── Дрібний / допоміжний текст ─────────────────────────── */
+.text-sm, small {
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.hint {                          /* «0/500», «Натисніть Enter, щоб додати тег» */
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ── Лейбли полів ───────────────────────────────────────── */
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  color: var(--text);
+}
+.label--required::after {        /* зірочка обов'язкового поля */
+  content: " *";
+  color: var(--danger);
+}
+
+/* ── Кнопки ─────────────────────────────────────────────── */
+button, .btn {
+  font-family: var(--font-sans);
+  font-size: var(--fs-button);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+}
+
+/* ── Навігація / сайдбар ────────────────────────────────── */
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: var(--fs-nav);
+  font-weight: var(--fw-medium);
+}
+
+/* ── Логотип ────────────────────────────────────────────── */
+.logo {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+/* ── Посилання — теракота ───────────────────────────────── */
+/* Для дрібних inline-лінків лишай підкреслення (контраст теракоти ~3.9:1 у світлій темі). */
+a {
+  color: var(--primary);
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--primary-hover); }

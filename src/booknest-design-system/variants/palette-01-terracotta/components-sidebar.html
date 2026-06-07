@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Sidebar</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ===== SIDEBAR ===== */
+.sidebar{width:264px;flex:0 0 auto;background:var(--surface-alt);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:18px 14px;transition:width .2s ease}
+.sb-brand{display:flex;align-items:center;gap:11px;padding:6px 8px 16px}
+.sb-logo{width:36px;height:36px;color:var(--primary);flex:0 0 auto}
+.sb-brand .b-text{min-width:0}
+.sb-brand .name{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.125rem;line-height:1.05}
+.sb-brand .tag{color:var(--muted);font-size:.7rem;margin-top:2px;white-space:nowrap}
+.sb-collapse{margin-left:auto;width:30px;height:30px;border-radius:var(--radius-xs);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s;flex:0 0 auto}
+.sb-collapse:hover{background:var(--surface);color:var(--ink)}
+.sb-collapse:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.sb-collapse svg{width:18px;height:18px}
+.sb-nav{display:flex;flex-direction:column;gap:3px;flex:1 1 auto;overflow-y:auto}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);color:var(--text);text-decoration:none;font-weight:500;font-size:.9375rem;cursor:pointer;transition:background-color .15s,color .15s;white-space:nowrap}
+.sb-item .ic{width:20px;height:20px;flex:0 0 auto;color:var(--icon)}
+.sb-item .label{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.sb-item:hover{background:var(--surface)}
+.sb-item:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.sb-item.active{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.sb-item.active .ic{color:var(--primary)}
+.sb-item[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.sb-item .count{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:var(--radius-full);background:var(--primary);color:var(--on-primary);font-size:.7rem;font-weight:700;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
+.sb-item.active .count{background:var(--primary)}
+.sb-sep{height:1px;background:var(--border);margin:9px 10px}
+.sb-label{color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:10px 12px 5px;white-space:nowrap}
+.sb-foot{margin-top:8px;padding-top:12px;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:11px;padding:8px;border-radius:var(--radius-sm);cursor:pointer;border:0;background:transparent;width:100%;text-align:left;transition:.15s;font:inherit}
+.sb-user:hover{background:var(--surface)}
+.sb-user:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.sb-avatar{width:38px;height:38px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:linear-gradient(135deg,#caa57e,#8f5a38);color:#fff;font-weight:700;font-size:.9rem}
+.sb-user .u-info{min-width:0;flex:1 1 auto}
+.sb-user .u-name{color:var(--ink);font-weight:600;font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user .u-mail{color:var(--muted);font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user .chev{color:var(--muted);flex:0 0 auto}
+.sb-user .chev svg{width:16px;height:16px}
+
+/* collapsed (rail) */
+.sidebar.collapsed{width:76px;padding:18px 12px}
+.sidebar.collapsed .sb-brand{flex-direction:column;gap:10px;padding:6px 0 16px}
+.sidebar.collapsed .b-text,
+.sidebar.collapsed .sb-item .label,
+.sidebar.collapsed .sb-item .count,
+.sidebar.collapsed .sb-label,
+.sidebar.collapsed .sb-user .u-info,
+.sidebar.collapsed .sb-user .chev{display:none}
+.sidebar.collapsed .sb-collapse{margin:0}
+.sidebar.collapsed .sb-item{justify-content:center;padding:10px}
+.sidebar.collapsed .sb-user{justify-content:center;padding:8px 0}
+@media (prefers-reduced-motion:reduce){.sidebar{transition:none}}
+
+/* app frame (context) */
+.app{display:flex;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-card);min-height:560px;background:var(--surface)}
+.app .content{flex:1;min-width:0;background:var(--bg);padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.fauxbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fauxbar .ftitle{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.5rem}
+.fauxbar .fbtn{height:38px;padding:0 16px;border-radius:var(--radius-sm);background:var(--primary);color:var(--on-primary);border:0;font:inherit;font-weight:600;font-size:.875rem;box-shadow:var(--shadow-btn)}
+.fcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.fcard{height:120px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border)}
+
+.col{display:flex;flex-direction:column;gap:16px;max-width:300px}
+.demo-nav{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;gap:3px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:140px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10.5 4h4v16h-4z"/><path d="m16.5 5 3.5.8-2.6 14.4-3.4-.7"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L22 7H6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 7c-2.2 0-4 1.8-4 4s1.8 4 4 4c0 2-1 3-3 3v2c3.3 0 5-2.2 5-6V11c0-2.2-1.8-4-4-4zm10 0c-2.2 0-4 1.8-4 4s1.8 4 4 4c0 2-1 3-3 3v2c3.3 0 5-2.2 5-6V11c0-2.2-1.8-4-4-4z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.6 19a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H2a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 5 8.6a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9.5a1.7 1.7 0 0 0 1-1.5V2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9.5a1.7 1.7 0 0 0 1.5 1H22a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Sidebar</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Sidebar</h1>
+    <p class="lead">Бічна навігація — каркас застосунку на кожному екрані: бренд + пункти з активним станом + картка користувача внизу. Згортається в іконкову смугу. Натисни кнопку згортання у шапці бічної панелі.</p>
+  </div>
+
+  <!-- АНАТОМІЯ (інтерактивна) -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">Повна панель у каркасі сторінки. Кнопка ⊟ згортає в rail.</p>
+    <div class="app">
+      <nav class="sidebar" id="sb" aria-label="Головна навігація">
+        <div class="sb-brand">
+          <svg class="sb-logo"><use href="#i-book"/></svg>
+          <div class="b-text"><div class="name">BookNest</div><div class="tag">твій затишний куточок читача</div></div>
+          <button class="sb-collapse" type="button" id="collapseBtn" aria-label="Згорнути меню" aria-expanded="true"><svg><use href="#i-panel"/></svg></button>
+        </div>
+        <div class="sb-nav">
+          <a class="sb-item" href="#" title="Головна"><svg class="ic"><use href="#i-home"/></svg><span class="label">Головна</span></a>
+          <a class="sb-item active" href="#" aria-current="page" title="Бібліотека"><svg class="ic"><use href="#i-library"/></svg><span class="label">Бібліотека</span></a>
+          <a class="sb-item" href="#" title="Черга читання"><svg class="ic"><use href="#i-list"/></svg><span class="label">Черга читання</span><span class="count">3</span></a>
+          <a class="sb-item" href="#" title="Серії"><svg class="ic"><use href="#i-layers"/></svg><span class="label">Серії</span></a>
+          <a class="sb-item" href="#" title="Списки"><svg class="ic"><use href="#i-bookmark"/></svg><span class="label">Списки</span></a>
+          <a class="sb-item" href="#" title="Покупки"><svg class="ic"><use href="#i-cart"/></svg><span class="label">Покупки</span></a>
+          <a class="sb-item" href="#" title="Улюблені"><svg class="ic"><use href="#i-heart"/></svg><span class="label">Улюблені</span></a>
+          <a class="sb-item" href="#" title="Нотатки"><svg class="ic"><use href="#i-edit"/></svg><span class="label">Нотатки</span></a>
+          <a class="sb-item" href="#" title="Цитати"><svg class="ic"><use href="#i-quote"/></svg><span class="label">Цитати</span></a>
+          <a class="sb-item" href="#" title="Статистика"><svg class="ic"><use href="#i-chart"/></svg><span class="label">Статистика</span></a>
+          <div class="sb-sep"></div>
+          <a class="sb-item" href="#" title="Налаштування"><svg class="ic"><use href="#i-settings"/></svg><span class="label">Налаштування</span></a>
+        </div>
+        <div class="sb-foot">
+          <button class="sb-user" type="button">
+            <span class="sb-avatar">А</span>
+            <span class="u-info"><span class="u-name">Анастасія</span><span class="u-mail">my.library@email.com</span></span>
+            <span class="chev"><svg><use href="#i-chevron"/></svg></span>
+          </button>
+        </div>
+      </nav>
+      <div class="content">
+        <div class="fauxbar"><span class="ftitle">Моя бібліотека</span><span class="fbtn">+ Додати книгу</span></div>
+        <div class="fcards"><div class="fcard"></div><div class="fcard"></div><div class="fcard"></div><div class="fcard"></div><div class="fcard"></div><div class="fcard"></div></div>
+      </div>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>brand</dt><dd>лого + назва + слоган + кнопка згортання</dd></div>
+      <div><dt>item</dt><dd>іконка + назва; опційний лічильник; активний = <code>aria-current="page"</code></dd></div>
+      <div><dt>active</dt><dd>пілюля <code>--accent-soft</code> + іконка <code>--primary</code></dd></div>
+      <div><dt>sep</dt><dd>роздільник перед службовими пунктами</dd></div>
+      <div class="last"><dt>user</dt><dd>картка користувача внизу (відкриває меню акаунта)</dd></div>
+    </dl>
+  </section>
+
+  <!-- СТАНИ ПУНКТІВ -->
+  <section class="block">
+    <h2>Стани пунктів</h2>
+    <p class="sub">Звичайний · наведення · активний · з лічильником · вимкнений · із секційним підписом.</p>
+    <div class="col">
+      <div class="demo-nav" aria-label="Приклад станів">
+        <span class="sb-label">Бібліотека</span>
+        <a class="sb-item" href="#"><svg class="ic"><use href="#i-home"/></svg><span class="label">Звичайний</span></a>
+        <a class="sb-item active" href="#" aria-current="page"><svg class="ic"><use href="#i-library"/></svg><span class="label">Активний</span></a>
+        <a class="sb-item" href="#"><svg class="ic"><use href="#i-cart"/></svg><span class="label">З лічильником</span><span class="count">14</span></a>
+        <a class="sb-item" aria-disabled="true"><svg class="ic"><use href="#i-chart"/></svg><span class="label">Вимкнений</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Один активний</dt><dd>лише один пункт активний; познач <code>aria-current="page"</code></dd></div>
+      <div><dt>Семантика</dt><dd><code>&lt;nav aria-label&gt;</code>; пункти — посилання</dd></div>
+      <div><dt>Згортання</dt><dd>rail (іконки) економить місце; назви — у tooltip на hover</dd></div>
+      <div><dt>Мобільний</dt><dd>на вузькому — висувна панель (drawer) з оверлеєм</dd></div>
+      <div class="last"><dt>Користувач</dt><dd>картка внизу відкриває меню акаунта (dropdown)</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var sb=document.getElementById('sb'), cBtn=document.getElementById('collapseBtn');
+  cBtn.addEventListener('click', function(){
+    var collapsed=sb.classList.toggle('collapsed');
+    cBtn.setAttribute('aria-expanded', collapsed?'false':'true');
+    cBtn.setAttribute('aria-label', collapsed?'Розгорнути меню':'Згорнути меню');
+  });
+})();
+</script>
+</body>
+</html>

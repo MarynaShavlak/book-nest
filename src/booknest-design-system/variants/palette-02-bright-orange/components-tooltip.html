@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Tooltip</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* trigger styles */
+.icon-btn{width:40px;height:40px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s}
+.icon-btn:hover{background:var(--surface-alt);color:var(--ink)}
+.icon-btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.icon-btn svg{width:20px;height:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:600;font-size:.9375rem;color:var(--ink);border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;height:42px;padding:0 16px;transition:.15s}
+.btn:hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.mockbar{display:inline-flex;align-items:center;gap:4px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:6px}
+
+/* ============ TOOLTIP ============ */
+.tip-wrap{position:relative;display:inline-flex}
+.tip{position:absolute;z-index:80;background:var(--ink);color:var(--surface);font-size:.8125rem;font-weight:500;line-height:1.4;
+  padding:7px 10px;border-radius:var(--radius-sm);white-space:nowrap;box-shadow:var(--shadow-pop);pointer-events:none;
+  opacity:0;visibility:hidden;transition:opacity .15s ease,transform .15s ease,visibility .15s ease;transition-delay:0s}
+.tip-wrap:hover .tip,.tip-wrap:focus-within .tip,.tip.show{opacity:1;visibility:visible;transition-delay:.35s}
+.tip.show{transition-delay:0s}
+.tip::after{content:"";position:absolute;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+.tip.multi{white-space:normal;width:210px;text-align:left}
+/* top (типово) */
+.tip,.tip.top{bottom:calc(100% + 9px);left:50%;transform:translate(-50%,4px)}
+.tip-wrap:hover .tip.top,.tip-wrap:focus-within .tip.top,.tip.top.show,
+.tip-wrap:hover .tip:not(.bottom):not(.left):not(.right),.tip-wrap:focus-within .tip:not(.bottom):not(.left):not(.right){transform:translate(-50%,0)}
+.tip.top::after,.tip:not(.bottom):not(.left):not(.right)::after{bottom:-4px;left:50%;margin-left:-4px}
+/* bottom */
+.tip.bottom{top:calc(100% + 9px);bottom:auto;left:50%;transform:translate(-50%,-4px)}
+.tip-wrap:hover .tip.bottom,.tip-wrap:focus-within .tip.bottom,.tip.bottom.show{transform:translate(-50%,0)}
+.tip.bottom::after{top:-4px;bottom:auto;left:50%;margin-left:-4px}
+/* left */
+.tip.left{right:calc(100% + 9px);left:auto;top:50%;bottom:auto;transform:translate(4px,-50%)}
+.tip-wrap:hover .tip.left,.tip-wrap:focus-within .tip.left,.tip.left.show{transform:translate(0,-50%)}
+.tip.left::after{right:-4px;left:auto;top:50%;margin-top:-4px}
+/* right */
+.tip.right{left:calc(100% + 9px);right:auto;top:50%;bottom:auto;transform:translate(-4px,-50%)}
+.tip-wrap:hover .tip.right,.tip-wrap:focus-within .tip.right,.tip.right.show{transform:translate(0,-50%)}
+.tip.right::after{left:-4px;right:auto;top:50%;margin-top:-4px}
+@media (prefers-reduced-motion:reduce){.tip{transition:opacity .12s}}
+
+/* truncated text */
+.trunc{display:inline-block;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom;color:var(--ink);font-weight:600;cursor:default}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:26px}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:16px}
+.posgrid{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.frame{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:46px 28px;display:flex;justify-content:center}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.spec .state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary)}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:160px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Tooltip</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Tooltip</h1>
+    <p class="lead">Коротка підказка на наведення чи фокус — найперше для icon-кнопок (пошук, тема, дії), скорочених підписів і пояснень. Лише текст, без інтерактиву; не для важливої інформації.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="frame">
+      <span class="tip-wrap">
+        <button class="icon-btn" aria-describedby="anat-tip"><svg><use href="#i-search"/></svg></button>
+        <span class="tip top show" id="anat-tip" role="tooltip">Пошук книг</span>
+      </span>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>trigger</dt><dd>елемент з <code>aria-describedby</code> на тултіп</dd></div>
+      <div><dt>bubble</dt><dd>темна плашка (<code>--ink</code> + світлий текст) зі стрілкою</dd></div>
+      <div><dt>position</dt><dd><code>top</code> (типово) / <code>bottom</code> / <code>left</code> / <code>right</code></dd></div>
+      <div class="last"><dt>тригери</dt><dd>hover і focus; з'являється із затримкою ~0.35 с</dd></div>
+    </dl>
+  </section>
+
+  <!-- НА ІКОНКАХ -->
+  <section class="block">
+    <h2>На icon-кнопках</h2>
+    <p class="sub">Головний кейс — підписати кнопки без тексту. Наведи або перейди Tab'ом.</p>
+    <div class="card row" style="justify-content:center">
+      <div class="mockbar">
+        <span class="tip-wrap"><button class="icon-btn" aria-describedby="t-s"><svg><use href="#i-search"/></svg></button><span class="tip top" id="t-s" role="tooltip">Пошук</span></span>
+        <span class="tip-wrap"><button class="icon-btn" aria-describedby="t-h"><svg><use href="#i-heart"/></svg></button><span class="tip top" id="t-h" role="tooltip">В улюблені</span></span>
+        <span class="tip-wrap"><button class="icon-btn" aria-describedby="t-e"><svg><use href="#i-edit"/></svg></button><span class="tip top" id="t-e" role="tooltip">Редагувати</span></span>
+        <span class="tip-wrap"><button class="icon-btn" aria-describedby="t-b"><svg><use href="#i-bell"/></svg></button><span class="tip top" id="t-b" role="tooltip">Сповіщення</span></span>
+        <span class="tip-wrap"><button class="icon-btn" aria-describedby="t-t"><svg><use href="#i-trash"/></svg></button><span class="tip top" id="t-t" role="tooltip">Видалити</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПОЗИЦІЇ -->
+  <section class="block">
+    <h2>Позиції</h2>
+    <p class="sub">Наведи на кнопки.</p>
+    <div class="card"><div class="posgrid">
+      <span class="tip-wrap"><button class="btn" aria-describedby="p-t">Top</button><span class="tip top" id="p-t" role="tooltip">Підказка зверху</span></span>
+      <span class="tip-wrap"><button class="btn" aria-describedby="p-b">Bottom</button><span class="tip bottom" id="p-b" role="tooltip">Підказка знизу</span></span>
+      <span class="tip-wrap"><button class="btn" aria-describedby="p-l">Left</button><span class="tip left" id="p-l" role="tooltip">Підказка зліва</span></span>
+      <span class="tip-wrap"><button class="btn" aria-describedby="p-r">Right</button><span class="tip right" id="p-r" role="tooltip">Підказка справа</span></span>
+    </div></div>
+  </section>
+
+  <!-- КОМПОЗИЦІЯ -->
+  <section class="block">
+    <h2>Композиція</h2>
+    <div class="demo-grid">
+      <div class="spec"><span class="state">Короткий</span><span class="tip-wrap"><button class="btn" aria-describedby="c-s">Дія</button><span class="tip top" id="c-s" role="tooltip">Зберегти</span></span></div>
+      <div class="spec"><span class="state">Багаторядковий</span><span class="tip-wrap"><button class="icon-btn" aria-describedby="c-m"><svg><use href="#i-info"/></svg></button><span class="tip top multi" id="c-m" role="tooltip">Прогрес рахується від кількості прочитаних сторінок до загальної.</span></span></div>
+      <div class="spec"><span class="state">Скорочений текст</span><span class="tip-wrap"><span class="trunc" tabindex="0" aria-describedby="c-tr">Двір шипів і троянд: повна назва</span><span class="tip bottom multi" id="c-tr" role="tooltip">Двір шипів і троянд: повна назва видання</span></span></div>
+      <div class="spec"><span class="state">Disabled (обгортка)</span><span class="tip-wrap"><button class="btn" disabled aria-describedby="c-d">Експорт</button><span class="tip top" id="c-d" role="tooltip">Доступно у Pro</span></span><span style="font-size:.74rem;color:var(--muted)">Обгортка ловить hover навіть на вимкнутій кнопці</span></div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Що показувати</dt><dd>короткий допоміжний підпис; не критичну й не єдину інформацію</dd></div>
+      <div><dt>Не класти</dt><dd>посилання/кнопки/поля — тултіп не інтерактивний (для цього Dropdown/Popover)</dd></div>
+      <div><dt>Тригери</dt><dd>hover + focus (клавіатура); поява із затримкою, зникнення одразу</dd></div>
+      <div><dt>Закрити</dt><dd>відведення курсора/фокуса або <kbd>Esc</kbd></dd></div>
+      <div class="last"><dt>Семантика</dt><dd><code>role="tooltip"</code> + <code>aria-describedby</code> на тригері; на icon-кнопці лиши й <code>aria-label</code></dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  // Esc ховає тултіп, що показаний через фокус
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){ var a=document.activeElement; if(a && a.closest && a.closest('.tip-wrap')) a.blur(); }
+  });
+})();
+</script>
+</body>
+</html>

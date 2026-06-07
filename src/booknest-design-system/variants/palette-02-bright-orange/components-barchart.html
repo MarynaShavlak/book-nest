@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Bar chart</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ===== BAR CHART ===== */
+.bc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.bc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bc-title{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.25rem}
+.bc-period{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:.8125rem;font-weight:600}
+.bc-period svg{width:15px;height:15px;color:var(--muted)}
+.bc-ycap{color:var(--muted);font-size:.72rem;margin:12px 0 10px}
+.bc-plot{position:relative;height:236px;margin-left:34px}
+.bc-grid{position:absolute;inset:0;pointer-events:none}
+.bc-line{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--border)}
+.bc-line.base{border-top-style:solid;border-top-color:var(--border)}
+.bc-line .tick{position:absolute;right:calc(100% + 8px);top:-.62em;font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bc-bars{position:absolute;inset:0;display:flex;align-items:flex-end;gap:10px}
+.bc-bar{flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;background:transparent;border:0;padding:0;cursor:default;border-radius:var(--radius-xs)}
+.bc-bar:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.bc-bar .v{font-size:.78rem;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+.bc-bar .fill{width:64%;max-width:30px;min-height:3px;border-radius:var(--radius-xs) var(--radius-xs) 0 0;background:color-mix(in srgb,var(--primary) 52%,var(--surface));height:0;transition:height .6s cubic-bezier(.2,.7,.3,1),background-color .15s}
+.bc-bar:hover .fill,.bc-bar:focus-visible .fill{background:var(--primary)}
+.bc-xaxis{display:flex;gap:10px;margin:9px 0 0 34px}
+.bc-xaxis span{flex:1 1 0;min-width:0;text-align:center;font-size:.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-foot{display:flex;flex-wrap:wrap;gap:18px 0;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.bc-foot .fitem{flex:1 1 33%;min-width:120px;padding-right:16px}
+.bc-foot .fk{color:var(--muted);font-size:.78rem;margin-bottom:5px}
+.bc-foot .fv{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.0625rem}
+@media (prefers-reduced-motion:reduce){.bc-bar .fill,.theme-fab{transition:none}}
+
+/* layout */
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr;margin-top:18px}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}.bc-bar .v{font-size:.66rem}.bc-xaxis span{font-size:.62rem}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Bar chart</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Bar chart</h1>
+    <p class="lead">Вертикальні стовпці з підписами значень, віссю Y з рівними поділками й сіткою. Для «Книги по місяцях», «Сторінки за N днів». Наведи на стовпець — підсвічується.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">«Книги по місяцях» за рік. Вісь Y округлюється до зручної межі; підсумок рахується з даних.</p>
+    <div class="bc" id="bcMonths"
+         data-period="місяць" data-unit-1="книга" data-unit-2="книги" data-unit-5="книг"
+         data-values='[{"label":"Січ","full":"Січень","value":2},{"label":"Лют","full":"Лютий","value":3},{"label":"Бер","full":"Березень","value":4},{"label":"Кві","full":"Квітень","value":5},{"label":"Тра","full":"Травень","value":3},{"label":"Чер","full":"Червень","value":2},{"label":"Лип","full":"Липень","value":6},{"label":"Сер","full":"Серпень","value":4},{"label":"Вер","full":"Вересень","value":3},{"label":"Жов","full":"Жовтень","value":5},{"label":"Лис","full":"Листопад","value":4},{"label":"Гру","full":"Грудень","value":1}]'>
+      <div class="bc-head">
+        <span class="bc-title">Книги по місяцях</span>
+        <span class="bc-period">2026 рік<svg><use href="#i-chevron-down"/></svg></span>
+      </div>
+      <div class="bc-ycap">Кількість книг</div>
+      <div class="bc-plot" role="img"></div>
+      <div class="bc-xaxis"></div>
+      <div class="bc-foot"></div>
+    </div>
+    <dl class="tref">
+      <div><dt>bar</dt><dd>висота = значення / межа осі; підпис значення зверху</dd></div>
+      <div><dt>вісь Y</dt><dd>округлена «гарна» межа + поділки + сітка (база — суцільна)</dd></div>
+      <div><dt>вісь X</dt><dd>категорії під стовпцями (місяці)</dd></div>
+      <div><dt>hover</dt><dd>стовпець темнішає до <code>--primary</code>; підказка з повним підписом</dd></div>
+      <div class="last"><dt>підсумок</dt><dd>Разом / Найкращий / Середньо — рахується з даних</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТ -->
+  <section class="block">
+    <h2>Варіант · інший період і одиниця</h2>
+    <p class="sub">«Сторінки за останні 7 днів» — менше стовпців, одиниця «стор.», вісь масштабується сама.</p>
+    <div class="bc" id="bcDays"
+         data-period="день" data-unit-1="сторінка" data-unit-2="сторінки" data-unit-5="сторінок" data-unit-short="стор."
+         data-values='[{"label":"Пт","full":"Пʼятниця","value":12},{"label":"Сб","full":"Субота","value":35},{"label":"Нд","full":"Неділя","value":22},{"label":"Пн","full":"Понеділок","value":45},{"label":"Вт","full":"Вівторок","value":28},{"label":"Ср","full":"Середа","value":50},{"label":"Чт","full":"Четвер","value":24}]'>
+      <div class="bc-head">
+        <span class="bc-title">Сторінки за останні 7 днів</span>
+        <span class="bc-period">7 днів<svg><use href="#i-chevron-down"/></svg></span>
+      </div>
+      <div class="bc-ycap">Сторінок / день</div>
+      <div class="bc-plot" role="img"></div>
+      <div class="bc-xaxis"></div>
+      <div class="bc-foot"></div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref" style="margin-top:0">
+      <div><dt>Дані</dt><dd><code>data-values</code> — масив <code>{label, full, value}</code>; вісь і підсумок рахуються самі</dd></div>
+      <div><dt>Значення</dt><dd>підписані прямо над стовпцями (без потреби в тултіпі)</dd></div>
+      <div><dt>vs Bar-list</dt><dd>bar-list — горизонтальний рейтинг (жанри); тут — значення в часі</dd></div>
+      <div><dt>vs Donut</dt><dd>donut — частки цілого (формати); bar — порівняння величин</dd></div>
+      <div class="last"><dt>Доступність</dt><dd><code>role="img"</code> з підсумком; стовпці фокусуються з підписом-значенням (варто додати й таблицю-фолбек)</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function axisFor(max){
+    if(max<=0) return {max:1, step:1, ticks:[0,1]};
+    var raw=max/4, pow=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/pow, step;
+    if(f<=1) step=1; else if(f<=2) step=2; else if(f<=2.5) step=2.5; else if(f<=5) step=5; else step=10;
+    step*=pow;
+    var top=Math.ceil(max/step)*step;
+    if(top<=max) top+=step;
+    var ticks=[]; for(var t=0;t<=top+1e-9;t+=step) ticks.push(+t.toFixed(6));
+    return {max:top, step:step, ticks:ticks};
+  }
+  function fmtNum(n){ return (Math.round(n*10)/10).toString().replace('.', ','); }
+  function plural(n, w){ var a=Math.abs(n)%100, b=n%10; if(a>10&&a<20) return w[5]; if(b===1) return w[1]; if(b>=2&&b<=4) return w[2]; return w[5]; }
+
+  function build(el){
+    var data=JSON.parse(el.dataset.values);
+    var words={1:el.dataset.unit1, 2:el.dataset.unit2, 5:el.dataset.unit5};
+    var unitShort=el.dataset.unitShort || (words[5]||'');
+    var period=el.dataset.period||'';
+    var plot=el.querySelector('.bc-plot'), xaxis=el.querySelector('.bc-xaxis'), foot=el.querySelector('.bc-foot');
+    var values=data.map(function(d){ return d.value; });
+    var maxVal=Math.max.apply(null, values), sum=values.reduce(function(a,b){return a+b;},0);
+    var ax=axisFor(maxVal);
+
+    // gridlines
+    var grid=document.createElement('div'); grid.className='bc-grid';
+    ax.ticks.forEach(function(t){
+      var line=document.createElement('div'); line.className='bc-line'+(t===0?' base':'');
+      line.style.bottom=(t/ax.max*100)+'%';
+      var tk=document.createElement('span'); tk.className='tick'; tk.textContent=fmtNum(t); line.appendChild(tk);
+      grid.appendChild(line);
+    });
+    plot.appendChild(grid);
+
+    // bars
+    var bars=document.createElement('div'); bars.className='bc-bars';
+    data.forEach(function(d){
+      var col=document.createElement('button'); col.type='button'; col.className='bc-bar';
+      var label=(d.full||d.label)+': '+d.value+(unitShort?(' '+unitShort):'');
+      col.setAttribute('aria-label', label); col.title=label;
+      var v=document.createElement('span'); v.className='v'; v.textContent=d.value;
+      var fill=document.createElement('span'); fill.className='fill';
+      var h=(d.value/ax.max*100);
+      if(reduce){ fill.style.height=h+'%'; } else { fill.dataset.h=h; }
+      col.appendChild(v); col.appendChild(fill);
+      bars.appendChild(col);
+    });
+    plot.appendChild(bars);
+
+    // x labels
+    data.forEach(function(d){ var s=document.createElement('span'); s.textContent=d.label; s.title=d.full||d.label; xaxis.appendChild(s); });
+
+    // role=img summary
+    plot.setAttribute('aria-label', el.querySelector('.bc-title').textContent+': від '+Math.min.apply(null,values)+' до '+maxVal+' '+(unitShort||'')+' за '+period);
+
+    // footer
+    var best=data[0]; data.forEach(function(d){ if(d.value>best.value) best=d; });
+    var avg=sum/data.length;
+    foot.innerHTML=
+      '<div class="fitem"><div class="fk">Разом</div><div class="fv">'+sum+' '+plural(sum,words)+'</div></div>'+
+      '<div class="fitem"><div class="fk">Найкращий '+period+'</div><div class="fv">'+(best.full||best.label)+' ('+best.value+')</div></div>'+
+      '<div class="fitem"><div class="fk">Середньо за '+period+'</div><div class="fv">'+fmtNum(avg)+' '+plural(Math.round(avg),words)+'</div></div>';
+
+    // animate in
+    if(!reduce){
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        bars.querySelectorAll('.fill').forEach(function(f){ f.style.height=f.dataset.h+'%'; });
+      }); });
+    }
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll('.bc')).forEach(build);
+})();
+</script>
+</body>
+</html>

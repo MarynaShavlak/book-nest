@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Ring Progress</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ RING ============ */
+.ring-wrap{position:relative;display:inline-grid;place-items:center;line-height:1}
+.ring{width:96px;height:96px;transform:rotate(-90deg)}
+.ring-wrap.sm .ring{width:64px;height:64px}
+.ring-wrap.lg .ring{width:134px;height:134px}
+.ring-track{fill:none;stroke:var(--surface-alt);stroke-width:8}
+.ring-fill{fill:none;stroke:var(--primary);stroke-width:8;stroke-linecap:round;stroke-dasharray:276.46;stroke-dashoffset:276.46;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1),stroke .3s}
+.ring-wrap.thin .ring-track,.ring-wrap.thin .ring-fill{stroke-width:5}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+.ring-pct{font-family:var(--font-serif);font-weight:700;color:var(--ink);font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums}
+.ring-wrap.sm .ring-pct{font-size:1.05rem}
+.ring-wrap.lg .ring-pct{font-size:2.1rem}
+.ring-sub{font-size:.6875rem;color:var(--muted);font-weight:500}
+.ring-wrap.lg .ring-sub{font-size:.8125rem}
+.ring-center .ic{display:grid;place-items:center}
+.ring-center .ic svg{width:26px;height:26px;color:var(--success)}
+.ring-wrap.lg .ring-center .ic svg{width:34px;height:34px}
+/* тон = стан */
+.ring-wrap.is-complete .ring-fill{stroke:var(--success)}
+.ring-wrap.is-complete .ring-pct{color:var(--success)}
+.ring-wrap.warn .ring-fill{stroke:var(--warning)} .ring-wrap.warn .ring-pct{color:var(--warning)}
+.ring-wrap.danger .ring-fill{stroke:var(--danger)} .ring-wrap.danger .ring-pct{color:var(--danger)}
+/* indeterminate */
+.ring-wrap.indet .ring{animation:ringspin .9s linear infinite}
+.ring-wrap.indet .ring-fill{stroke-dasharray:62 220;stroke-dashoffset:0}
+@keyframes ringspin{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
+@media (prefers-reduced-motion:reduce){.ring-wrap.indet .ring{animation:none}.ring-fill{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.goal{display:flex;align-items:center;gap:16px}
+.goal .g-title{font-weight:600;color:var(--ink)}
+.goal .g-sub{color:var(--muted);font-size:.875rem;margin-top:2px}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px;text-align:center}
+.spec .state{text-align:left}
+.row-rings{display:flex;align-items:center;justify-content:center;gap:8px;min-height:140px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5;text-align:left}
+.sizes{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:140px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+.play{max-width:460px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.play .pb-range{width:100%;accent-color:var(--primary);margin-top:8px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Ring Progress</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Ring Progress</h1>
+    <p class="lead">Кільцевий індикатор завершеності одного показника — компактна «ціль» для дашборда. Той самий принцип, що й лінійний Progress: колір залежить від стану (в процесі <code>--primary</code>, 100% <code>--success</code>), є indeterminate.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="goal" style="margin-bottom:8px">
+      <div class="ring-wrap"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:74.6"/></svg><div class="ring-center"><span class="ring-pct">73%</span></div></div>
+    </div>
+    <dl class="tref">
+      <div><dt>track</dt><dd>повне коло <code>--surface-alt</code></dd></div>
+      <div><dt>fill (arc)</dt><dd>дуга <code>--primary</code>, <code>stroke-linecap:round</code>; довжина через <code>stroke-dashoffset</code></dd></div>
+      <div class="last"><dt>center</dt><dd>% (сериф) + опційний підпис або іконка</dd></div>
+    </dl>
+  </section>
+
+  <!-- РОЗМІРИ -->
+  <section class="block">
+    <h2>Розміри</h2>
+    <p class="sub">sm / md / lg — viewBox 100×100, тож товщина дуги масштабується сама.</p>
+    <div class="card sizes">
+      <div class="ring-wrap sm"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:110.6"/></svg><div class="ring-center"><span class="ring-pct">60%</span></div></div>
+      <div class="ring-wrap"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:110.6"/></svg><div class="ring-center"><span class="ring-pct">60%</span></div></div>
+      <div class="ring-wrap lg"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:110.6"/></svg><div class="ring-center"><span class="ring-pct">60%</span><span class="ring-sub">ціль</span></div></div>
+    </div>
+  </section>
+
+  <!-- ЦЕНТР -->
+  <section class="block">
+    <h2>Вміст центру</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Лише %</div><div class="row-rings"><div class="ring-wrap"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:91.2"/></svg><div class="ring-center"><span class="ring-pct">67%</span></div></div></div></div>
+      <div class="spec"><div class="state">% + підпис</div><div class="row-rings"><div class="ring-wrap"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:91.2"/></svg><div class="ring-center"><span class="ring-pct">67%</span><span class="ring-sub">серія</span></div></div></div></div>
+      <div class="spec"><div class="state">Іконка на 100%</div><div class="row-rings"><div class="ring-wrap is-complete"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:0"/></svg><div class="ring-center"><span class="ic"><svg><use href="#i-check"/></svg></span></div></div></div><div class="note">Завершено — галочка <code>--success</code> замість %.</div></div>
+      <div class="spec"><div class="state">Ціль (ring + текст)</div><div class="row-rings"><div class="goal"><div class="ring-wrap sm"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:74.6"/></svg><div class="ring-center"><span class="ring-pct">73%</span></div></div><div style="text-align:left"><div class="g-title">Річна ціль</div><div class="g-sub">8 740 / 12 000</div></div></div></div><div class="note">Деталі — у підписі поруч, не в кільці.</div></div>
+    </div>
+  </section>
+
+  <!-- ТОН = СТАН -->
+  <section class="block">
+    <h2>Колір = стан</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">В процесі</div><div class="row-rings"><div class="ring-wrap"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:152.1"/></svg><div class="ring-center"><span class="ring-pct">45%</span></div></div></div><div class="note"><code>--primary</code></div></div>
+      <div class="spec"><div class="state">Завершено</div><div class="row-rings"><div class="ring-wrap is-complete"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:0"/></svg><div class="ring-center"><span class="ring-pct">100%</span></div></div></div><div class="note"><code>--success</code> на 100%</div></div>
+      <div class="spec"><div class="state">Попередження</div><div class="row-rings"><div class="ring-wrap warn"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" style="stroke-dashoffset:193.5"/></svg><div class="ring-center"><span class="ring-pct">30%</span></div></div></div><div class="note"><code>--warning</code> (опційно)</div></div>
+      <div class="spec"><div class="state">Indeterminate</div><div class="row-rings"><div class="ring-wrap indet"><svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44"/></svg></div></div><div class="note">Спінер: невідомий прогрес / завантаження.</div></div>
+    </div>
+  </section>
+
+  <!-- LIVE -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Тягни повзунок — на 100% колір сам зеленіє.</p>
+    <div class="card play">
+      <div class="ring-wrap lg" data-ring role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45">
+        <svg class="ring" viewBox="0 0 100 100"><circle class="ring-track" cx="50" cy="50" r="44"/><circle class="ring-fill" cx="50" cy="50" r="44" data-fill style="stroke-dashoffset:152.1"/></svg>
+        <div class="ring-center"><span class="ring-pct" data-pct>45%</span><span class="ring-sub">прочитано</span></div>
+      </div>
+      <input type="range" min="0" max="100" value="45" class="pb-range" data-range aria-label="Прогрес">
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Коли ring</dt><dd>компактний одиничний показник / «ціль»; коли важливе число в центрі</dd></div>
+      <div><dt>Коли linear</dt><dd>прогрес у рядку, у списках, поруч з підписами — лінійний Progress</dd></div>
+      <div><dt>Деталі</dt><dd>довгі значення (8 740 / 12 000) — у підписі поруч, не в кільці</dd></div>
+      <div class="last"><dt>Доступність</dt><dd><code>role="progressbar"</code> + <code>aria-value*</code>; для спінера — <code>aria-busy</code> без valuenow</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var R=44, C=2*Math.PI*R; // 276.46
+  document.querySelectorAll('[data-ring]').forEach(function(wrap){
+    var range=wrap.parentElement.querySelector('[data-range]');
+    var fill=wrap.querySelector('[data-fill]'), pct=wrap.querySelector('[data-pct]');
+    function set(v){
+      v=Math.round(v);
+      fill.style.strokeDashoffset = (C*(1 - v/100)).toFixed(2);
+      if(pct) pct.textContent=v+'%';
+      wrap.classList.toggle('is-complete', v>=100);
+      wrap.setAttribute('aria-valuenow', v);
+    }
+    if(range){ range.addEventListener('input',function(){ set(+range.value); }); set(+range.value); }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Картка огляду</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* Card primitive */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+
+/* ===== SUMMARY CARD ===== */
+.card.sum{display:flex;flex-direction:column}
+.sum-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sum-head .si{width:30px;height:30px;border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;flex:0 0 auto}
+.sum-head .si svg{width:16px;height:16px}
+.sum-title{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.0625rem;margin:0}
+/* icon metric rows */
+.metric{display:flex;align-items:center;gap:13px;padding:11px 0}
+.metric-ico{width:42px;height:42px;border-radius:var(--radius);background:var(--accent-soft);color:var(--icon);display:grid;place-items:center;flex:0 0 auto}
+.metric-ico svg{width:20px;height:20px}
+.metric-text{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.metric-label{color:var(--muted);font-size:.8125rem}
+.metric-value{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.5rem;font-variant-numeric:tabular-nums;margin-top:1px}
+/* compact label/value rows */
+.stat-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0}
+.stat-row+.stat-row{border-top:1px dashed var(--border)}
+.stat-row .k{color:var(--muted);font-size:.875rem}
+.stat-row .v{color:var(--ink);font-weight:700;font-size:.9375rem;font-variant-numeric:tabular-nums}
+.stat-hl{padding:13px 0 3px;border-top:1px solid var(--border);margin-top:4px}
+.stat-hl .hl-k{color:var(--muted);font-size:.8125rem}
+.stat-hl .hl-v{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:4px}
+.stat-hl .hl-name{color:var(--ink);font-weight:600;font-size:.9375rem}
+.stat-hl .hl-num{color:var(--success);font-weight:700;font-size:1.0625rem;font-variant-numeric:tabular-nums}
+/* footer link */
+.sum-link{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-weight:600;font-size:.8125rem;text-decoration:none;margin-top:8px;padding-top:14px;border-top:1px solid var(--border)}
+.sum-link svg{width:15px;height:15px;transition:transform .15s}
+.sum-link:hover svg{transform:translateX(3px)}
+.sum-link:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring);border-radius:var(--radius-xs)}
+
+/* layout */
+.sum-wrap{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.sum-wrap>.card{flex:1 1 300px;max-width:340px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L22 7H6"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Картка огляду</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Картка огляду</h1>
+    <p class="lead">Зведення в сайдбарі: кілька ключових метрик + посилання на деталі («Швидкий огляд», «Коротка статистика»). Дві розкладки — іконкові метрики та компактні рядки «підпис → значення».</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div style="max-width:320px">
+      <article class="card sum">
+        <div class="sum-head"><span class="si"><svg><use href="#i-chart"/></svg></span><h3 class="sum-title">Швидкий огляд</h3></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-book"/></svg></span><span class="metric-text"><span class="metric-label">Усього книг</span><span class="metric-value">128</span></span></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-layers"/></svg></span><span class="metric-text"><span class="metric-label">Серій</span><span class="metric-value">24</span></span></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-heart"/></svg></span><span class="metric-text"><span class="metric-label">Улюблених</span><span class="metric-value">18</span></span></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-cart"/></svg></span><span class="metric-text"><span class="metric-label">До покупки</span><span class="metric-value">14</span></span></div>
+        <a class="sum-link" href="#">Переглянути детальну статистику <svg><use href="#i-arrow-right"/></svg></a>
+      </article>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>head</dt><dd>невелика іконка + заголовок огляду</dd></div>
+      <div><dt>metric</dt><dd>іконка + підпис + велике значення (serif)</dd></div>
+      <div><dt>link</dt><dd>перехід до повних даних, з верхньою лінією</dd></div>
+      <div class="last"><dt>значення</dt><dd>числа — tabular-nums, щоб не стрибали</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Іконкові метрики (зліва) — для головних чисел; компактні рядки (справа) — коли показників більше.</p>
+    <div class="sum-wrap">
+
+      <article class="card sum">
+        <div class="sum-head"><span class="si"><svg><use href="#i-chart"/></svg></span><h3 class="sum-title">Швидкий огляд</h3></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-book"/></svg></span><span class="metric-text"><span class="metric-label">Усього книг</span><span class="metric-value">128</span></span></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-layers"/></svg></span><span class="metric-text"><span class="metric-label">Серій</span><span class="metric-value">24</span></span></div>
+        <div class="metric"><span class="metric-ico"><svg><use href="#i-heart"/></svg></span><span class="metric-text"><span class="metric-label">Улюблених</span><span class="metric-value">18</span></span></div>
+        <a class="sum-link" href="#">Переглянути детальну статистику <svg><use href="#i-arrow-right"/></svg></a>
+      </article>
+
+      <article class="card sum">
+        <div class="sum-head"><span class="si"><svg><use href="#i-chart"/></svg></span><h3 class="sum-title">Коротка статистика</h3></div>
+        <div class="stat-row"><span class="k">Книг у списку</span><span class="v">14</span></div>
+        <div class="stat-row"><span class="k">Середня ціна</span><span class="v">482 грн</span></div>
+        <div class="stat-row"><span class="k">Магазинів відстежується</span><span class="v">5</span></div>
+        <div class="stat-hl"><div class="hl-k">Найвигідніша пропозиція</div><div class="hl-v"><span class="hl-name">Корабльов королівство</span><span class="hl-num">380 грн</span></div></div>
+        <a class="sum-link" href="#">Переглянути всі <svg><use href="#i-arrow-right"/></svg></a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Місце</dt><dd>сайдбар сторінки: коротке зведення без переходу геть</dd></div>
+      <div><dt>Метрики</dt><dd>3–4 ключові; більше — у компактних рядках</dd></div>
+      <div><dt>Акцент</dt><dd>важливий показник можна виділити (зелений «найвигідніша»)</dd></div>
+      <div><dt>CTA</dt><dd>один лінк «детальніше» вниз картки</dd></div>
+      <div class="last"><dt>vs Stat-card</dt><dd>огляд — кілька метрик разом; stat-card — одна метрика великим планом</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+})();
+</script>
+</body>
+</html>

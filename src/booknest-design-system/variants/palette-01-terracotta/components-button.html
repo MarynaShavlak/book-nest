@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Button</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ BUTTON ============ */
+.btn{--btn-fg:var(--ink);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-sans);font-weight:600;font-size:.9375rem;line-height:1;color:var(--btn-fg);
+  border:1px solid transparent;border-radius:var(--radius);background:transparent;cursor:pointer;height:44px;padding:0 18px;
+  white-space:nowrap;text-decoration:none;user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:background-color .18s,border-color .18s,color .18s,box-shadow .18s,transform .06s}
+.btn svg{width:18px;height:18px;flex:0 0 auto}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.btn:not(:disabled):active{transform:translateY(1px)}
+/* варіанти */
+.btn.primary{--btn-fg:var(--on-primary);background:var(--primary);box-shadow:var(--shadow-btn)}
+.btn.primary:not(:disabled):hover{background:var(--primary-hover)}
+.btn.secondary{--btn-fg:var(--ink);background:var(--surface);border-color:var(--border)}
+.btn.secondary:not(:disabled):hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.btn.tonal{--btn-fg:var(--accent-soft-fg);background:var(--accent-soft)}
+.btn.tonal:not(:disabled):hover{background:var(--accent-border)}
+.btn.ghost{--btn-fg:var(--text);background:transparent}
+.btn.ghost:not(:disabled):hover{background:var(--surface-alt)}
+.btn.ghost.accent{--btn-fg:var(--primary)}
+.btn.danger{--btn-fg:#fff;background:var(--danger)}
+.btn.danger:not(:disabled):hover{background:color-mix(in srgb,var(--danger) 86%,#000)}
+.btn.danger-ghost{--btn-fg:var(--danger);background:transparent}
+.btn.danger-ghost:not(:disabled):hover{background:var(--danger-bg)}
+.btn.social{--btn-fg:var(--ink);background:var(--surface);border-color:var(--border)}
+.btn.social:not(:disabled):hover{background:var(--surface-alt)}
+/* розміри */
+.btn.sm{height:36px;font-size:.875rem;padding:0 14px;gap:6px;border-radius:var(--radius-sm)}
+.btn.sm svg{width:16px;height:16px}
+.btn.lg{height:52px;font-size:1rem;padding:0 26px;gap:10px;border-radius:var(--radius-md)}
+.btn.lg svg{width:20px;height:20px}
+/* ширина / icon-only */
+.btn.block{display:flex;width:100%}
+.btn.icon{padding:0;width:44px;height:44px}
+.btn.icon.sm{width:36px;height:36px}
+.btn.icon.lg{width:52px;height:52px}
+.btn.icon.round{border-radius:var(--radius-full)}
+/* loading */
+.btn-spin{display:none;position:absolute;left:50%;top:50%;width:1.15em;height:1.15em;margin:-.575em 0 0 -.575em;border:2px solid var(--btn-fg);border-top-color:transparent;border-radius:50%;animation:btnspin .7s linear infinite}
+.btn.is-loading{color:transparent;pointer-events:none}
+.btn.is-loading svg{visibility:hidden}
+.btn.is-loading .btn-spin{display:block}
+@keyframes btnspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.btn-spin{animation:none}.btn{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.spec .demo{min-height:60px;display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:160px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+/* топбар-демо для icon-кнопок */
+.mockbar{display:flex;align-items:center;justify-content:space-between;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px}
+.mockbar .t{font-family:var(--font-serif);color:var(--ink);font-weight:700}
+/* композиції */
+.foot{display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--border);padding-top:16px;margin-top:4px}
+.empty{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:8px 0}
+.empty .t{font-family:var(--font-serif);color:var(--ink);font-size:1.1rem}
+.auth{max-width:360px;display:flex;flex-direction:column;gap:14px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.8125rem}
+.divider::before,.divider::after{content:"";height:1px;background:var(--border);flex:1}
+.cap{font-size:.78rem;color:var(--muted);margin-top:10px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></symbol>
+  <symbol id="i-cloud-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="m8 17 4-4 4 4"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.2"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.36 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.42-.14-2.76.83-3.48.83-.72 0-1.82-.81-2.99-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.9 1.15 9.16.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.78.74 2.99.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.42-3.65zM14.13 5.62c.63-.77 1.06-1.83.94-2.9-.91.04-2.01.61-2.66 1.37-.59.68-1.1 1.76-.96 2.8 1.01.08 2.05-.51 2.68-1.27z"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Button</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Button</h1>
+    <p class="lead">Уся «кнопкова» мова проєкту в одному компоненті: 7 варіантів за вагою, три розміри, іконки й стани. Усі solid-CTA — на одному <code>--primary</code> (без різнобою відтінків з макетів).</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія / API</h2>
+    <div class="row" style="margin-bottom:8px"><button class="btn primary lg"><svg><use href="#i-plus"/></svg>Додати книгу</button></div>
+    <dl class="tref">
+      <div><dt>variant</dt><dd><code>primary</code> · <code>secondary</code> · <code>tonal</code> · <code>ghost</code> · <code>danger</code> · <code>danger-ghost</code> · <code>social</code></dd></div>
+      <div><dt>size</dt><dd><code>sm</code> · md (типово) · <code>lg</code></dd></div>
+      <div><dt>icon</dt><dd>leading / trailing <code>&lt;svg&gt;</code>, або <code>.icon</code> для лише-іконки</dd></div>
+      <div><dt>width</dt><dd><code>.block</code> — на всю ширину</dd></div>
+      <div class="last"><dt>state</dt><dd>hover · active · focus-visible · <code>:disabled</code> · <code>.is-loading</code></dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти за вагою</h2>
+    <p class="sub">Наведи / клікни — hover, active й focus живі.</p>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Primary</div><div class="demo"><button class="btn primary"><svg><use href="#i-plus"/></svg>Додати книгу</button></div><div class="note">Головна дія. Один на екран/блок.</div></div>
+      <div class="spec"><div class="state">Secondary (outline)</div><div class="demo"><button class="btn secondary"><svg><use href="#i-refresh"/></svg>Оновити прогрес</button></div><div class="note">Друга за важливістю дія.</div></div>
+      <div class="spec"><div class="state">Tonal</div><div class="demo"><button class="btn tonal"><svg><use href="#i-book"/></svg>Перейти в бібліотеку</button></div><div class="note">Тепла filled без ваги primary.</div></div>
+      <div class="spec"><div class="state">Ghost / text</div><div class="demo"><button class="btn ghost">Скасувати</button><button class="btn ghost accent">Переглянути всі<svg><use href="#i-chev-right"/></svg></button></div><div class="note">Низька вага. <code>.accent</code> — теракотовий текст-лінк.</div></div>
+      <div class="spec"><div class="state">Destructive</div><div class="demo"><button class="btn danger"><svg><use href="#i-trash"/></svg>Видалити</button><button class="btn danger-ghost">Очистити дані</button></div><div class="note">Червоний solid для підтвердження; ghost — для danger-зони.</div></div>
+      <div class="spec"><div class="state">Social</div><div class="demo"><button class="btn social"><svg><use href="#i-google"/></svg>Увійти через Google</button></div><div class="note">Нейтральна + лого бренду.</div></div>
+    </div>
+  </section>
+
+  <!-- РОЗМІРИ -->
+  <section class="block">
+    <h2>Розміри</h2>
+    <div class="card row">
+      <button class="btn primary sm"><svg><use href="#i-plus"/></svg>sm</button>
+      <button class="btn primary"><svg><use href="#i-plus"/></svg>md</button>
+      <button class="btn primary lg"><svg><use href="#i-plus"/></svg>lg</button>
+      <span class="cap" style="margin:0 0 0 8px">sm — тулбари · md — типово · lg — герой-CTA</span>
+    </div>
+  </section>
+
+  <!-- ІКОНКИ ТА ШИРИНА -->
+  <section class="block">
+    <h2>Іконки та ширина</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Leading</div><div class="demo"><button class="btn primary"><svg><use href="#i-plus"/></svg>Додати книгу</button></div></div>
+      <div class="spec"><div class="state">Trailing</div><div class="demo"><button class="btn secondary">Далі<svg><use href="#i-chev-right"/></svg></button></div></div>
+      <div class="spec"><div class="state">Назад (text)</div><div class="demo"><button class="btn ghost"><svg><use href="#i-arrow-left"/></svg>Назад до бібліотеки</button></div></div>
+      <div class="spec"><div class="state">Icon-only</div><div class="demo">
+        <div class="mockbar" style="flex:1"><span class="t">Бібліотека</span><span class="row" style="gap:4px"><button class="btn ghost icon" aria-label="Пошук"><svg><use href="#i-search"/></svg></button><button class="btn ghost icon" aria-label="Улюблене"><svg><use href="#i-heart"/></svg></button><button class="btn ghost icon" aria-label="Ще"><svg><use href="#i-more"/></svg></button></span></div>
+      </div><div class="note">Топбар/рядки. Обов'язковий <code>aria-label</code>.</div></div>
+      <div class="spec"><div class="state">Icon — інші варіанти</div><div class="demo"><button class="btn primary icon round" aria-label="Додати"><svg><use href="#i-plus"/></svg></button><button class="btn secondary icon" aria-label="Редагувати"><svg><use href="#i-edit"/></svg></button><button class="btn danger-ghost icon" aria-label="Видалити"><svg><use href="#i-trash"/></svg></button></div></div>
+      <div class="spec"><div class="state">Block (full-width)</div><div class="demo" style="display:block"><button class="btn primary block"><svg><use href="#i-login"/></svg>Увійти</button></div></div>
+    </div>
+  </section>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <p class="sub">Hover/active/focus живі на кнопках вище. Нижче — disabled і loading. Усі :hover під guard <code>:not(:disabled)</code>.</p>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Disabled</div><div class="demo"><button class="btn primary" disabled><svg><use href="#i-plus"/></svg>Додати книгу</button><button class="btn secondary" disabled>Оновити</button></div><div class="note">Реальний <code>disabled</code> — hover не спрацьовує.</div></div>
+      <div class="spec"><div class="state">Loading (клікни)</div><div class="demo"><button class="btn primary" data-loading-demo><svg><use href="#i-cloud-up"/></svg>Зберегти<span class="btn-spin"></span></button><button class="btn secondary" data-loading-demo>Синхронізувати<span class="btn-spin"></span></button></div><div class="note">Спінер по центру, ширина не стрибає, <code>aria-busy</code>.</div></div>
+      <div class="spec"><div class="state">Focus-visible</div><div class="demo"><button class="btn primary">Натисни Tab →</button></div><div class="note">Кільце <code>--focus-ring</code> лише з клавіатури.</div></div>
+    </div>
+  </section>
+
+  <!-- КОМПОЗИЦІЇ -->
+  <section class="block">
+    <h2>Правила пар</h2>
+    <p class="sub">Як кнопки стоять разом — з твоїх макетів.</p>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Футер модалки</div><div style="margin-top:-2px"><div class="foot" style="border:0;padding:0;margin:0"><button class="btn ghost">Скасувати</button><button class="btn primary"><svg><use href="#i-cloud-up"/></svg>Зберегти</button></div></div><div class="note">ghost «Скасувати» + primary.</div></div>
+      <div class="spec"><div class="state">Деструктивне підтвердження</div><div class="foot" style="border:0;padding:0;margin:0"><button class="btn ghost">Скасувати</button><button class="btn danger"><svg><use href="#i-trash"/></svg>Видалити</button></div><div class="note">У footer'і delete-модалки.</div></div>
+      <div class="spec"><div class="state">Hero сторінки</div><div class="row"><button class="btn primary"><svg><use href="#i-edit"/></svg>Редагувати цілі</button><button class="btn secondary"><svg><use href="#i-refresh"/></svg>Оновити прогрес</button></div><div class="note">primary + outline.</div></div>
+      <div class="spec"><div class="state">Empty-state</div><div class="empty"><span class="t">Бібліотека поки порожня</span><button class="btn primary"><svg><use href="#i-plus"/></svg>Додати книгу</button><button class="btn ghost accent">Перейти в бібліотеку<svg><use href="#i-chev-right"/></svg></button></div><div class="note">один primary + text-дія.</div></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="state">Авторизація</div>
+      <div class="auth">
+        <button class="btn primary block"><svg><use href="#i-login"/></svg>Увійти</button>
+        <div class="divider">або</div>
+        <button class="btn social block"><svg><use href="#i-google"/></svg>Увійти через Google</button>
+        <button class="btn social block"><svg><use href="#i-apple"/></svg>Увійти через Apple</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Один primary</dt><dd>не більше однієї головної кнопки на екран/блок; решта — secondary/ghost</dd></div>
+      <div><dt>Колір primary</dt><dd>завжди <code>--primary</code>; не вживай яскраво-помаранчевий/коричневий з ескізів — це був різнобій</dd></div>
+      <div><dt>Disabled</dt><dd>усі <code>:hover</code> під <code>:not(:disabled)</code>; стан — реальний <code>disabled</code></dd></div>
+      <div><dt>Loading</dt><dd><code>.is-loading</code> + <code>aria-busy</code>; блокує кліки, ширину тримає</dd></div>
+      <div><dt>Icon-only</dt><dd>обов'язковий <code>aria-label</code>; деструктив не лише кольором — додай іконку/підтвердження</dd></div>
+      <div class="last"><dt>Семантика</dt><dd>дія → <code>&lt;button&gt;</code>, навігація → <code>&lt;a class="btn"&gt;</code></dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  document.querySelectorAll('[data-loading-demo]').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.classList.contains('is-loading')) return;
+      b.classList.add('is-loading'); b.setAttribute('aria-busy','true');
+      setTimeout(function(){ b.classList.remove('is-loading'); b.removeAttribute('aria-busy'); }, 1400);
+    });
+  });
+})();
+</script>
+</body>
+</html>

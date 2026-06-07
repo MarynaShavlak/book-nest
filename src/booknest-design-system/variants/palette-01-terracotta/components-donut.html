@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Donut chart</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ===== DONUT ===== */
+:root{
+  --s1:var(--primary);
+  --s2:color-mix(in srgb, var(--icon) 62%, var(--surface));
+  --s3:color-mix(in srgb, var(--success) 58%, var(--surface));
+  --s4:color-mix(in srgb, var(--info) 55%, var(--surface));
+  --s5:color-mix(in srgb, var(--warning) 64%, var(--surface));
+}
+.donut-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.donut-headrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.donut-title{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.25rem}
+.donut-period{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:.8125rem;font-weight:600}
+.donut-period svg{width:15px;height:15px;color:var(--muted)}
+.donut-layout{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.donut-fig{position:relative;width:200px;height:200px;flex:0 0 auto}
+.donut-svg{width:200px;height:200px;display:block;overflow:visible}
+.donut-svg .base{stroke:var(--surface-alt)}
+.seg{transition:stroke-dasharray .7s cubic-bezier(.2,.7,.3,1),opacity .15s;cursor:pointer}
+.donut-svg.hover .seg:not(.active){opacity:.34}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.dc-top{color:var(--muted);font-size:.72rem;font-weight:600}
+.dc-val{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:2rem;line-height:1.05;margin:1px 0}
+.dc-sub{color:var(--muted);font-size:.8rem}
+.donut-legend{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.lg-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:background-color .12s;max-width:100%}
+.lg-row:hover,.lg-row.active{background:var(--surface-alt)}
+.lg-dot{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.lg-name{flex:0 1 auto;min-width:0;color:var(--ink);font-weight:500;font-size:.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg-meta{color:var(--muted);font-size:.875rem;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.donut-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.donut-foot .fk{color:var(--muted);font-size:.78rem;margin-bottom:4px}
+.donut-foot .fv{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.0625rem}
+@media (prefers-reduced-motion:reduce){.seg,.theme-fab,.lg-row{transition:none}}
+
+/* layout */
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr;margin-top:18px}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}.donut-layout{justify-content:center}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Donut chart</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Donut chart</h1>
+    <p class="lead">Кругова діаграма часток цілого: сектори + значення в центрі + легенда з відсотками. Для «Формати книг», розподілів за статусом тощо. Наведи на сектор — він і рядок легенди підсвічуються, а центр показує його дані.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">«Формати книг». Відсотки рахуються з даних; центр за замовчуванням — загальна сума.</p>
+    <div class="donut-card" id="dFormats"
+         data-center="Разом" data-unit-1="книга" data-unit-2="книги" data-unit-5="книг" data-foot="Улюблений формат"
+         data-values='[{"label":"Паперові","value":18},{"label":"Електронні","value":11},{"label":"Аудіокниги","value":3}]'>
+      <div class="donut-headrow"><span class="donut-title">Формати книг</span></div>
+      <div class="donut-layout">
+        <div class="donut-fig">
+          <svg class="donut-svg" viewBox="0 0 200 200" role="img"></svg>
+          <div class="donut-center"><span class="dc-top"></span><span class="dc-val"></span><span class="dc-sub"></span></div>
+        </div>
+        <div class="donut-legend"></div>
+      </div>
+      <div class="donut-foot"></div>
+    </div>
+    <dl class="tref">
+      <div><dt>segment</dt><dd>дуга = частка значення; колір із палітри; тонкі проміжки</dd></div>
+      <div><dt>center</dt><dd>сума + одиниця; на hover — значення сектора + %</dd></div>
+      <div><dt>legend</dt><dd>колір + назва + «N (X%)»; синхронна з секторами</dd></div>
+      <div><dt>hover</dt><dd>сектор/рядок підсвічуються, решта приглушується</dd></div>
+      <div class="last"><dt>foot</dt><dd>опційний підсумок (найбільша частка)</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТ -->
+  <section class="block">
+    <h2>Варіант · більше секторів</h2>
+    <p class="sub">Розподіл за статусом читання — 4 сектори, палітра розширюється автоматично.</p>
+    <div class="donut-card" id="dStatus"
+         data-center="Усього" data-unit-1="книга" data-unit-2="книги" data-unit-5="книг"
+         data-values='[{"label":"Прочитано","value":32},{"label":"Хочу прочитати","value":12},{"label":"Відкладено","value":4},{"label":"Читаю зараз","value":3}]'>
+      <div class="donut-headrow"><span class="donut-title">Статус читання</span><span class="donut-period">Усі книги<svg><use href="#i-chevron-down"/></svg></span></div>
+      <div class="donut-layout">
+        <div class="donut-fig">
+          <svg class="donut-svg" viewBox="0 0 200 200" role="img"></svg>
+          <div class="donut-center"><span class="dc-top"></span><span class="dc-val"></span><span class="dc-sub"></span></div>
+        </div>
+        <div class="donut-legend"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref" style="margin-top:0">
+      <div><dt>Дані</dt><dd><code>data-values</code> — <code>{label, value}</code>; відсотки й центр рахуються самі</dd></div>
+      <div><dt>Колір</dt><dd>палітра з токенів (<code>color-mix</code>), адаптується до теми; можна задати <code>color</code></dd></div>
+      <div><dt>vs Ring-progress</dt><dd>ring — одне значення (прогрес/%); donut — кілька часток цілого</dd></div>
+      <div><dt>vs Bar</dt><dd>bar — порівняння величин; donut — структура (частки від суми)</dd></div>
+      <div class="last"><dt>Доступність</dt><dd><code>role="img"</code> + легенда з усіма числами як текст</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS='http://www.w3.org/2000/svg';
+  function plural(n,w){ var a=Math.abs(n)%100,b=n%10; if(a>10&&a<20) return w[5]; if(b===1) return w[1]; if(b>=2&&b<=4) return w[2]; return w[5]; }
+
+  function build(el){
+    var data=JSON.parse(el.dataset.values);
+    var words={1:el.dataset.unit1,2:el.dataset.unit2,5:el.dataset.unit5};
+    var topLabel=el.dataset.center||'Разом';
+    var pal=['var(--s1)','var(--s2)','var(--s3)','var(--s4)','var(--s5)'];
+    var total=data.reduce(function(a,d){return a+d.value;},0);
+    var svg=el.querySelector('.donut-svg'), legend=el.querySelector('.donut-legend');
+    var center=el.querySelector('.donut-center');
+    var cTop=center.querySelector('.dc-top'), cVal=center.querySelector('.dc-val'), cSub=center.querySelector('.dc-sub');
+    var foot=el.querySelector('.donut-foot');
+    var R=78,CX=100,CY=100,TH=26,C=2*Math.PI*R,GAP=(data.length>1?C*0.015:0);
+
+    var base=document.createElementNS(NS,'circle');
+    base.setAttribute('class','base'); base.setAttribute('cx',CX);base.setAttribute('cy',CY);base.setAttribute('r',R);
+    base.setAttribute('fill','none');base.setAttribute('stroke-width',TH);
+    svg.appendChild(base);
+
+    var segs=[], cum=0;
+    data.forEach(function(d,i){
+      var frac=d.value/total, len=Math.max(0, frac*C - GAP);
+      var s=document.createElementNS(NS,'circle');
+      s.setAttribute('class','seg'); s.setAttribute('cx',CX);s.setAttribute('cy',CY);s.setAttribute('r',R);
+      s.setAttribute('fill','none'); s.setAttribute('stroke', d.color||pal[i%pal.length]);
+      s.setAttribute('stroke-width',TH); s.setAttribute('stroke-linecap','butt');
+      s.setAttribute('transform','rotate('+(cum*360-90)+' '+CX+' '+CY+')');
+      s.setAttribute('stroke-dasharray', (reduce?len:0)+' '+C);
+      s.dataset.len=len;
+      svg.appendChild(s); segs.push(s);
+      cum+=frac;
+    });
+
+    data.forEach(function(d,i){
+      var pct=Math.round(d.value/total*100);
+      var row=document.createElement('div'); row.className='lg-row';
+      row.innerHTML='<span class="lg-dot" style="background:'+(d.color||pal[i%pal.length])+'"></span><span class="lg-name"></span><span class="lg-meta">'+d.value+' ('+pct+'%)</span>';
+      row.querySelector('.lg-name').textContent=d.label;
+      legend.appendChild(row);
+      segs[i].addEventListener('mouseenter', function(){ focus(i); });
+      segs[i].addEventListener('mouseleave', clear);
+      row.addEventListener('mouseenter', function(){ focus(i); });
+      row.addEventListener('mouseleave', clear);
+    });
+    var rows=legend.querySelectorAll('.lg-row');
+
+    function setTotal(){ cTop.textContent=topLabel; cVal.textContent=total; cSub.textContent=plural(total,words); }
+    function focus(i){
+      svg.classList.add('hover');
+      segs.forEach(function(s,k){ s.classList.toggle('active',k===i); });
+      rows.forEach(function(r,k){ r.classList.toggle('active',k===i); });
+      var d=data[i], pct=Math.round(d.value/total*100);
+      cTop.textContent=d.label; cVal.textContent=d.value; cSub.textContent=pct+'%';
+    }
+    function clear(){ svg.classList.remove('hover'); segs.forEach(function(s){s.classList.remove('active');}); rows.forEach(function(r){r.classList.remove('active');}); setTotal(); }
+
+    var maxd=data[0]; data.forEach(function(d){ if(d.value>maxd.value) maxd=d; });
+    svg.setAttribute('aria-label', el.querySelector('.donut-title').textContent+': '+data.map(function(d){ return d.label+' '+Math.round(d.value/total*100)+'%'; }).join(', '));
+    if(el.dataset.foot){ foot.innerHTML='<div class="fk">'+el.dataset.foot+'</div><div class="fv">'+maxd.label+'</div>'; }
+    setTotal();
+
+    if(!reduce){ requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      segs.forEach(function(s){ s.setAttribute('stroke-dasharray', s.dataset.len+' '+C); });
+    }); }); }
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll('.donut-card')).forEach(build);
+})();
+</script>
+</body>
+</html>

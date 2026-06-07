@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BookNest — Імпорт / Експорт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+<style>/* ============================================================
+   BookNest — Design Tokens
+   Затишна «лляна» естетика · теракотовий акцент (#A96E47)
+   Світла + темна теми. Консолідовано з палітри (≈22 кольори).
+   Шрифти: Playfair Display (заголовки) + Manrope (UI).
+
+   Застосування:
+     background: var(--bg);
+     color: var(--text);
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     box-shadow: var(--shadow-card);
+   Фокус:  box-shadow: 0 0 0 3px var(--focus-ring);
+   Тема:   <html data-theme="dark">  (JS-перемикач — внизу файлу)
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* — Поверхні — */
+  --bg:           #F6F0E7;  /* фон сторінки (глибший linen — щоб картки спливали) */
+  --surface:      #FDFCFA;  /* картки, праві панелі, модалки (найсвітліше) */
+  --surface-alt:  #F1E9DD;  /* сайдбар, hero, утоплені секції */
+  --field:        #F4EDE2;  /* фон інпутів (помітний інсет на картці) */
+  --border:       #E0D5C5;  /* тонкі лінії, дільники */
+
+  /* — Текст — */
+  --ink:            #3D2719; /* заголовки (еспресо) */
+  --text:           #4A4039; /* основний текст */
+  --text-secondary: #6F625D; /* вторинний рівень (необов'язковий) */
+  --muted:          #736858; /* placeholder, приглушений текст (AA ≥4.5) */
+
+  /* — Бренд (теракота) — */
+  --primary:        #ED8041; /* кнопки, активні елементи, лінки, progress */
+  --primary-hover:  #D96E2E;
+  --on-primary:     #3D2719; /* текст/іконки на --primary */
+
+  /* — Акцент: м'який персик (підсвічення) — */
+  --accent-soft:    #EED4BF; /* активний пункт меню, вибраний тогл */
+  --accent-soft-fg: #3D2719; /* текст на --accent-soft */
+  --accent-border:  #E2C3A3; /* контур вибраного тогла / персикові рамки */
+  --tag-bg:         #F4ECE3; /* фон тегів/чипів */
+  --tag-fg:         #4A4039; /* текст тегів */
+
+  /* — Акцент: насичений (іконки, бейджі, вибрані статус-чипи) — */
+  --icon:           #63412E; /* outline-іконки на світлому */
+  --chip-bg:        #63412E; /* заливка нумерованих бейджів і вибраних статус-чипів */
+  --chip-fg:        #FDFCFA; /* номер/текст на --chip-bg */
+
+  /* — Статуси (семантика; текст-відтінок підібрано під AA на світлому фоні) — */
+  --success:    #2F7048;   --success-bg: #EAF6EA;
+  --warning:    #8A5314;   --warning-bg: #FFF3DF;
+  --danger:     #BE3022;   --danger-bg:  #FFE9E7;  /* також = колір зірочки обов'язкового поля */
+  --info:       #2A6299;   --info-bg:    #EAF4FF;
+
+  /* — Фокус — */
+  --focus-ring: rgba(237, 128, 65, .20);
+
+  /* — Тіні (теплі, не сірі) — */
+  --shadow-card:  0 1px 2px rgba(58,38,24,.04), 0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover: 0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:   0 16px 40px rgba(58,38,24,.14);  /* дропдауни / поповери */
+  --shadow-page:  0 20px 60px rgba(58,38,24,.10);  /* підйом великої картки */
+  --shadow-btn:   0 2px 8px rgba(237,128,65,.30);  /* primary-кнопка */
+
+  /* — Радіуси (спільні для обох тем) — */
+  --radius-lg:   24px;    /* велика картка auth-сторінки */
+  --radius-md:   16px;    /* секційні картки */
+  --radius:      12px;    /* інпути, селекти, кнопки, дропзона */
+  --radius-sm:   10px;    /* сегментний тогл */
+  --radius-xs:   8px;     /* чипи, теги, статус-пілюлі */
+  --radius-full: 9999px;  /* аватар, кругла нумерована плашка */
+
+  /* — Шрифти (родини) — */
+  --font-serif: "Playfair Display", "Lora", Georgia, serif;               /* заголовки */
+  --font-sans:  "Manrope", "Inter", system-ui, -apple-system, sans-serif; /* UI / текст */
+
+  /* — Типографіка: розміри (clamp = адаптивний діапазон min→max) — */
+  --fs-display: clamp(3.25rem, 5vw, 3.75rem);    /* 52→60px — велике заголовкове ("Додати книгу") */
+  --fs-h1:      clamp(2.75rem, 4.2vw, 3.25rem);  /* 44→52px — заголовок сторінки/форми */
+  --fs-h2:      clamp(1.75rem, 2.6vw, 2.125rem); /* 28→34px — велика секція */
+  --fs-h3:      1.375rem;   /* 22px — підзаголовок */
+  --fs-title:   1.25rem;    /* 20px — нумеровані секції ("Основна інформація") */
+  --fs-body:    1rem;       /* 16px — основний текст / лід */
+  --fs-label:   0.875rem;   /* 14px — лейбли полів */
+  --fs-sm:      0.8125rem;  /* 13px — дрібний текст */
+  --fs-xs:      0.75rem;    /* 12px — підказки ("0/500") */
+  --fs-button:  1rem;       /* 16px — текст кнопок */
+  --fs-nav:     0.9375rem;  /* 15px — сайдбар / меню */
+
+  /* — Типографіка: товщини — */
+  --fw-regular:  400;
+  --fw-medium:   500;   /* сайдбар */
+  --fw-semibold: 600;   /* заголовки H2/H3, лейбли, кнопки */
+  --fw-bold:     700;   /* display / H1 */
+
+  /* — Типографіка: міжрядкові та трекінг — */
+  --lh-display: 1.05;
+  --lh-heading: 1.2;
+  --lh-snug:    1.3;
+  --lh-body:    1.5;
+  --tracking-display: -0.01em;
+}
+
+/* ============================================================
+   DARK — затишний espresso (теплі темно-коричневі, без сірого)
+   Активується через <html data-theme="dark">
+   ============================================================ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* — Поверхні (світлішають із підйомом) — */
+  --bg:           #17120E;
+  --surface:      #241C15;
+  --surface-alt:  #1E1712;
+  --field:        #332820;
+  --border:       #41342A;
+
+  /* — Текст (теплі вершкові) — */
+  --ink:            #F4EADF;
+  --text:           #DFD2C5;
+  --text-secondary: #B0A092;
+  --muted:          #9E9184;
+
+  /* — Бренд (теракота, трохи підняли для читабельності) — */
+  --primary:        #EE8B53;
+  --primary-hover:  #F29E6C;
+  --on-primary:     #2A1A0E;
+
+  /* — Акцент: м'який (у темній — теплий брунатний) — */
+  --accent-soft:    #3A2A1E;
+  --accent-soft-fg: #EAD9C8;
+  --accent-border:  #4E3A29;
+  --tag-bg:         #2E231B;
+  --tag-fg:         #DFD2C5;
+
+  /* — Акцент: насичений (іконки світлішають, щоб читались на темному) — */
+  --icon:           #C9A98C;
+  --chip-bg:        #7A5840;
+  --chip-fg:        #F4EADF;
+
+  /* — Статуси — */
+  --success:    #7FB37F;   --success-bg: #1C2A1C;
+  --warning:    #ECA45D;   --warning-bg: #2C2415;
+  --danger:     #E36B5C;   --danger-bg:  #2E1A18;
+  --info:       #82AED6;   --info-bg:    #19232F;
+
+  /* — Фокус — */
+  --focus-ring: rgba(238, 139, 83, .32);
+
+  /* — Тіні (на темному — глибші) — */
+  --shadow-card:  0 1px 2px rgba(0,0,0,.30), 0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover: 0 12px 28px rgba(0,0,0,.42);
+  --shadow-pop:   0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:  0 24px 60px rgba(0,0,0,.55);
+  --shadow-btn:   0 2px 10px rgba(238,139,83,.40);
+}
+
+/* ── Альтернатива: авто-dark за системною темою (без JS) ──────
+   Розкоментуй цей блок, якщо НЕ використовуєш data-theme-перемикач.
+   Спрацьовує лише поки користувач не обрав тему вручну.
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+    --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+    --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+    --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29;
+    --tag-bg:#2E231B; --tag-fg:#DFD2C5; --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+    --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+    --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+    --focus-ring:rgba(238,139,83,.32);
+    --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+    --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+    --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+  }
+}
+*/
+
+/* ── Перемикач теми (JS) ─────────────────────────────────────
+   Ініціалізація — system pref + збережений вибір (встав у <head>, до рендера):
+     const saved = localStorage.getItem('theme');
+     const sysDark = matchMedia('(prefers-color-scheme: dark)').matches;
+     document.documentElement.dataset.theme = saved ?? (sysDark ? 'dark' : 'light');
+
+   По кліку на 🌙:
+     function toggleTheme() {
+       const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+       document.documentElement.dataset.theme = next;
+       localStorage.setItem('theme', next);
+     }
+   ──────────────────────────────────────────────────────────── */
+</style><style>/* ============================================================
+   BookNest — Typography
+   Парність: Playfair Display (serif, заголовки) + Manrope (sans, UI/текст)
+   Залежить від tokens.css (--font-*, --fs-*, --fw-*, --lh-*, --ink, --text, --muted).
+
+   Підключення шрифтів — нижче через @import (зручно для одного файлу).
+   Для продакшну краще винести у <head> з preconnect:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+   Кирилицю Google Fonts віддає автоматично (обидві родини її мають).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+/* ── База ───────────────────────────────────────────────── */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Заголовки — serif, елегантні («книжкові») ──────────── */
+.display, h1, .h1, h2, .h2 {
+  font-family: var(--font-serif);
+  color: var(--ink);
+  margin: 0;
+}
+.display {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+h1, .h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+}
+h2, .h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+/* ── Підзаголовки / секції — sans, чисті ────────────────── */
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+  margin: 0;
+}
+.section-title {                 /* заголовок нумерованої картки: «Основна інформація» */
+  font-family: var(--font-sans);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+}
+
+/* ── Лід під заголовком («Реєструйся, щоб…») ────────────── */
+.lead {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--muted);
+}
+
+/* ── Дрібний / допоміжний текст ─────────────────────────── */
+.text-sm, small {
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.hint {                          /* «0/500», «Натисніть Enter, щоб додати тег» */
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ── Лейбли полів ───────────────────────────────────────── */
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  color: var(--text);
+}
+.label--required::after {        /* зірочка обов'язкового поля */
+  content: " *";
+  color: var(--danger);
+}
+
+/* ── Кнопки ─────────────────────────────────────────────── */
+button, .btn {
+  font-family: var(--font-sans);
+  font-size: var(--fs-button);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+}
+
+/* ── Навігація / сайдбар ────────────────────────────────── */
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: var(--fs-nav);
+  font-weight: var(--fw-medium);
+}
+
+/* ── Логотип ────────────────────────────────────────────── */
+.logo {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+/* ── Посилання — теракота ───────────────────────────────── */
+/* Для дрібних inline-лінків лишай підкреслення (контраст теракоти ~3.9:1 у світлій темі). */
+a {
+  color: var(--primary);
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--primary-hover); }
+</style><style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);transition:background .3s,color .3s}
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;align-self:start;display:flex;flex-direction:column;background:var(--surface-alt);border-right:1px solid var(--border)}
+.side-logo{padding:20px 20px 12px;display:flex;align-items:center;gap:10px;color:var(--ink);--logo-page:#E4C6AA}
+.side-logo .lm{width:34px;height:34px;flex:0 0 auto}.side-logo .lw{height:19px;width:auto}
+.nav{flex:1 1 auto;overflow-y:auto;padding:4px 12px 8px}
+.nav .grp{padding:8px 0}.nav .grp+.grp{border-top:1px solid color-mix(in srgb,var(--border) 65%,transparent)}
+.nav a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--radius-sm);color:var(--text-secondary);text-decoration:none;font-size:.9rem;font-weight:500;transition:background .12s,color .12s}
+.nav a svg{width:19px;height:19px;color:var(--icon);flex:0 0 auto}.nav a:hover{background:var(--surface);color:var(--text)}
+.nav a.on{background:var(--accent-soft);color:var(--accent-soft-fg)}.nav a.on svg{color:var(--primary)}
+.side-deco{padding:8px 16px 0}.side-deco img{width:100%;border-radius:var(--radius-md);display:block}[data-theme="dark"] .side-deco img{background:#FAF4EA;padding:8px}
+.side-user{display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--border)}
+.side-user .av{width:38px;height:38px;border-radius:var(--radius-full);display:grid;place-items:center;font-family:var(--font-serif);font-weight:700;color:#fff;background:linear-gradient(135deg,#C98A5E,#8A5638);flex:0 0 auto}
+.side-user .un{font-weight:600;color:var(--ink);font-size:.86rem;line-height:1.2}.side-user .ue{color:var(--muted);font-size:.74rem}.side-user .ui{flex:1 1 auto;min-width:0}.side-user .chev{color:var(--muted);width:18px;height:18px;flex:0 0 auto}
+.main{display:flex;flex-direction:column;min-width:0}
+.topbar{position:sticky;top:0;z-index:90;display:flex;align-items:center;gap:14px;padding:13px 28px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.hamb{display:none;width:44px;height:44px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;place-items:center}.hamb svg{width:20px;height:20px}
+.search{flex:1 1 auto;max-width:430px;position:relative}
+.search input{width:100%;height:44px;border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface);padding:0 16px 0 42px;font:inherit;font-size:.9rem;color:var(--text)}.search input::placeholder{color:var(--muted)}
+.search .si{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+.search .kbd{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.7rem;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:2px 6px;background:var(--surface-alt)}
+.tb-spacer{flex:1 1 auto}
+.icon-btn{position:relative;width:44px;height:44px;border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;display:grid;place-items:center}.icon-btn svg{width:19px;height:19px}.icon-btn:hover{background:var(--surface-alt)}.icon-btn.dot::after{content:"";position:absolute;top:10px;right:11px;width:8px;height:8px;border-radius:50%;background:var(--primary);border:2px solid var(--surface)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border:0;border-radius:var(--radius-sm);background:var(--primary);color:var(--on-primary);font-weight:600;font-size:.9rem;cursor:pointer;box-shadow:var(--shadow-btn)}.btn:hover{background:var(--primary-hover)}.btn svg{width:17px;height:17px}.btn .lbl-sm{display:inline}.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text);box-shadow:none}.btn.ghost:hover{background:var(--surface-alt)}.btn.sm{height:38px;padding:0 14px;font-size:.84rem}.btn.full{width:100%}.btn.danger{background:var(--danger);color:#fff;box-shadow:none}
+.content{flex:1 1 auto;padding:24px 28px 56px;max-width:1280px;width:100%}
+.crumb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.84rem;margin-bottom:10px}.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--text)}.crumb svg{width:14px;height:14px}.crumb .cur{color:var(--text);font-weight:600}
+.page-h{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}.page-h .leaf{width:42px;height:42px;color:var(--primary);flex:0 0 auto;margin-top:4px}
+.page-h h1{font-family:var(--font-serif);color:var(--ink);font-size:clamp(2rem,3vw,2.5rem);margin:0;letter-spacing:var(--tracking-display)}.page-h p{color:var(--muted);font-size:.95rem;margin:7px 0 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px 24px}
+.card-h{display:flex;align-items:center;gap:10px;margin-bottom:16px}.card-h .ci{width:20px;height:20px;color:var(--primary);flex:0 0 auto}.card-h h2{font-family:var(--font-serif);color:var(--ink);font-size:1.16rem;margin:0}.card-h .link{margin-left:auto;color:var(--primary);font-weight:600;font-size:.82rem;text-decoration:none}.card-h .ed{margin-left:auto;color:var(--muted);cursor:pointer;width:20px;height:20px}
+.switch{position:relative;display:inline-block;width:42px;height:25px;flex:0 0 auto}.switch input{opacity:0;width:0;height:0;position:absolute}.switch .sl{position:absolute;inset:0;background:var(--surface-alt);border:1px solid var(--border);border-radius:99px;cursor:pointer;transition:.2s}.switch .sl::before{content:"";position:absolute;width:19px;height:19px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.2s;box-shadow:var(--shadow-card)}.switch input:checked+.sl{background:var(--primary);border-color:var(--primary)}.switch input:checked+.sl::before{transform:translateX(17px)}
+.sel{position:relative;display:block}.sel select{appearance:none;-webkit-appearance:none;width:100%;height:42px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);padding:0 36px 0 13px;font:inherit;font-size:.86rem;color:var(--text);cursor:pointer}.sel select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--focus-ring)}.sel-ic{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted);pointer-events:none}
+.flbl{display:block;font-size:.8rem;font-weight:600;color:var(--text-secondary);margin:0 0 6px}.fgroup{margin-bottom:13px}.fgroup:last-child{margin-bottom:0}
+.fld input,.fld textarea{width:100%;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);padding:11px 13px;font:inherit;font-size:.9rem;color:var(--text);resize:vertical}.fld input{height:44px;padding:0 13px}.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--focus-ring)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-full);padding:7px 13px;font:600 .8rem/1 var(--font-sans);color:var(--text-secondary);cursor:pointer;transition:.12s}.chip:hover{background:var(--accent-soft);color:var(--accent-soft-fg)}.chip.on{background:var(--primary);color:var(--on-primary);border-color:transparent}.chip.add{border-style:dashed;color:var(--primary)}
+.badge{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 11px;border-radius:var(--radius-full);font-size:.78rem;font-weight:600;white-space:nowrap}.badge svg{width:13px;height:13px}.badge.accent{background:var(--accent-soft);color:var(--accent-soft-fg)}.badge.gold{background:linear-gradient(135deg,#E8C170,#C99A3E);color:#3D2719}
+
+/* SETTINGS masonry */
+.settings{display:grid;grid-template-columns:228px 1fr;gap:24px;align-items:start}
+.subnav{position:sticky;top:80px;display:flex;flex-direction:column;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px;box-shadow:var(--shadow-card)}
+.subnav a{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:var(--radius-sm);color:var(--text-secondary);text-decoration:none;font-size:.89rem;font-weight:500}.subnav a svg{width:18px;height:18px;color:var(--icon)}.subnav a:hover{background:var(--surface-alt);color:var(--text)}.subnav a.on{background:var(--accent-soft);color:var(--accent-soft-fg)}.subnav a.on svg{color:var(--primary)}
+.masonry{columns:2;column-gap:18px}
+.set-card{break-inside:avoid;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:20px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0}.set-row .rt{color:var(--ink);font-size:.88rem;font-weight:500}.set-row .rd{color:var(--muted);font-size:.78rem;margin-top:2px}.set-row.col{align-items:flex-start;flex-direction:column;gap:0}
+.set-row .rl{min-width:0}
+.mini-profile{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}.mini-profile .av{width:78px;height:78px;border-radius:var(--radius-full);background:linear-gradient(135deg,#C98A5E,#8A5638);display:grid;place-items:center;color:#fff;font-family:var(--font-serif);font-weight:700;font-size:1.8rem;margin-bottom:6px}.mini-profile .nm{font-family:var(--font-serif);color:var(--ink);font-size:1.1rem}.mini-profile .em{color:var(--muted);font-size:.82rem;margin-bottom:12px}
+.theme-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tc{border:1.5px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:14px 8px;text-align:center;cursor:pointer;color:var(--text-secondary)}.tc svg{width:20px;height:20px;margin-bottom:6px}.tc span{display:block;font-size:.8rem;font-weight:600}.tc.on{border-color:var(--primary);background:var(--accent-soft);color:var(--accent-soft-fg)}.tc.on svg{color:var(--primary)}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}.sw{width:32px;height:32px;border-radius:var(--radius-full);cursor:pointer;border:2px solid transparent;position:relative}.sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}.sw.on::after{content:"";position:absolute;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M20 6L9 17l-5-5%22/></svg>') center/16px no-repeat}
+.fontsize{display:inline-flex;gap:8px}.fs{width:54px;height:42px;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);cursor:pointer;color:var(--text-secondary);font-weight:700}.fs.on{border-color:var(--primary);color:var(--primary);background:var(--accent-soft)}
+.read-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:8px 26px}
+.set-sub{font-size:.8rem;font-weight:600;color:var(--text-secondary);margin:0 0 6px}
+.about-app{display:flex;align-items:flex-start;justify-content:space-between}.about-app b{font-family:var(--font-serif);color:var(--ink);font-size:1.05rem;display:block}.about-app .ver{color:var(--text-secondary);font-size:.86rem;margin:3px 0}.about-app .desc{color:var(--muted);font-size:.82rem}.about-app .hb{color:var(--danger);width:20px;height:20px;flex:0 0 auto}
+.backup-card{text-align:center}.backup-card p{color:var(--muted);font-size:.84rem;line-height:1.5;margin:0 0 14px}
+.ie-btns{display:flex;gap:10px}.ie-btns .btn{flex:1 1 0}
+
+/* PROFILE (image 2) */
+.stack{display:flex;flex-direction:column;gap:18px}
+.phead{padding:24px}
+.phead-top{display:flex;gap:22px;align-items:flex-start}
+.av-wrap{position:relative;flex:0 0 auto}.av-lg{width:120px;height:120px;border-radius:var(--radius-full);background:linear-gradient(135deg,#C98A5E,#8A5638);display:grid;place-items:center;color:#fff;font-family:var(--font-serif);font-weight:700;font-size:2.6rem}.cam{position:absolute;right:2px;bottom:2px;width:32px;height:32px;border-radius:var(--radius-full);background:var(--surface);border:1px solid var(--border);color:var(--icon);display:grid;place-items:center;cursor:pointer}.cam svg{width:15px;height:15px}
+.phead-info{flex:1 1 auto;min-width:0}
+.name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.name-row h2{font-family:var(--font-serif);color:var(--ink);font-size:1.55rem;margin:0}
+.pmeta{color:var(--muted);font-size:.88rem;margin-top:6px}.pmeta .em{color:var(--text-secondary)}
+.pmeta-row{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.86rem;margin-top:7px}.pmeta-row svg{width:15px;height:15px;color:var(--icon)}
+.pquote{display:flex;gap:9px;margin-top:13px;color:var(--text-secondary);font-family:var(--font-serif);font-style:italic;font-size:1rem;line-height:1.5}.pquote svg{width:17px;height:17px;color:var(--accent-border);flex:0 0 auto;margin-top:3px}
+.statrow{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:20px;padding-top:18px}
+.stat{display:flex;align-items:center;gap:12px}.stat .si{width:42px;height:42px;border-radius:var(--radius);background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;flex:0 0 auto}.stat .si svg{width:20px;height:20px}.stat .sv{font-family:var(--font-serif);color:var(--ink);font-size:1.4rem;line-height:1;display:block}.stat .sl{color:var(--muted);font-size:.76rem;margin-top:3px;display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.psrow{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid color-mix(in srgb,var(--border) 70%,transparent)}.psrow:first-of-type{border-top:0}.psrow .pi{width:20px;height:20px;color:var(--icon);flex:0 0 auto}.psrow .pl{color:var(--ink);font-size:.9rem;font-weight:500;flex:1 1 auto}.psrow .pv{color:var(--muted);font-size:.86rem}.psrow .pc{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+.psrow.link .pl{color:var(--primary)}.psrow.link .pi{color:var(--primary)}
+.social-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:10px}.social-row .sci{width:20px;height:20px;flex:0 0 auto}.social-row .sh{flex:1 1 auto;color:var(--text);font-size:.88rem}.social-row .se{width:16px;height:16px;color:var(--muted);cursor:pointer}
+.ig{color:#C13584}.tw{color:#1DA1F2}.th{color:var(--ink)}
+.ach-grid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ach{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;width:88px}
+.hex{width:60px;height:66px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;color:#fff}.hex svg{width:24px;height:24px}
+.ach .at{color:var(--ink);font-size:.8rem;font-weight:600;line-height:1.25}.ach .ad{color:var(--muted);font-size:.74rem}
+.actcards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.actcard{display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:var(--radius);padding:12px}.actcard .cover{width:42px;aspect-ratio:3/4.3;border-radius:6px;box-shadow:var(--shadow-card);flex:0 0 auto}.actcard .ac-a{color:var(--muted);font-size:.74rem}.actcard .ac-t{color:var(--ink);font-weight:600;font-size:.88rem;margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.actcard .ac-d{color:var(--muted);font-size:.74rem}
+
+/* PROFILE DASHBOARD (image 3) */
+.phead3{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center;padding:24px}
+.ph3-l{display:flex;gap:22px;align-items:center}.av-xl{width:128px;height:128px}
+.statcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.scard{border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;min-width:118px;text-align:left}.scard .si{width:34px;height:34px;border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;margin-bottom:10px}.scard .si svg{width:18px;height:18px}.scard .sv{font-family:var(--font-serif);color:var(--ink);font-size:1.5rem;line-height:1;display:block}.scard .sl{color:var(--muted);font-size:.76rem;margin-top:4px;display:block}
+.g46{display:grid;grid-template-columns:0.82fr 1.18fr;gap:18px;align-items:start}
+.g3{display:grid;grid-template-columns:0.95fr 1.05fr 1.05fr;gap:18px;align-items:start}
+.about-bio{color:var(--text-secondary);font-size:.9rem;line-height:1.6;margin:0 0 14px}
+.chart{width:100%;height:auto;display:block}.chart .ax{fill:var(--muted);font-size:10px;font-family:var(--font-sans)}.chart .tipt{fill:var(--ink);font-size:11px;font-weight:700;font-family:var(--font-sans)}.chart .tips{fill:var(--text-secondary);font-size:10px;font-family:var(--font-sans)}
+.chart-legend{display:flex;gap:18px;justify-content:center;margin-top:8px}.chart-legend span{display:flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:.78rem}.chart-legend i{width:9px;height:9px;border-radius:50%}
+.donut-row{display:flex;align-items:center;gap:18px}.donut{width:120px;height:120px;flex:0 0 auto}.dleg{flex:1 1 auto;display:flex;flex-direction:column;gap:7px}.dleg .lg{display:flex;align-items:center;gap:9px;font-size:.84rem;color:var(--text)}.dleg .lg i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}.dleg .lg b{margin-left:auto;color:var(--ink);font-weight:600}
+.tl{display:flex;flex-direction:column}.tlrow{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent)}.tlrow .td{width:30px;height:30px;border-radius:var(--radius-full);display:grid;place-items:center;flex:0 0 auto}.tlrow .td svg{width:15px;height:15px}.tlrow .tb{flex:1 1 auto;min-width:0}.tlrow .tt{color:var(--ink);font-size:.86rem}.tlrow .ts{color:var(--muted);font-size:.78rem;margin-top:1px}.tlrow .tm{color:var(--muted);font-size:.74rem;white-space:nowrap}
+.tl-foot{display:block;color:var(--primary);font-size:.82rem;font-weight:600;text-decoration:none;margin-top:12px}
+.rr{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent)}.rr:last-child{border-bottom:0}.rr .cover{width:40px;aspect-ratio:3/4.3;border-radius:5px;box-shadow:var(--shadow-card);flex:0 0 auto}.rr .ri{flex:1 1 auto;min-width:0}.rr .rt{color:var(--ink);font-weight:600;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rr .ra{color:var(--muted);font-size:.78rem;margin:1px 0 3px}.rr .stars{color:var(--warning);font-size:.8rem;letter-spacing:1px}.rr .rd{color:var(--muted);font-size:.74rem;white-space:nowrap}.rr .rm{color:var(--muted);width:16px;cursor:pointer;flex:0 0 auto}
+.ach-row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+.ach2{display:flex;align-items:center;gap:11px;flex:1 1 0;min-width:150px}.ach2 .h{width:40px;height:44px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;color:#fff;flex:0 0 auto}.ach2 .h svg{width:18px;height:18px}.ach2 .at{color:var(--ink);font-size:.85rem;font-weight:600}.ach2 .ad{color:var(--muted);font-size:.76rem}
+.btn-wide{display:flex;justify-content:center;margin-top:14px}
+.scrim{position:fixed;inset:0;background:rgba(38,24,14,.45);opacity:0;visibility:hidden;transition:opacity .25s;z-index:100}.scrim.open{opacity:1;visibility:visible}[data-theme="dark"] .scrim{background:rgba(0,0,0,.6)}
+@media (max-width:1180px){.settings{grid-template-columns:1fr}.subnav{position:static;flex-direction:row;flex-wrap:wrap}.masonry{columns:2}.grid2,.g46,.g3{grid-template-columns:1fr}.phead3{grid-template-columns:1fr}.statcards{grid-template-columns:repeat(4,1fr)}.actcards{grid-template-columns:1fr 1fr}}
+@media (max-width:980px){.app{grid-template-columns:1fr}.side{position:fixed;top:0;left:0;height:100vh;width:266px;transform:translateX(-100%);transition:transform .28s;z-index:110;box-shadow:var(--shadow-pop)}.side.open{transform:none}.hamb{display:grid}.search .kbd{display:none}.btn .lbl-sm{display:none}.content{padding:18px 14px 48px}.masonry{columns:1}.ph3-l{flex-direction:column;text-align:center}.statcards{grid-template-columns:1fr 1fr}.actcards{grid-template-columns:1fr}.statrow{gap:12px}}
+@media (max-width:560px){.f2,.read-grid,.theme-cards{grid-template-columns:1fr}.phead-top{flex-direction:column}.ach-grid{justify-content:center}}
+@media (prefers-reduced-motion:reduce){.side,.scrim,.switch .sl,.switch .sl::before{transition:none}}
+</style><style>
+.ie-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.iestat{position:relative;display:flex;gap:13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:17px 18px}
+.iestat .ic{width:44px;height:44px;border-radius:var(--radius);background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;flex:0 0 auto}.iestat .ic svg{width:21px;height:21px}
+.iestat .iel{display:block;color:var(--muted);font-size:.78rem}.iestat .iev{display:block;font-family:var(--font-serif);color:var(--ink);font-size:1.22rem;line-height:1.15;margin-top:2px}.iestat .iesub{display:block;color:var(--muted);font-size:.74rem;margin-top:3px}
+.iestat .iechk{position:absolute;top:14px;right:14px;width:18px;height:18px;color:var(--success)}
+.iestat .bar{height:4px;border-radius:99px;background:var(--surface-alt);margin:8px 0 7px;overflow:hidden}.iestat .bar i{display:block;height:100%;width:100%;background:var(--primary);border-radius:99px}
+.spark{position:absolute;top:16px;right:14px;width:54px;height:22px;color:var(--primary)}
+.ie-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:18px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:18px}
+.cdesc{color:var(--muted);font-size:.86rem;line-height:1.5;margin:-8px 0 16px}
+.lbl{font-size:.8rem;font-weight:600;color:var(--text-secondary);margin:0 0 8px}
+.seg{display:flex;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px}
+.seg button{flex:1 1 0;height:36px;border:0;background:none;border-radius:var(--radius-xs);color:var(--text-secondary);font:600 .84rem/1 var(--font-sans);cursor:pointer}.seg button.on{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-card)}
+.chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px 18px;margin-bottom:16px}
+.chk{display:flex;align-items:center;gap:9px;color:var(--ink);font-size:.88rem;cursor:pointer}.chk input{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;flex:0 0 auto}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px}.note svg{width:17px;height:17px;color:var(--primary);flex:0 0 auto;margin-top:1px}.note span{color:var(--accent-soft-fg);font-size:.82rem;line-height:1.5}
+.rcards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.rcard{border:1.5px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:13px 13px 13px 36px;position:relative;cursor:pointer}
+.rcard .dot{position:absolute;left:13px;top:14px;width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--surface)}
+.rcard .rt{display:flex;align-items:center;gap:6px;color:var(--ink);font-weight:600;font-size:.86rem}.rcard .rt svg{width:14px;height:14px;color:var(--icon)}.rcard .rd{display:block;color:var(--muted);font-size:.74rem;margin-top:4px;line-height:1.4}
+.rcard.on{border-color:var(--primary);background:var(--accent-soft)}.rcard.on .dot{border-color:var(--primary);background:radial-gradient(circle,var(--primary) 0 5px,transparent 6px)}.rcard.on .rt svg{color:var(--primary)}
+.chkrow{display:flex;align-items:center;gap:9px;margin-bottom:16px;color:var(--ink);font-size:.86rem}.chkrow input{width:18px;height:18px;accent-color:var(--primary)}.chkrow .ci{width:15px;height:15px;color:var(--muted)}
+.dz{display:flex;align-items:center;gap:14px;justify-content:space-between;border:2px dashed var(--accent-border);background:var(--surface-alt);border-radius:var(--radius);padding:18px 20px}
+.dz-l{display:flex;align-items:center;gap:14px;min-width:0}.dz-ic{width:46px;height:46px;border-radius:var(--radius-full);background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;flex:0 0 auto}.dz-ic svg{width:23px;height:23px}
+.dz-l b{display:block;color:var(--ink);font-size:.95rem}.dz-l span{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.dz-foot{color:var(--muted);font-size:.78rem;margin:10px 0 16px}
+.frow{display:flex;align-items:center;gap:11px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:18px}.frow .fi{width:19px;height:19px;color:var(--primary);flex:0 0 auto}.frow .fn{color:var(--ink);font-weight:600;font-size:.86rem}.frow .fm{color:var(--muted);font-size:.78rem;margin-left:auto;white-space:nowrap}.frow .fok{width:18px;height:18px;color:var(--success);flex:0 0 auto}.frow .ftr{width:17px;height:17px;color:var(--muted);cursor:pointer;flex:0 0 auto}
+.prev-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}.prev-head h3{font-family:var(--font-serif);color:var(--ink);font-size:1rem;margin:0}
+.ptabs{display:inline-flex;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px}.ptabs button{height:32px;padding:0 13px;border:0;background:none;border-radius:var(--radius-xs);color:var(--text-secondary);font:600 .8rem/1 var(--font-sans);cursor:pointer}.ptabs button.on{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-card)}
+.ptable{width:100%;border-collapse:collapse}.ptable th{text-align:left;color:var(--muted);font-size:.76rem;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--border)}.ptable td{padding:11px 10px;border-bottom:1px solid color-mix(in srgb,var(--border) 65%,transparent);color:var(--text);font-size:.86rem}.ptable tr:last-child td{border-bottom:0}.ptable td:first-child{color:var(--ink);font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:var(--radius-full);font-size:.74rem;font-weight:600}.pill.ok{background:var(--success-bg);color:var(--success)}.pill.warn{background:var(--warning-bg);color:var(--warning)}.pill.info{background:var(--info-bg);color:var(--info)}
+.prev-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.prev-foot span{color:var(--muted);font-size:.8rem}.prev-foot a{color:var(--primary);font-weight:600;font-size:.82rem;text-decoration:none}
+.safety{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+.sf{display:flex;gap:12px;align-items:flex-start}.sf .sfi{width:24px;height:24px;color:var(--primary);flex:0 0 auto;margin-top:2px}.sf b{display:block;color:var(--ink);font-size:.95rem;margin-bottom:3px}.sf p{color:var(--muted);font-size:.82rem;line-height:1.5;margin:0}.sf .hb{width:20px;height:20px;color:var(--danger);flex:0 0 auto;align-self:center}
+@media (max-width:1180px){.ie-stats{grid-template-columns:1fr 1fr}.ie-grid{grid-template-columns:1fr}.safety{grid-template-columns:1fr}.rcards{grid-template-columns:1fr}}
+@media (max-width:560px){.ie-stats{grid-template-columns:1fr}.chk-grid{grid-template-columns:1fr}.dz{flex-direction:column;align-items:flex-start}}
+</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10.5 4h4v16h-4z"/><path d="m16.5 5 3.5.8-2.6 14.4-3.4-.7"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L22 7H6"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 6h11v9H3z'/><path d='M14 9h3.6l3 3v3H14z'/><circle cx='7' cy='17.5' r='1.7'/><circle cx='17' cy='17.5' r='1.7'/><path d='M8.7 17.5h6.6'/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7c-2.2 0-4 1.8-4 4s1.8 4 4 4c0 2-1 3-3 3v2c3.3 0 5-2.2 5-6V11c0-2.2-1.8-4-4-4zm10 0c-2.2 0-4 1.8-4 4s1.8 4 4 4c0 2-1 3-3 3v2c3.3 0 5-2.2 5-6V11c0-2.2-1.8-4-4-4z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><path d="M7.5 7.5h.01"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='8'/><circle cx='12' cy='12' r='4'/><circle cx='12' cy='12' r='1'/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></symbol>
+  <symbol id="i-arrow-down-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='9'/><path d='M12 8v8M8.5 12.5 12 16l3.5-3.5'/></symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 17 17 7'/><path d='M8 7h9v9'/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 8h11M19 8h1'/><circle cx='17' cy='8' r='2'/><path d='M4 16h3M11 16h9'/><circle cx='9' cy='16' r='2'/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 10 8 10 8a18 18 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M6.6 6.6A18 18 0 0 0 2 12s3 8 10 8a9 9 0 0 0 4.2-1.02"/><path d="m1 1 22 22"/></symbol>
+  <symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='m6 15 6-6 6 6'/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 5v14M6 13l6 6 6-6'/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='6' y='3' width='12' height='18' rx='2'/><path d='M11 18h2'/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 14a8 8 0 0 1 16 0'/><rect x='3' y='13.5' width='4.5' height='6.5' rx='1.6'/><rect x='16.5' y='13.5' width='4.5' height='6.5' rx='1.6'/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.4 2.4 2.4 4.6-5.2"/></symbol>
+  <symbol id="i-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-x-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-alert-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-circle-slash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6 18.4 18.4"/></symbol>
+  <symbol id="i-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='9'/><path d='M9.6 9.5a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 .8-1 1.6M12 17h.01'/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 22a6 6 0 0 0 6-6c0-4-3-6-4-9-1.8 2-2.3 3.8-2.3 5.4-1.3-.5-1.7-2-1.7-3.4-2 1.8-4 4.5-4 7a6 6 0 0 0 6 6z'/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M8 4h8v4a4 4 0 0 1-8 0z'/><path d='M8 5H5v1.5A3 3 0 0 0 8 9.5M16 5h3v1.5A3 3 0 0 1 16 9.5'/><path d='M12 12v4M9.5 20h5M10 16h4v4h-4z'/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='m3 7 9-4 9 4-9 4z'/><path d='M3 7v10l9 4 9-4V7M12 11v10'/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9'/><path d='M3 6h18l-1 4a2.5 2.5 0 0 1-4.8 0 2.5 2.5 0 0 1-4.8 0 2.5 2.5 0 0 1-4.8 0z'/><path d='M9.5 20v-5h5v5'/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 7a2 2 0 0 1 2-2h12v3'/><path d='M3 7v10a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H5'/><circle cx='16.5' cy='13' r='1.3'/></symbol>
+  <symbol id="i-pie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='9'/><path d='M12 12V3M12 12l7.5 4'/></symbol>
+  <symbol id="i-pages" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h10a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z"/><path d="M16 6h2a2 2 0 0 1 2 2v12"/><path d="M8 8h4M8 12h4"/></symbol>
+  <symbol id="i-sessions" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-trend-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
+  <symbol id="i-trend-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7 17 17"/><path d="M17 8v9H8"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H16a6 6 0 0 0 6-6c0-4.4-4.5-7.7-10-7.7z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M15 3 21 9 9 21 3 15z'/><path d='m7.5 10.5 2 2M10.5 7.5l2 2M13.5 4.5l2 2'/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></symbol>
+  <symbol id="i-at" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-cloud-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="m8 17 4-4 4 4"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.2"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="i-star-fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.6L18 9l-4.3 1.4L12 15l-1.7-4.6L6 9l4.3-1.4z"/><path d="M5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13C4 6 12 4 20 4c0 8-3 16-9 16z"/><path d="M4 20c2.5-2.5 5-6.5 8-9.5"/></symbol>
+  <symbol id="i-sprig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V8"/><path d="M12 12c0-3.3 2.2-5.5 5.5-5.5C17.5 9.8 15.3 12 12 12z"/><path d="M12 15c0-3.3-2.2-5.5-5.5-5.5C6.5 12.8 8.7 15 12 15z"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.1 14a5 5 0 1 0-6.2 0c.5.4 1.1 1.1 1.1 2h4c0-.9.6-1.6 1.1-2z"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+  <symbol id="i-check-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-mark" viewBox="0 0 100 100"><path d="M33 53 C40 56 60 56 67 53 C65 59 58 61 50 61 C42 61 35 59 33 53 Z" fill="var(--logo-page,#E4C6AA)"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 60 C20 72 40 76 50 76 C60 76 80 72 84 60"/><path d="M20 62 C24 73 42 78 50 78 C58 78 76 73 80 62"/><path d="M25 64 C28 75 44 80 50 80 C56 80 72 75 75 64"/><path d="M31 66 C34 77 46 81 50 81 C54 81 66 77 69 66"/><path d="M38 72 C44 75 56 75 62 72"/><path d="M34 69 L41 73"/><path d="M66 69 L59 73"/><path d="M50 25 C42 23 33 25 24 31 L24 55 C33 51 42 53 50 58"/><path d="M50 25 C58 23 67 25 76 31 L76 55 C67 51 58 53 50 58"/><path d="M50 25 L50 58"/><path d="M24 33 L21 35 L21 55 L24 54"/><path d="M76 33 L79 35 L79 55 L76 54"/></g></symbol><symbol id="logo-wordmark" viewBox="0 0 4569 797"><g transform="translate(-37.5,783.4) scale(1,-1)"><path d="M37.5198974609375 708.0Q61.162654576676616 707.0 99.44140419263519 706.0Q137.72015380859375 705.0 175.520263671875 705.0Q223.5163129591784 705.0 267.4275920943709 706.0Q311.3388712295633 707.0 329.7203369140625 707.0Q444.9605712890625 707.0 502.440673828125 663.0Q559.9207763671875 619.0 559.9207763671875 550.0Q559.9207763671875 515.0 542.0606994628906 480.219970703125Q524.2006225585938 445.43994140625 485.1004943847656 417.61993408203125Q446.0003662109375 389.7999267578125 382.64019775390625 375.03997802734375V373.03997802734375Q469.32037353515625 364.6400146484375 519.4205017089844 337.3000183105469Q569.5206298828125 309.96002197265625 590.720703125 272.4800109863281Q611.9207763671875 235.0 611.9207763671875 194.0Q611.9207763671875 133.7999267578125 581.0207214355469 90.45993041992188Q550.1206665039062 47.11993408203125 491.8713889200179 23.559967041015625Q433.6221113361296 0.0 352.7203369140625 0.0Q330.080322265625 0.0 285.3293717447917 1.5Q240.57842122395834 3.0 177.520263671875 3.0Q137.72015380859375 3.0 99.44140419263519 2.5Q61.162654576676616 2.0 37.5198974609375 0.0V20.0Q70.55987548828125 22.0 87.22581384537068 28.0Q103.89175220246011 34.0 109.60578821060506 52.0Q115.31982421875 70.0 115.31982421875 106.0V602.0Q115.31982421875 639.0 109.56493621176861 656.5Q103.81004820478724 674.0 87.02495818442486 680.5Q70.2398681640625 687.0 37.5198974609375 688.0ZM311.1204833984375 688.0Q269.0989528346706 688.0 256.30979135874156 671.0Q243.5206298828125 654.0 243.5206298828125 602.0V106.0Q243.5206298828125 71.0 249.2646240234375 53.0Q255.0086181640625 35.0 270.3259358723958 29.0Q285.64325358072915 23.0 315.320556640625 23.0Q399.90420679102607 23.0 438.31208874707556 68.5Q476.719970703125 114.0 476.719970703125 198.0Q476.719970703125 275.0 436.82000732421875 317.0Q396.9200439453125 359.0 305.1201171875 359.0H211.7203369140625Q211.7203369140625 359.0 211.7203369140625 367.5Q211.7203369140625 376.0 211.7203369140625 376.0H297.7203369140625Q350.2984212239583 376.0 378.81534830729163 398.5Q407.332275390625 421.0 418.026123046875 458.5Q428.719970703125 496.0 428.719970703125 539.0Q428.719970703125 613.0 401.4200897216797 650.5Q374.1202087402344 688.0 311.1204833984375 688.0ZM927.4801025390625 530.280029296875Q995.960205078125 530.280029296875 1049.0402526855469 502.7600402832031Q1102.1203002929688 475.24005126953125 1133.1003112792969 415.24005126953125Q1164.080322265625 355.24005126953125 1164.080322265625 257.6400146484375Q1164.080322265625 160.03997802734375 1133.1003112792969 100.37997436523438Q1102.1203002929688 40.719970703125 1049.0402526855469 13.3599853515625Q995.960205078125 -14.0 927.4801025390625 -14.0Q860 -14 806.4199523925781 13.3599853515625Q752.8399047851562 40.719970703125 721.8598937988281 100.37997436523438Q690.8798828125 160.03997802734375 690.8798828125 257.6400146484375Q690.8798828125 355.24005126953125 721.8598937988281 415.24005126953125Q752.8399047851562 475.24005126953125 806.4199523925781 502.7600402832031Q860.0 530.280029296875 927.4801025390625 530.280029296875ZM927.4801025390625 510.280029296875Q879.1203002929688 510.280029296875 847.9004211425781 450.96002197265625Q816.6805419921875 391.6400146484375 816.6805419921875 257.6400146484375Q816.6805419921875 123.6400146484375 847.9004211425781 64.82000732421875Q879.1203002929688 6.0 927.4801025390625 6.0Q975.8399047851562 6.0 1007.0597839355469 64.82000732421875Q1038.2796630859375 123.6400146484375 1038.2796630859375 257.6400146484375Q1038.2796630859375 391.6400146484375 1007.0597839355469 450.96002197265625Q975.8399047851562 510.280029296875 927.4801025390625 510.280029296875ZM1484.4801025390625 530.280029296875Q1552.960205078125 530.280029296875 1606.0402526855469 502.7600402832031Q1659.1203002929688 475.24005126953125 1690.1003112792969 415.24005126953125Q1721.080322265625 355.24005126953125 1721.080322265625 257.6400146484375Q1721.080322265625 160.03997802734375 1690.1003112792969 100.37997436523438Q1659.1203002929688 40.719970703125 1606.0402526855469 13.3599853515625Q1552.960205078125 -14.0 1484.4801025390625 -14.0Q1417 -14 1363.4199523925781 13.3599853515625Q1309.8399047851562 40.719970703125 1278.8598937988281 100.37997436523438Q1247.8798828125 160.03997802734375 1247.8798828125 257.6400146484375Q1247.8798828125 355.24005126953125 1278.8598937988281 415.24005126953125Q1309.8399047851562 475.24005126953125 1363.4199523925781 502.7600402832031Q1417.0 530.280029296875 1484.4801025390625 530.280029296875ZM1484.4801025390625 510.280029296875Q1436.1203002929688 510.280029296875 1404.9004211425781 450.96002197265625Q1373.6805419921875 391.6400146484375 1373.6805419921875 257.6400146484375Q1373.6805419921875 123.6400146484375 1404.9004211425781 64.82000732421875Q1436.1203002929688 6.0 1484.4801025390625 6.0Q1532.8399047851562 6.0 1564.0597839355469 64.82000732421875Q1595.2796630859375 123.6400146484375 1595.2796630859375 257.6400146484375Q1595.2796630859375 391.6400146484375 1564.0597839355469 450.96002197265625Q1532.8399047851562 510.280029296875 1484.4801025390625 510.280029296875ZM1970.760498046875 783.3599853515625V93.0Q1970.760498046875 51.0 1984.9604797363281 36.0Q1999.1604614257812 21.0 2033.5604248046875 21.0V0.0Q2016.2803955078125 1.0 1982.0603332519531 2.5Q1947.8402709960938 4.0 1912.6401977539062 4.0Q1876.0801391601562 4.0 1838.5200805664062 2.5Q1800.9600219726562 1.0 1782.3599853515625 0.0V21.0Q1820.159912109375 21.0 1836.0598754882812 36.0Q1851.9598388671875 51.0 1851.9598388671875 93.0V663.3599853515625Q1851.9598388671875 708.3599853515625 1837.2398681640625 729.8599853515625Q1822.5198974609375 751.3599853515625 1782.3599853515625 751.3599853515625V772.3599853515625Q1814.3599853515625 769.3599853515625 1844.3599853515625 769.3599853515625Q1880.0801391601562 769.3599853515625 1912.020263671875 772.8599853515625Q1943.9603881835938 776.3599853515625 1970.760498046875 783.3599853515625ZM2293.2406005859375 516.280029296875V496.280029296875Q2264.7205200195312 491.719970703125 2237.92041015625 475.8998718261719Q2211.1203002929688 460.07977294921875 2184.68017578125 432.95965576171875L2077.6009521484375 321.1204833984375L2089.3609008789062 344.32037353515625L2267.3607177734375 73.0Q2281.4806518554688 52.56005859375 2294.900604248047 39.080047607421875Q2308.320556640625 25.60003662109375 2327.760498046875 21.0V0.0Q2314.8404541015625 1.0 2287.8203735351562 2.5Q2260.80029296875 4.0 2233.960205078125 4.0Q2200.0801391601562 4.0 2165.360076904297 2.5Q2130.6400146484375 1.0 2113.3599853515625 0.0V21.0Q2133.3599853515625 21.0 2140.8799743652344 30.67999267578125Q2148.3999633789062 40.3599853515625 2138.3599853515625 55.0L2032.0001831054688 228.7601318359375Q2016.8402709960938 251.60003662109375 2003.4203186035156 258.32000732421875Q1990.0003662109375 265.03997802734375 1966.4404907226562 265.719970703125V285.39996337890625Q1992.6803588867188 288.11993408203125 2010.1203002929688 295.3798828125Q2027.5602416992188 302.63983154296875 2043.0001831054688 318.759765625L2117.960205078125 394.15972900390625Q2150.9202270507812 426.8397216796875 2151.0802307128906 449.21978759765625Q2151.240234375 471.599853515625 2130.1002197265625 483.4599304199219Q2108.960205078125 495.32000732421875 2075.0001831054688 496.280029296875V516.280029296875Q2101.960205078125 515.280029296875 2134.7802124023438 513.9400329589844Q2167.6002197265625 512.6000366210938 2190.240234375 512.6000366210938Q2208.520263671875 512.6000366210938 2228.0403442382812 513.1000366210938Q2247.5604248046875 513.6000366210938 2264.9205017089844 514.4400329589844Q2282.2805786132812 515.280029296875 2293.2406005859375 516.280029296875ZM3255.1602783203125 708.0V688.0Q3222.4403076171875 685.3999633789062 3205.580322265625 674.4799194335938Q3188.7203369140625 663.5598754882812 3183.0403442382812 639.8797912597656Q3177.3603515625 616.19970703125 3177.3603515625 572.799560546875V-3.39996337890625Q3168.4802856445312 -2.75994873046875 3159.1401977539062 -2.75994873046875Q3149.8001098632812 -2.75994873046875 3139.3200073242188 -3.39996337890625L2711.9598388671875 592.798828125V141.6005859375Q2711.9598388671875 95.68035888671875 2718.1398315429688 70.3802490234375Q2724.31982421875 45.08013916015625 2744.4598388671875 34.340087890625Q2764.599853515625 23.60003662109375 2806.159912109375 20.0V0.0Q2787.5198974609375 2.0 2757.5598754882812 2.5Q2727.599853515625 3.0 2700.9598388671875 3.0Q2676.9198608398438 3.0 2652.2198791503906 2.5Q2627.5198974609375 2.0 2611.159912109375 0.0V20.0Q2644.1998901367188 23.60003662109375 2660.899871826172 34.02008056640625Q2677.599853515625 44.44012451171875 2683.2798461914062 68.62020874023438Q2688.9598388671875 92.80029296875 2688.9598388671875 135.200439453125V602.0Q2688.9598388671875 639.0 2683.2798461914062 656.5Q2677.599853515625 674.0 2660.7398681640625 680.5Q2643.8798828125 687.0 2611.159912109375 688.0V708.0Q2627.5198974609375 707.0 2652.2198791503906 706.0Q2676.9198608398438 705.0 2700.9598388671875 705.0Q2723.9198608398438 705.0 2745.1998901367188 706.0Q2766.4799194335938 707.0 2783.43994140625 708.0L3154.3603515625 199.8408203125V566.3994140625Q3154.3603515625 612.9996337890625 3148.1803588867188 637.9597473144531Q3142.0003662109375 662.9198608398438 3122.0203552246094 674.159912109375Q3102.0403442382812 685.3999633789062 3060.1602783203125 688.0V708.0Q3078.80029296875 707.0 3109.100311279297 706.0Q3139.4003295898438 705.0 3165.3603515625 705.0Q3190.4003295898438 705.0 3214.9403076171875 706.0Q3239.4802856445312 707.0 3255.1602783203125 708.0ZM3564.1201171875 530.280029296875Q3652.1201171875 530.280029296875 3701.9401245117188 477.4200439453125Q3751.7601318359375 424.56005859375 3751.7601318359375 309.0H3411.5604248046875L3410.2404174804688 328.0H3639.759765625Q3641.4397583007812 377.0 3633.039794921875 418.5Q3624.6398315429688 460.0 3606.4999084472656 485.0Q3588.3599853515625 510.0 3559.1600952148438 510.0Q3519.240234375 510.0 3489.660369873047 465.1200256347656Q3460.0805053710938 420.24005126953125 3453.7205200195312 319.280029296875L3457.04052734375 314.0Q3455.3605346679688 300.60003662109375 3454.6805419921875 285.16009521484375Q3454.0005493164062 269.72015380859375 3454.0005493164062 253.960205078125Q3454.0005493164062 185.3201904296875 3474.560516357422 139.520263671875Q3495.1204833984375 93.7203369140625 3527.7404174804688 71.58041381835938Q3560.3603515625 49.44049072265625 3594.8402709960938 49.44049072265625Q3619.7201538085938 49.44049072265625 3644.320098876953 57.180450439453125Q3668.9200439453125 64.92041015625 3691.9200439453125 84.52035522460938Q3714.9200439453125 104.12030029296875 3733.5200805664062 138.8802490234375L3752.56005859375 131.520263671875Q3741.2400512695312 96.28021240234375 3715.760040283203 62.560150146484375Q3690.280029296875 28.840087890625 3651.0 7.4200439453125Q3611.719970703125 -14.0 3558.5198974609375 -14.0Q3489.0799560546875 -14.0 3437.2599487304688 16.75994873046875Q3385.43994140625 47.5198974609375 3356.8199157714844 106.49990844726562Q3328.1998901367188 165.47991943359375 3328.1998901367188 249.4801025390625Q3328.1998901367188 340.0401611328125 3358.1199340820312 402.58013916015625Q3388.0399780273438 465.1201171875 3441.4400329589844 497.7000732421875Q3494.840087890625 530.280029296875 3564.1201171875 530.280029296875ZM4007.3601684570312 530.280029296875Q4048.6401977539062 530.280029296875 4078.4002380371094 518.4000549316406Q4108.1602783203125 506.52008056640625 4121.80029296875 496.4801025390625Q4155.4403076171875 471.400146484375 4162.760314941406 529.280029296875H4184.80029296875Q4182.80029296875 500.96002197265625 4181.80029296875 461.5Q4180.80029296875 422.03997802734375 4180.80029296875 356.0799560546875H4158.760314941406Q4153.400329589844 393.0799560546875 4139.2203369140625 428.39996337890625Q4125.040344238281 463.719970703125 4097.840362548828 486.6999816894531Q4070.640380859375 509.67999267578125 4026.92041015625 509.67999267578125Q3995.1204833984375 509.67999267578125 3973.7005310058594 491.6200256347656Q3952.2805786132812 473.56005859375 3952.2805786132812 439.400146484375Q3952.2805786132812 409.400146484375 3970.2805786132812 387.2601318359375Q3988.2805786132812 365.1201171875 4016.9605712890625 345.66009521484375Q4045.6405639648438 326.2000732421875 4077.7205200195312 303.56005859375Q4113.48046875 279.24005126953125 4142.240417480469 254.56005859375Q4171.0003662109375 229.88006591796875 4188.2203369140625 200.36007690429688Q4205.4403076171875 170.840087890625 4205.4403076171875 130.4801025390625Q4205.4403076171875 84.80010986328125 4180.320281982422 52.52008056640625Q4155.200256347656 20.24005126953125 4114.460205078125 3.120025634765625Q4073.7201538085938 -14.0 4024.5200805664062 -14.0Q3998.3599853515625 -14.0 3976.7799377441406 -9.219970703125Q3955.1998901367188 -4.43994140625 3937.8399047851562 3.52008056640625Q3925.9198608398438 9.4801025390625 3915.099853515625 15.680084228515625Q3904.2798461914062 21.88006591796875 3893.9598388671875 27.32000732421875Q3883.9598388671875 32.75994873046875 3876.2798461914062 23.61993408203125Q3868.599853515625 14.47991943359375 3864.599853515625 -7.0H3842.5598754882812Q3844.5598754882812 25.0 3845.5598754882812 71.0Q3846.5598754882812 117.0 3846.5598754882812 193.0H3868.599853515625Q3875.2798461914062 137.96002197265625 3889.7198791503906 96.280029296875Q3904.159912109375 54.60003662109375 3931.9999084472656 31.10003662109375Q3959.8399047851562 7.60003662109375 4005.3598022460938 7.60003662109375Q4024.0797729492188 7.60003662109375 4042.179718017578 15.6400146484375Q4060.2796630859375 23.67999267578125 4072.359619140625 41.7999267578125Q4084.4395751953125 59.91986083984375 4084.4395751953125 89.79974365234375Q4084.4395751953125 133.79974365234375 4054.1996154785156 162.43975830078125Q4023.9596557617188 191.07977294921875 3977.8397216796875 223.6798095703125Q3943.759765625 248.27984619140625 3913.8598022460938 272.3998718261719Q3883.9598388671875 296.5198974609375 3865.2598571777344 326.3199157714844Q3846.5598754882812 356.11993408203125 3846.5598754882812 396.47991943359375Q3846.5598754882812 441.47991943359375 3868.9799194335938 471.0999450683594Q3891.3999633789062 500.719970703125 3928.280029296875 515.5Q3965.1600952148438 530.280029296875 4007.3601684570312 530.280029296875ZM4456.8404541015625 681.0V515.6000366210938H4588.840087890625V495.60003662109375H4456.8404541015625V99.63983154296875Q4456.8404541015625 61.60003662109375 4470.640380859375 45.960113525390625Q4484.4403076171875 30.3201904296875 4509.960205078125 30.3201904296875Q4533.880065917969 30.3201904296875 4553.6400146484375 49.06005859375Q4573.399963378906 67.7999267578125 4588.43994140625 112.359619140625L4606.839904785156 105.11956787109375Q4593.31982421875 54.15972900390625 4562.219787597656 20.079864501953125Q4531.1197509765625 -14.0 4472.999816894531 -14.0Q4439.31982421875 -14.0 4415.879791259766 -5.5Q4392.439758300781 3.0 4375.439758300781 19.32000732421875Q4353.439758300781 42.0 4345.739776611328 74.16000366210938Q4338.039794921875 106.32000732421875 4338.039794921875 159.0V495.60003662109375H4248.43994140625V515.6000366210938H4338.039794921875V657.3997802734375Q4372.0 658.0797729492188 4401.560150146484 663.4798278808594Q4431.120300292969 668.8798828125 4456.8404541015625 681.0Z" fill="currentColor"/></g></symbol><symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4 4 0 0 0 6.5 19h11z"/></symbol><symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.5 3-2 4-2 7a4 4 0 0 0 8 0c0-3-2-4-2-6 1.8 1 3 3.2 3 5.8a7 7 0 1 1-14 0c0-3.4 2-5.4 3.5-7.1C11.4 4.5 11.8 3.6 12 3z"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol><symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></symbol><symbol id="i-threads" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c5 0 8.5-3.2 8.5-9S17 3 12 3 3.5 6.5 3.5 12 7 21 12 21z"/><path d="M9.5 13.2c0-1.9 1.5-3.2 3.4-3.2 2.2 0 3.3 1.4 3.3 3.3 0 2.1-1.7 2.9-3.1 2.9-1.3 0-2.2-.7-2.2-1.7 0-1 .9-1.5 1.9-1.5 1.6 0 2.4 1.1 2.4 2.6"/></symbol><symbol id="i-twitter" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1A4 4 0 0 0 12 8.5c0 .3 0 .6.1.9A11.4 11.4 0 0 1 3.8 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.8-.5v.1a4 4 0 0 0 3.2 3.9c-.5.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"/></symbol><symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2.5 5.5L8 16l2.5-5.5L16 8z"/></symbol></svg><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M6 6H3.5v1.5A3.5 3.5 0 0 0 7 11M18 6h2.5v1.5A3.5 3.5 0 0 1 17 11"/></symbol><symbol id="i-cloud-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 18.5a4.5 4.5 0 0 0 .3-8.98A6 6 0 0 0 6.2 9.2 4 4 0 0 0 6.5 18.5"/><path d="M12 21v-8M9 15l3-3 3 3"/></symbol></svg>
+<div class="scrim" id="scrim"></div>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="side-logo"><svg class="lm" viewBox="0 0 100 100"><use href="#logo-mark"/></svg><svg class="lw" viewBox="0 0 4569 797"><use href="#logo-wordmark"/></svg></div>
+    <nav class="nav"><div class="grp"><a href="#"><svg><use href="#i-home"/></svg>Головна</a><a href="#"><svg><use href="#i-library"/></svg>Моя бібліотека</a><a href="#"><svg><use href="#i-layers"/></svg>Серії</a><a href="#"><svg><use href="#i-cart"/></svg>Книги до покупки</a><a href="#"><svg><use href="#i-truck"/></svg>Книги в дорозі</a><a href="#"><svg><use href="#i-arrow-down-circle"/></svg>Позичені книги</a><a href="#"><svg><use href="#i-list"/></svg>Черга читання</a><a href="#"><svg><use href="#i-heart"/></svg>Улюблені книги</a><a href="#"><svg><use href="#i-bookmark"/></svg>Власні списки</a></div><div class="grp"><a href="#"><svg><use href="#i-note"/></svg>Нотатки</a><a href="#"><svg><use href="#i-quote"/></svg>Цитати</a><a href="#"><svg><use href="#i-user"/></svg>Персонажі</a></div><div class="grp"><a href="#"><svg><use href="#i-chart"/></svg>Статистика</a><a href="#"><svg><use href="#i-target"/></svg>Цілі читання</a><a href="#"><svg><use href="#i-calendar"/></svg>Календар читання</a></div><div class="grp"><a href="#"><svg><use href="#i-edit"/></svg>Автори</a><a href="#"><svg><use href="#i-building"/></svg>Видавництва</a><a href="#"><svg><use href="#i-tag"/></svg>Жанри / Теги</a></div><div class="grp"><a href="#" data-nav="profile"><svg><use href="#i-user"/></svg>Профіль</a><a href="#" data-nav="ie" class="on"><svg><use href="#i-refresh"/></svg>Імпорт / Експорт</a><a href="#" data-nav="settings"><svg><use href="#i-settings"/></svg>Налаштування</a></div></nav>
+    <div class="side-deco"><img src="data:image/webp;base64,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" alt=""></div>
+    <div class="side-user"><div class="av">МК</div><div class="ui"><div class="un">Марія К.</div><div class="ue">mariya.k@example.com</div></div><svg class="chev"><use href="#i-chevron-down"/></svg></div>
+  </aside>
+  <div class="main"><header class="topbar"><button class="hamb" id="hamb" aria-label="Меню"><svg><use href="#i-menu"/></svg></button>
+      <div class="search"><svg class="si"><use href="#i-search"/></svg><input placeholder="Пошук книг, авторів, тегів…"><span class="kbd">⌘K</span></div>
+      <span class="tb-spacer"></span>
+      <button class="icon-btn dot" aria-label="Сповіщення"><svg><use href="#i-bell"/></svg></button>
+      <button class="icon-btn" id="themeToggle" aria-label="Тема"><svg id="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button><button class="btn"><svg><use href="#i-plus"/></svg><span class="lbl-sm">Додати книгу</span></button></header><main class="content"><div class="page-h"><svg class="leaf"><use href="#i-sprig"/></svg><div><h1>Імпорт / Експорт</h1><p>Зберігайте резервні копії бібліотеки та переносіть дані між пристроями</p></div></div><div class="ie-stats"><div class="iestat"><span class="ic"><svg><use href="#i-upload"/></svg></span><div><span class="iel">Останній експорт</span><span class="iev">2 травня 2025</span><span class="iesub">14:32</span><span class="iesub">Формат: JSON · 6.2 МБ</span></div><svg class="iechk"><use href="#i-check-circle"/></svg></div><div class="iestat"><span class="ic"><svg><use href="#i-pages"/></svg></span><div style="flex:1 1 auto"><span class="iel">Підтримувані формати</span><span class="iev">JSON, CSV, Excel</span><span class="bar"><i></i></span><span class="iesub">Повна сумісність</span></div></div><div class="iestat"><span class="ic"><svg><use href="#i-shield"/></svg></span><div><span class="iel">Резервна копія</span><span class="iev">Увімкнено</span><span class="iesub">Авто: щотижня · 5 копій</span></div><svg class="iechk"><use href="#i-check-circle"/></svg></div><div class="iestat"><span class="ic"><svg><use href="#i-trophy"/></svg></span><div><span class="iel">Успішні імпорти</span><span class="iev">12</span><span class="iesub">Останній: 29 квітня 2025</span></div><svg class="spark" viewBox="0 0 54 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 16 L10 11 L18 14 L27 6 L36 9 L45 3 L53 7"/></svg></div></div><div class="ie-grid"><div class="stack"><section class="card"><div class="card-h"><svg class="ci"><use href="#i-upload"/></svg><h2>Експорт даних</h2></div><p class="cdesc">Експортуйте свою бібліотеку у зручному форматі для збереження або перенесення.</p><p class="lbl">Формат файлу</p><div class="seg"><button class="on">JSON</button><button>CSV</button><button>Excel</button></div><p class="lbl" style="margin-top:16px">Що включити</p><div class="chk-grid"><label class="chk"><input type="checkbox" checked>Книги</label><label class="chk"><input type="checkbox" checked>Списки</label><label class="chk"><input type="checkbox" checked>Нотатки</label><label class="chk"><input type="checkbox" checked>Прогрес читання</label><label class="chk"><input type="checkbox" checked>Цитати</label><label class="chk"><input type="checkbox" checked>Цілі читання</label></div><div class="note"><svg><use href="#i-sprig"/></svg><span>Ви можете зберегти повну копію своєї бібліотеки та використовувати її на будь-якому пристрої.</span></div><button class="btn full"><svg><use href="#i-upload"/></svg>Експортувати</button></section><section class="card"><div class="card-h"><svg class="ci"><use href="#i-refresh"/></svg><h2>Обробка дублікатів</h2></div><p class="cdesc">Оберіть дію для записів, які вже існують у вашій бібліотеці.</p><div class="rcards"><div class="rcard on"><span class="dot"></span><span class="rt"><svg><use href="#i-x-circle"/></svg>Пропустити</span><span class="rd">Залишити існуючі записи без змін</span></div><div class="rcard"><span class="dot"></span><span class="rt"><svg><use href="#i-refresh"/></svg>Замінити</span><span class="rd">Замінити існуючі записи даними з файлу</span></div><div class="rcard"><span class="dot"></span><span class="rt"><svg><use href="#i-layers"/></svg>Об'єднати</span><span class="rd">Об'єднати дані, зберігаючи всі унікальні значення</span></div></div><label class="chkrow"><input type="checkbox" checked>Створити резервну копію перед імпортом <svg class="ci"><use href="#i-info"/></svg></label><button class="btn full"><svg><use href="#i-download"/></svg>Імпортувати дані</button></section></div><div class="stack"><section class="card"><div class="card-h"><svg class="ci"><use href="#i-download"/></svg><h2>Імпорт даних</h2></div><p class="cdesc">Імпортуйте дані з файлу для відновлення або перенесення бібліотеки.</p><div class="dz"><div class="dz-l"><span class="dz-ic"><svg><use href="#i-cloud-up"/></svg></span><div><b>Перетягніть файл сюди</b><span>або натисніть кнопку нижче</span></div></div><button class="btn ghost sm">Обрати файл</button></div><p class="dz-foot">Підтримувані формати: JSON, CSV, Excel · Максимальний розмір: 50 МБ</p><div class="frow"><svg class="fi"><use href="#i-pages"/></svg><span class="fn">booknest-backup-2025-05-02.json</span><span class="fm">6.2 МБ · 02.05.2025 14:32</span><svg class="fok"><use href="#i-check-circle"/></svg><svg class="ftr"><use href="#i-trash"/></svg></div><div class="prev-head"><h3>Попередній перегляд</h3><div class="ptabs"><button class="on" data-tab="books">Книги</button><button data-tab="notes">Нотатки</button><button data-tab="quotes">Цитати</button><button data-tab="lists">Списки</button></div></div><table class="ptable"><thead id="pthead"><tr><th>Назва</th><th>Автор</th><th>Рік</th><th>Статус</th></tr></thead><tbody id="ptbody"><tr><td>Атомні звички</td><td>Джеймс Клір</td><td>2018</td><td><span class="pill ok">Прочитано</span></td></tr><tr><td>Сила звички</td><td>Чарлз Дахіґг</td><td>2012</td><td><span class="pill warn">Читаю</span></td></tr><tr><td>Мислення, швидке і повільне</td><td>Деніел Канеман</td><td>2011</td><td><span class="pill info">Хочу прочитати</span></td></tr></tbody></table><div class="prev-foot"><span id="pcount">Показано 3 з 48 записів</span><a href="#">Далі →</a></div></section></div></div><div style="margin-top:18px"><section class="card safety"><div class="sf"><svg class="sfi"><use href="#i-shield"/></svg><div><b>Ваші дані в безпеці</b><p>Імпорт не видаляє та не змінює ваші поточні дані без вашого підтвердження. Рекомендуємо регулярно створювати резервні копії для додаткового захисту.</p></div></div><div class="sf"><svg class="sfi"><use href="#i-sprig"/></svg><p>Резервні копії зберігаються локально на вашому пристрої. Ми не маємо доступу до ваших даних.</p><svg class="hb"><use href="#i-heart"/></svg></div></section></div></main></div>
+</div>
+<script>
+var root=document.documentElement,tBtn=document.getElementById('themeToggle'),tIcon=document.getElementById('ticon');
+function tic(){tIcon.innerHTML=root.dataset.theme==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';}
+tic();tBtn.addEventListener('click',function(){root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';localStorage.setItem('theme',root.dataset.theme);tic();var ts=document.querySelector('.theme-cards');if(ts){ts.querySelectorAll('.tc').forEach(function(x){x.classList.toggle('on',x.dataset.v===root.dataset.theme);});}});
+var side=document.getElementById('side'),scrim=document.getElementById('scrim'),hamb=document.getElementById('hamb');
+function closeS(){side.classList.remove('open');scrim.classList.remove('open');}
+hamb.addEventListener('click',function(){side.classList.add('open');scrim.classList.add('open');});scrim.addEventListener('click',closeS);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeS();});
+var ts=document.querySelector('.theme-cards');
+if(ts){ts.querySelectorAll('.tc').forEach(function(b){b.addEventListener('click',function(){var v=b.dataset.v;if(v==='system'){localStorage.removeItem('theme');root.dataset.theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}else{root.dataset.theme=v;localStorage.setItem('theme',v);}tic();ts.querySelectorAll('.tc').forEach(function(x){x.classList.remove('on');});b.classList.add('on');});});
+  var cur=localStorage.getItem('theme');ts.querySelectorAll('.tc').forEach(function(x){x.classList.toggle('on',x.dataset.v===(cur||'system'));});}
+document.querySelectorAll('.swatches').forEach(function(s){s.addEventListener('click',function(e){var w=e.target.closest('.sw');if(!w)return;s.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on');});w.classList.add('on');});});
+document.querySelectorAll('.fontsize').forEach(function(s){s.addEventListener('click',function(e){var b=e.target.closest('.fs');if(!b)return;s.querySelectorAll('.fs').forEach(function(x){x.classList.remove('on');});b.classList.add('on');});});
+document.querySelectorAll('.chips').forEach(function(c){c.addEventListener('click',function(e){var ch=e.target.closest('.chip:not(.add)');if(!ch)return;ch.classList.toggle('on');});});
+
+document.querySelectorAll('.seg').forEach(function(s){s.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;s.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');});});
+document.querySelectorAll('.rcards').forEach(function(s){s.addEventListener('click',function(e){var c=e.target.closest('.rcard');if(!c)return;s.querySelectorAll('.rcard').forEach(function(x){x.classList.remove('on');});c.classList.add('on');});});
+var PREVIEW={
+ books:{cols:['Назва','Автор','Рік','Статус'],total:48,rows:[
+   ['Атомні звички','Джеймс Клір','2018','<span class="pill ok">Прочитано</span>'],
+   ['Сила звички','Чарлз Дахіґг','2012','<span class="pill warn">Читаю</span>'],
+   ['Мислення, швидке і повільне','Деніел Канеман','2011','<span class="pill info">Хочу прочитати</span>']]},
+ notes:{cols:['Книга','Фрагмент','Дата'],total:124,rows:[
+   ['«Атомні звички»','Звички — це складні відсотки самовдосконалення','12.04.2025'],
+   ['«Сила звички»','Петля звички: сигнал, рутина, винагорода','03.03.2025'],
+   ['«Дюна»','Страх убиває розум, він — маленька смерть','21.02.2025']]},
+ quotes:{cols:['Цитата','Джерело','Стор.'],total:67,rows:[
+   ['«Ми стаємо тим, що повторюємо щодня»','Атомні звички','45'],
+   ['«Хто володіє ранком — володіє днем»','Сила звички','112'],
+   ['«Страх — убивця розуму»','Дюна','19']]},
+ lists:{cols:['Назва списку','Книг','Оновлено'],total:9,rows:[
+   ['Книги на літо','12','вчора'],
+   ['Улюблена фантастика','8','04.05.2025'],
+   ['Прочитати у 2025','24','01.05.2025']]}
+};
+function fillPrev(tab){var d=PREVIEW[tab];if(!d)return;
+  document.getElementById('pthead').innerHTML='<tr>'+d.cols.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr>';
+  document.getElementById('ptbody').innerHTML=d.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('');
+  document.getElementById('pcount').textContent='Показано '+d.rows.length+' з '+d.total+' записів';}
+var pt=document.querySelector('.ptabs');if(pt){pt.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){pt.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');fillPrev(b.dataset.tab);});});}
+var ftr=document.querySelector('.ftr');if(ftr)ftr.addEventListener('click',function(){var fr=ftr.closest('.frow');if(fr)fr.style.display='none';});
+</script></body></html>

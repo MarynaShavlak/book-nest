@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Progress</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ PROGRESS ============ */
+.pb{display:flex;flex-direction:column;gap:7px}
+.pb-head,.pb-foot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-height:1em}
+.pb-label{font-size:.875rem;font-weight:600;color:var(--text)}
+.pb-val{font-size:.8125rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.pb-pct{font-size:.8125rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.pb-cap{font-size:.8125rem;color:var(--muted)}
+.pb-track{height:8px;width:100%;background:var(--surface-alt);border-radius:var(--radius-full);overflow:hidden}
+.pb-fill{height:100%;width:0;background:var(--primary);border-radius:var(--radius-full);transition:width .45s cubic-bezier(.4,0,.2,1),background-color .3s}
+/* розміри */
+.pb.sm .pb-track{height:6px}
+.pb.md .pb-track{height:11px}
+/* тон = стан */
+.pb.is-complete .pb-fill{background:var(--success)}
+.pb.is-complete .pb-pct{color:var(--success)}
+.pb.warn .pb-fill{background:var(--warning)}
+.pb.warn .pb-pct{color:var(--warning)}
+.pb.danger .pb-fill{background:var(--danger)}
+.pb.danger .pb-pct{color:var(--danger)}
+/* inline-розкладка (один рядок) */
+.pb.inline{flex-direction:row;align-items:center;gap:12px}
+.pb.inline .pb-label{white-space:nowrap}
+.pb.inline .pb-pct{white-space:nowrap}
+/* indeterminate */
+.pb.indet .pb-fill{width:38% !important;animation:indet 1.3s infinite ease-in-out}
+@keyframes indet{0%{transform:translateX(-110%)}100%{transform:translateX(310%)}}
+@media (prefers-reduced-motion:reduce){.pb.indet .pb-fill{animation:none;width:60% !important}}
+
+/* layout helpers */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.was{display:inline-block;margin-top:8px;font-size:.72rem;color:var(--warning);font-weight:600}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:130px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+.play{max-width:520px}
+.play .pb-range{width:100%;accent-color:var(--primary);margin-top:18px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Progress</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Progress</h1>
+    <p class="lead">Один лінійний прогрес-бар замість восьми. Слоти підписів керують розкладкою, а <b>колір залежить від стану</b>: в процесі — <code>--primary</code>, 100% — <code>--success</code>. (Ранжовані смужки «топ-жанрів» — це окремий компонент, не сюди.)</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">Трек + заливка, обрамлені опційними слотами.</p>
+    <dl class="tref">
+      <div><dt>track</dt><dd>доріжка <code>--surface-alt</code>, заокруглена <code>--radius-full</code></dd></div>
+      <div><dt>fill</dt><dd>заповнення за <code>value</code>; колір — за станом; плавний transition</dd></div>
+      <div><dt>label</dt><dd>підпис (top-left), напр. «Прогрес»</dd></div>
+      <div><dt>value</dt><dd>лічильник, напр. «8 740 / 12 000» або «4 з 9 книг»</dd></div>
+      <div><dt>percent</dt><dd>відсоток (top-right або bottom-right)</dd></div>
+      <div class="last"><dt>caption</dt><dd>пояснення під баром (bottom)</dd></div>
+    </dl>
+  </section>
+
+  <!-- РОЗКЛАДКИ -->
+  <section class="block">
+    <h2>Розкладки</h2>
+    <p class="sub">Усі твої макети — це ці три розкладки з різними слотами.</p>
+    <div class="demo-grid">
+
+      <div class="spec">
+        <div class="state">Inline (компактний)</div>
+        <div class="pb inline sm">
+          <span class="pb-label">Прочитано 1 з 3</span>
+          <div class="pb-track"><div class="pb-fill" style="width:33%"></div></div>
+          <span class="pb-pct">33%</span>
+        </div>
+        <div class="note">Один рядок: підпис + бар + %. Це твій <b>v9</b>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Stacked — ціль</div>
+        <div class="pb sm">
+          <div class="pb-head"><span class="pb-label">Прочитати 12 000 сторінок</span><span class="pb-val">8 740 / 12 000</span></div>
+          <div class="pb-track"><div class="pb-fill" style="width:73%"></div></div>
+          <div class="pb-foot"><span class="pb-cap"></span><span class="pb-pct">73%</span></div>
+        </div>
+        <div class="note">Верх: підпис + значення; низ: %. Це <b>v1</b>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Stacked — прогрес</div>
+        <div class="pb md">
+          <div class="pb-head"><span class="pb-label">Ваш прогрес</span></div>
+          <div class="pb-track"><div class="pb-fill" style="width:41%"></div></div>
+          <div class="pb-foot"><span class="pb-cap">312 / 768 стор.</span><span class="pb-pct">41%</span></div>
+        </div>
+        <div class="note">Низ: лічильник + %. Це <b>v3</b>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Stacked — % зверху</div>
+        <div class="pb md">
+          <div class="pb-head"><span class="pb-label">Прогрес</span><span class="pb-pct">44%</span></div>
+          <div class="pb-track"><div class="pb-fill" style="width:44%"></div></div>
+          <div class="pb-foot"><span class="pb-cap">Прочитано 4 з 9 книг</span></div>
+        </div>
+        <div class="note">% зверху, пояснення знизу. Це <b>v6</b>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Серія (виправлено)</div>
+        <div class="pb md">
+          <div class="pb-head"><span class="pb-label">Ваш прогрес у серії</span></div>
+          <div class="pb-track"><div class="pb-fill" style="width:67%"></div></div>
+          <div class="pb-foot"><span class="pb-cap">2 з 3 книг</span><span class="pb-pct">67%</span></div>
+        </div>
+        <span class="was">було зелене на 67% → теракота (не 100%)</span>
+        <div class="note">Твій <b>v8</b> з виправленим кольором.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Завершено (100%)</div>
+        <div class="pb md is-complete">
+          <div class="pb-head"><span class="pb-label">Прогрес</span><span class="pb-pct">100%</span></div>
+          <div class="pb-track"><div class="pb-fill" style="width:100%"></div></div>
+          <div class="pb-foot"><span class="pb-cap">Прочитано всі 3 книги</span></div>
+        </div>
+        <div class="note">Лише тут зелений <code>--success</code>. Це <b>v5</b>.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ТОН = СТАН -->
+  <section class="block">
+    <h2>Колір = стан</h2>
+    <p class="sub">Ключове виправлення: колір не довільний, а семантичний.</p>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">В процесі</div><div class="pb md"><div class="pb-track"><div class="pb-fill" style="width:44%"></div></div></div><div class="note"><code>--primary</code> — типовий стан.</div></div>
+      <div class="spec"><div class="state">Завершено</div><div class="pb md is-complete"><div class="pb-track"><div class="pb-fill" style="width:100%"></div></div></div><div class="note"><code>--success</code> — тільки на 100%.</div></div>
+      <div class="spec"><div class="state">Попередження</div><div class="pb md warn"><div class="pb-track"><div class="pb-fill" style="width:30%"></div></div></div><div class="note"><code>--warning</code> — відстаєш від цілі (опційно).</div></div>
+      <div class="spec"><div class="state">Критично</div><div class="pb md danger"><div class="pb-track"><div class="pb-fill" style="width:14%"></div></div></div><div class="note"><code>--danger</code> — дедлайн зривається (опційно).</div></div>
+      <div class="spec"><div class="state">Indeterminate</div><div class="pb md indet"><div class="pb-track"><div class="pb-fill"></div></div></div><div class="note">Невідомий прогрес / завантаження.</div></div>
+    </div>
+  </section>
+
+  <!-- РОЗМІРИ -->
+  <section class="block">
+    <h2>Розміри</h2>
+    <p class="sub">Дві товщини замість «гуляючих» значень.</p>
+    <div class="card" style="display:flex;flex-direction:column;gap:22px;max-width:520px">
+      <div class="pb sm"><div class="pb-head"><span class="pb-label">sm — 6px</span><span class="pb-pct">60%</span></div><div class="pb-track"><div class="pb-fill" style="width:60%"></div></div></div>
+      <div class="pb md"><div class="pb-head"><span class="pb-label">md — 11px</span><span class="pb-pct">60%</span></div><div class="pb-track"><div class="pb-fill" style="width:60%"></div></div></div>
+    </div>
+  </section>
+
+  <!-- LIVE -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Тягни повзунок — на 100% колір сам стає зеленим.</p>
+    <div class="card play">
+      <div class="pb md" data-pb>
+        <div class="pb-head"><span class="pb-label">Прогрес читання</span><span class="pb-pct" data-pct>44%</span></div>
+        <div class="pb-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="44" data-track>
+          <div class="pb-fill" data-fill style="width:44%"></div>
+        </div>
+        <div class="pb-foot"><span class="pb-cap" data-cap>Прочитано 4 з 9 книг</span></div>
+      </div>
+      <input type="range" min="0" max="100" value="44" class="pb-range" data-range aria-label="Прогрес">
+    </div>
+  </section>
+
+  <!-- ДОСТУПНІСТЬ -->
+  <section class="block">
+    <h2>Доступність</h2>
+    <dl class="tref">
+      <div><dt>role</dt><dd><code>progressbar</code> на треку</dd></div>
+      <div><dt>aria-value*</dt><dd><code>min=0</code>, <code>max=100</code>, <code>now</code> = поточний %</dd></div>
+      <div><dt>aria-valuetext</dt><dd>людський опис, напр. «4 з 9 книг» (краще за голий %)</dd></div>
+      <div class="last"><dt>колір ≠ єдиний сигнал</dt><dd>стан дублюй текстом/іконкою — не лише зеленим</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  document.querySelectorAll('[data-pb]').forEach(function(pb){
+    var range=pb.parentElement.querySelector('[data-range]');
+    var fill=pb.querySelector('[data-fill]'), pct=pb.querySelector('[data-pct]'), cap=pb.querySelector('[data-cap]'), track=pb.querySelector('[data-track]');
+    var total=9;
+    function set(v){
+      v=Math.round(v); fill.style.width=v+'%'; pct.textContent=v+'%';
+      pb.classList.toggle('is-complete', v>=100);
+      var done=Math.round(v/100*total);
+      cap.textContent = v>=100 ? ('Прочитано всі '+total+' книги') : ('Прочитано '+done+' з '+total+' книг');
+      track.setAttribute('aria-valuenow', v);
+      track.setAttribute('aria-valuetext', done+' з '+total+' книг');
+    }
+    if(range){ range.addEventListener('input',function(){ set(+range.value); }); set(+range.value); }
+  });
+})();
+</script>
+</body>
+</html>

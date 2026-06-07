@@ -34,10 +34,10 @@ jobs:
           # Спробувати увімкнути Pages автоматично (для public-репо працює)
           enablement: true
 
-      - name: Upload artifact (публікуємо папку src/)
+      - name: Upload artifact (публікуємо дизайн-систему)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: src
+          path: src/booknest-design-system
 
       - name: Deploy to GitHub Pages
         id: deployment

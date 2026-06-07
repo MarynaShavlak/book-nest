@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Зона завантаження</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.hint{font-size:var(--fs-xs);line-height:1.4;color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;padding:11px 18px;border-radius:var(--radius);transition:.2s;font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-semibold)}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow-btn)}
+.btn-primary:hover{background:var(--primary-hover);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text);padding:9px 14px;font-size:.875rem}
+.btn-ghost:hover{background:var(--surface-alt)}
+.btn-danger{background:transparent;border:1px solid var(--border);color:var(--danger);padding:9px 14px;font-size:.875rem}
+.btn-danger:hover{background:var(--danger-bg);border-color:var(--danger)}
+
+/* ---- DROPZONE ---- */
+.dz{position:relative;border:2px dashed var(--border);border-radius:var(--radius-md);background:var(--field);padding:30px 22px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.dz:hover:not(.is-disabled):not([data-state="uploading"]):not([data-state="done"]),.dz.is-hover{border-color:var(--accent-border);background:var(--surface-alt)}
+.dz.is-dragover{border-style:solid;border-color:var(--primary);background:var(--accent-soft);box-shadow:0 0 0 4px var(--focus-ring)}
+.dz.is-error{border-color:var(--danger)}
+.dz.is-disabled{opacity:.6;cursor:not-allowed;background:var(--surface-alt)}
+.dz-idle{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dz[data-state="uploading"] .dz-idle,.dz[data-state="done"] .dz-idle{display:none}
+.dz-illus{color:var(--icon);margin-bottom:4px}
+.dz-illus svg{width:54px;height:54px}
+.dz.is-dragover .dz-illus{color:var(--primary)}
+.dz-title{font-weight:600;color:var(--ink);font-size:1rem}
+.dz-or{color:var(--muted);font-size:.875rem}
+.dz-browse{margin-top:4px}
+
+/* progress */
+.dz-progress{display:none;text-align:left}
+.dz[data-state="uploading"] .dz-progress{display:block}
+.dz-prow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.dz-pname{font-weight:600;color:var(--ink);font-size:.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dz-pct{color:var(--muted);font-size:.8125rem;flex:0 0 auto}
+.dz-bar{height:8px;background:var(--surface-alt);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.dz-bar i{display:block;height:100%;width:0;background:var(--primary);border-radius:999px;transition:width .2s}
+
+/* preview / done */
+.dz-preview{display:none;align-items:center;gap:14px;text-align:left}
+.dz[data-state="done"] .dz-preview{display:flex}
+.dz-thumb{width:60px;height:80px;flex:0 0 auto;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface-alt) center/cover no-repeat;display:grid;place-items:center;color:var(--muted)}
+.dz-thumb svg{width:22px;height:22px}
+.dz-meta{flex:1;min-width:0}
+.dz-fname{font-weight:600;color:var(--ink);font-size:.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px}
+.dz-fname .ok{color:var(--success);flex:0 0 auto;width:16px;height:16px}
+.dz-fsize{color:var(--muted);font-size:.8125rem;margin-top:2px}
+.dz-actions{display:flex;gap:8px;margin-top:10px}
+
+.dz-hint{font-size:var(--fs-xs);color:var(--muted);margin-top:10px;line-height:1.4}
+.dz-error{display:none;align-items:center;gap:6px;color:var(--danger);font-size:.8125rem;margin-top:8px}
+.dz-error.show{display:flex}
+.dz-error svg{width:14px;height:14px;flex:0 0 auto}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+.spec .note{margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:170px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:13px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:13px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+.play{max-width:460px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-acircle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-cover" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="41" width="42" height="11" rx="2.5"/><rect x="15" y="30" width="38" height="11" rx="2.5"/><rect x="11" y="19" width="33" height="11" rx="2.5"/><path d="M49 21c0-5 3-8 8-9 0 5-3 8-8 9z"/><path d="M49 21c-1-4 0-7 3-10"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Зона завантаження</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Зона завантаження</h1>
+    <p class="lead">Dropzone для обкладинки: клік або drag&drop, валідація формату й розміру, прогрес, прев'ю з заміною/видаленням. За основу — блок «Обкладинка книги».</p>
+  </div>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <p class="sub">Статичні знімки. Жива версія — у «Спробуй».</p>
+    <div class="gallery">
+
+      <div class="spec">
+        <div class="state">Default (idle)</div>
+        <div class="dz" data-state="idle">
+          <div class="dz-idle">
+            <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+            <p class="dz-title">Перетягніть зображення сюди</p>
+            <p class="dz-or">або</p>
+            <button class="btn btn-primary dz-browse" type="button"><svg><use href="#i-upload"/></svg>Завантажити обкладинку</button>
+          </div>
+        </div>
+        <p class="dz-hint">Формат: JPG, PNG · Макс. 5 МБ · 1200×1600</p>
+        <div class="note">Пунктир <code>--border</code>, фон <code>--field</code>, ілюстрація <code>--icon</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Hover</div>
+        <div class="dz is-hover" data-state="idle">
+          <div class="dz-idle">
+            <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+            <p class="dz-title">Перетягніть зображення сюди</p>
+            <p class="dz-or">або</p>
+            <button class="btn btn-primary dz-browse" type="button"><svg><use href="#i-upload"/></svg>Завантажити обкладинку</button>
+          </div>
+        </div>
+        <div class="note">Бордер → <code>--accent-border</code>, фон → <code>--surface-alt</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Drag-over</div>
+        <div class="dz is-dragover" data-state="idle">
+          <div class="dz-idle">
+            <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+            <p class="dz-title">Відпустіть, щоб завантажити</p>
+            <p class="dz-or">JPG або PNG</p>
+          </div>
+        </div>
+        <div class="note">Суцільний <code>--primary</code> + фон <code>--accent-soft</code> + кільце <code>--focus-ring</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Завантаження</div>
+        <div class="dz" data-state="uploading">
+          <div class="dz-progress">
+            <div class="dz-prow"><span class="dz-pname">cover.jpg</span><span class="dz-pct">62%</span></div>
+            <div class="dz-bar"><i style="width:62%"></i></div>
+          </div>
+        </div>
+        <div class="note">Назва файлу + прогрес <code>--primary</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Готово (прев'ю)</div>
+        <div class="dz" data-state="done">
+          <div class="dz-preview">
+            <span class="dz-thumb" style="background-image:linear-gradient(150deg,#2c3a44,#0f1822)"><svg><use href="#i-image"/></svg></span>
+            <div class="dz-meta">
+              <div class="dz-fname"><svg class="ok"><use href="#i-check"/></svg>cover.jpg</div>
+              <div class="dz-fsize">2.4 МБ · 1200×1600</div>
+              <div class="dz-actions">
+                <button class="btn btn-ghost" type="button"><svg><use href="#i-refresh"/></svg>Замінити</button>
+                <button class="btn btn-danger" type="button"><svg><use href="#i-trash"/></svg>Видалити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="note">Мініатюра + назва/розмір + «Замінити»/«Видалити».</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Error</div>
+        <div class="dz is-error" data-state="idle">
+          <div class="dz-idle">
+            <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+            <p class="dz-title">Перетягніть зображення сюди</p>
+            <p class="dz-or">або</p>
+            <button class="btn btn-primary dz-browse" type="button"><svg><use href="#i-upload"/></svg>Завантажити обкладинку</button>
+          </div>
+        </div>
+        <p class="dz-error show"><svg><use href="#i-acircle"/></svg>Файл завеликий — максимум 5 МБ</p>
+        <div class="note">Бордер <code>--danger</code> + повідомлення.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Disabled</div>
+        <div class="dz is-disabled" data-state="idle">
+          <div class="dz-idle">
+            <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+            <p class="dz-title">Перетягніть зображення сюди</p>
+            <p class="dz-or">або</p>
+            <button class="btn btn-primary dz-browse" type="button" disabled><svg><use href="#i-upload"/></svg>Завантажити обкладинку</button>
+          </div>
+        </div>
+        <div class="note">Фон <code>--surface-alt</code>, <code>opacity .6</code>, неактивна.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <p class="sub">Логіка та валідація.</p>
+    <dl class="tref">
+      <div><dt>Відкриття</dt><dd>клік по зоні або кнопці відкриває діалог вибору файлу (<code>&lt;input type="file"&gt;</code>)</dd></div>
+      <div><dt>Drag &amp; drop</dt><dd>перетягування підсвічує зону (<code>dragover</code>); скидання — приймає файл; скидання поза зоною не відкриває файл у браузері</dd></div>
+      <div><dt>Валідація</dt><dd>лише <code>image/jpeg</code>, <code>image/png</code>; розмір ≤ 5 МБ — інакше стан <b>error</b> з повідомленням</dd></div>
+      <div><dt>Прогрес</dt><dd>після прийняття — індикатор завантаження (у демо симульований)</dd></div>
+      <div><dt>Прев'ю</dt><dd>мініатюра (через <code>FileReader</code>), назва, розмір; кнопки «Замінити» / «Видалити»</dd></div>
+      <div class="last"><dt><kbd>Tab</kbd> / <kbd>Enter</kbd></dt><dd>кнопка фокусується й активується з клавіатури; зона має доступну альтернативу через кнопку</dd></div>
+    </dl>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Перетягни картинку або клікни. Спробуй не-зображення чи файл &gt;5 МБ — побачиш error.</p>
+    <div class="play">
+      <label class="label" style="display:block;margin-bottom:6px">Обкладинка книги</label>
+      <div class="dz" data-dz data-state="idle">
+        <input type="file" class="dz-file" accept="image/png,image/jpeg" hidden>
+        <div class="dz-idle">
+          <span class="dz-illus"><svg><use href="#i-cover"/></svg></span>
+          <p class="dz-title">Перетягніть зображення сюди</p>
+          <p class="dz-or">або</p>
+          <button class="btn btn-primary dz-browse" type="button"><svg><use href="#i-upload"/></svg>Завантажити обкладинку</button>
+        </div>
+        <div class="dz-progress">
+          <div class="dz-prow"><span class="dz-pname"></span><span class="dz-pct">0%</span></div>
+          <div class="dz-bar"><i></i></div>
+        </div>
+        <div class="dz-preview">
+          <span class="dz-thumb"><svg><use href="#i-image"/></svg></span>
+          <div class="dz-meta">
+            <div class="dz-fname"><svg class="ok"><use href="#i-check"/></svg><span class="dz-name"></span></div>
+            <div class="dz-fsize"></div>
+            <div class="dz-actions">
+              <button class="btn btn-ghost dz-replace" type="button"><svg><use href="#i-refresh"/></svg>Замінити</button>
+              <button class="btn btn-danger dz-remove" type="button"><svg><use href="#i-trash"/></svg>Видалити</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="dz-hint">Формат: JPG, PNG · Макс. 5 МБ · Рекомендований розмір 1200×1600</p>
+      <p class="dz-error"><svg><use href="#i-acircle"/></svg><span class="dz-emsg"></span></p>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  // не дати браузеру відкривати файл при дропі повз зону
+  ['dragover','drop'].forEach(function(ev){ window.addEventListener(ev,function(e){ e.preventDefault(); }); });
+
+  var MAX=5*1024*1024, TYPES=['image/jpeg','image/png'];
+  function fmtSize(b){ return b>=1048576 ? (b/1048576).toFixed(1)+' МБ' : Math.max(1,Math.round(b/1024))+' КБ'; }
+
+  function initDz(dz){
+    var file=dz.querySelector('.dz-file');
+    var browse=dz.querySelector('.dz-browse');
+    var replace=dz.querySelector('.dz-replace');
+    var remove=dz.querySelector('.dz-remove');
+    var title=dz.querySelector('.dz-title');
+    var errBox=dz.parentElement.querySelector('.dz-error');
+    var errMsg=dz.parentElement.querySelector('.dz-emsg');
+    var pname=dz.querySelector('.dz-pname'), pct=dz.querySelector('.dz-pct'), bar=dz.querySelector('.dz-bar i');
+    var thumb=dz.querySelector('.dz-thumb'), nameEl=dz.querySelector('.dz-name'), sizeEl=dz.querySelector('.dz-fsize');
+    var idleTitle=title? title.textContent : '';
+    var depth=0, timer=null;
+
+    function setState(s){ dz.dataset.state=s; }
+    function showErr(msg){ dz.classList.add('is-error'); errMsg.textContent=msg; errBox.classList.add('show'); }
+    function clearErr(){ dz.classList.remove('is-error'); errBox.classList.remove('show'); }
+
+    function openPicker(){ if(dz.dataset.state==='uploading') return; file.value=''; file.click(); }
+
+    function handle(f){
+      if(!f) return;
+      clearErr();
+      if(TYPES.indexOf(f.type)<0){ showErr('Непідтримуваний формат. Лише JPG або PNG.'); return; }
+      if(f.size>MAX){ showErr('Файл завеликий — максимум 5 МБ.'); return; }
+      // прев'ю
+      var reader=new FileReader();
+      reader.onload=function(){ thumb.style.backgroundImage='url('+reader.result+')'; thumb.innerHTML=''; };
+      reader.readAsDataURL(f);
+      nameEl.textContent=f.name; sizeEl.textContent=fmtSize(f.size);
+      pname.textContent=f.name;
+      // симульований прогрес
+      setState('uploading'); var p=0; bar.style.width='0%'; pct.textContent='0%';
+      clearInterval(timer);
+      timer=setInterval(function(){
+        p+=Math.random()*22+8; if(p>=100){ p=100; clearInterval(timer); setTimeout(function(){ setState('done'); },250); }
+        bar.style.width=p+'%'; pct.textContent=Math.round(p)+'%';
+      },120);
+    }
+    function reset(){ clearInterval(timer); setState('idle'); clearErr(); file.value=''; thumb.style.backgroundImage=''; thumb.innerHTML='<svg><use href="#i-image"/></svg>'; }
+
+    dz.addEventListener('click',function(e){ if(e.target.closest('button')) return; if(dz.dataset.state==='idle') openPicker(); });
+    if(browse) browse.addEventListener('click',function(e){ e.stopPropagation(); openPicker(); });
+    if(replace) replace.addEventListener('click',function(e){ e.stopPropagation(); openPicker(); });
+    if(remove) remove.addEventListener('click',function(e){ e.stopPropagation(); reset(); });
+    file.addEventListener('change',function(){ handle(file.files[0]); });
+
+    dz.addEventListener('dragenter',function(e){ e.preventDefault(); depth++; if(dz.dataset.state!=='uploading'){ dz.classList.add('is-dragover'); if(title) title.textContent='Відпустіть, щоб завантажити'; } });
+    dz.addEventListener('dragover',function(e){ e.preventDefault(); });
+    dz.addEventListener('dragleave',function(e){ depth--; if(depth<=0){ depth=0; dz.classList.remove('is-dragover'); if(title) title.textContent=idleTitle; } });
+    dz.addEventListener('drop',function(e){ e.preventDefault(); depth=0; dz.classList.remove('is-dragover'); if(title) title.textContent=idleTitle; if(dz.dataset.state!=='uploading'){ handle(e.dataTransfer.files[0]); } });
+  }
+
+  document.querySelectorAll('[data-dz]').forEach(initDz);
+})();
+</script>
+</body>
+</html>

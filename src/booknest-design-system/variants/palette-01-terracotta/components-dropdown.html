@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Dropdown</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* trimmed BUTTON + icon button + account trigger */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:600;font-size:.9375rem;line-height:1;color:var(--ink);border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;height:42px;padding:0 14px;white-space:nowrap;transition:background-color .15s,border-color .15s,box-shadow .15s}
+.btn:hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn svg{width:18px;height:18px}
+.icon-btn{width:38px;height:38px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s}
+.icon-btn:hover{background:var(--surface-alt);color:var(--ink)}
+.icon-btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.icon-btn svg{width:20px;height:20px}
+.acct{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:5px 10px 5px 5px;cursor:pointer;font:inherit;transition:.15s}
+.acct:hover{background:var(--surface-alt)}
+.acct:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.acct .av{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-soft-fg);display:grid;place-items:center;font-weight:600;font-size:.78rem}
+.acct .nm{font-weight:600;color:var(--ink);font-size:.875rem}
+.acct svg{width:16px;height:16px;color:var(--muted)}
+.dd-chev{transition:transform .18s}
+.dd.open .dd-chev{transform:rotate(180deg)}
+.dd.open .icon-btn{background:var(--surface-alt);color:var(--ink)}
+
+/* ============ DROPDOWN ============ */
+.dd{position:relative;display:inline-block}
+.dd-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:212px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-pop);padding:6px;z-index:50;
+  opacity:0;visibility:hidden;transform:translateY(-4px) scale(.98);transform-origin:top left;transition:opacity .15s ease,transform .15s ease,visibility .15s ease}
+.dd.open .dd-menu{opacity:1;visibility:visible;transform:none}
+.dd-menu.end{left:auto;right:0;transform-origin:top right}
+.dd-menu.static{position:static;opacity:1;visibility:visible;transform:none;display:inline-block}
+.dd-item{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;cursor:pointer;font:inherit;font-size:.9375rem;color:var(--text);padding:9px 10px;border-radius:var(--radius-sm);text-align:left;transition:background-color .12s}
+.dd-item:hover,.dd-item:focus-visible{background:var(--surface-alt);outline:0}
+.dd-item .ic{width:18px;height:18px;flex:0 0 auto;color:var(--icon)}
+.dd-item .dd-trail{margin-left:auto;color:var(--muted);font-size:.8125rem;font-variant-numeric:tabular-nums}
+.dd-item .two{display:flex;flex-direction:column;gap:1px;min-width:0}
+.dd-item .two .d{font-size:.78rem;color:var(--muted);font-weight:400}
+.dd-item .check{margin-left:auto;width:16px;height:16px;color:var(--primary);opacity:0;flex:0 0 auto}
+.dd-item[aria-checked="true"] .check{opacity:1}
+.dd-item[aria-checked="true"]{color:var(--ink);font-weight:600}
+.dd-item.danger{color:var(--danger)}.dd-item.danger .ic{color:var(--danger)}
+.dd-item.danger:hover,.dd-item.danger:focus-visible{background:var(--danger-bg)}
+.dd-item:disabled{opacity:.45;cursor:not-allowed}
+.dd-item:disabled:hover{background:transparent}
+.dd-sep{height:1px;background:var(--border);margin:6px 4px}
+.dd-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px}
+.dd-user{display:flex;align-items:center;gap:10px;padding:8px 10px 10px}
+.dd-user .av{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent-soft-fg);display:grid;place-items:center;font-weight:600;font-size:.85rem;flex:0 0 auto}
+.dd-user .t{font-weight:600;color:var(--ink);font-size:.9rem;line-height:1.2}
+.dd-user .e{color:var(--muted);font-size:.78rem}
+@media (prefers-reduced-motion:reduce){.dd-menu,.dd-chev{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.frame{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;display:flex;justify-content:center}
+.status{font-size:.8125rem;color:var(--muted);margin-top:14px}.status b{color:var(--ink)}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:160px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></symbol>
+  <symbol id="i-chev-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Dropdown</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Dropdown</h1>
+    <p class="lead">Меню, що відкривається з тригера: контекстні дії (⋮ у рядку книги), «Сортування», фільтри, меню акаунта. Пункти з іконками, шорткатами, вибором (radio/checkbox) і деструктивними діями. Повна клавіатура й закриття кліком повз.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="frame">
+      <div class="dd-menu static" role="menu" aria-label="Приклад">
+        <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-edit"/></svg>Редагувати<span class="dd-trail">⌘E</span></button>
+        <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-list"/></svg>Додати до списку</button>
+        <div class="dd-label">Статус</div>
+        <button class="dd-item" role="menuitemradio" aria-checked="true" tabindex="-1">Читаю<svg class="check"><use href="#i-check"/></svg></button>
+        <button class="dd-item" role="menuitem" disabled tabindex="-1"><svg class="ic"><use href="#i-swap"/></svg>Недоступно</button>
+        <div class="dd-sep"></div>
+        <button class="dd-item danger" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-trash"/></svg>Видалити</button>
+      </div>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>trigger</dt><dd>кнопка/іконка з <code>aria-haspopup="menu"</code> + <code>aria-expanded</code></dd></div>
+      <div><dt>menu</dt><dd><code>role="menu"</code>; вирівнювання <code>.end</code> (праворуч)</dd></div>
+      <div><dt>item</dt><dd>іконка + підпис + опц. шорткат/значення; <code>danger</code>, <code>disabled</code></dd></div>
+      <div><dt>checkable</dt><dd><code>menuitemradio</code> (вибір 1) / <code>menuitemcheckbox</code> (кілька)</dd></div>
+      <div class="last"><dt>label / sep</dt><dd>заголовок секції та роздільник</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Натисни тригер. <kbd>↑</kbd><kbd>↓</kbd> рух, <kbd>Enter</kbd> вибір, <kbd>Esc</kbd> закрити.</p>
+    <div class="card">
+      <div class="row">
+
+        <!-- kebab actions -->
+        <div class="dd" data-dd data-dd-status="st1">
+          <button class="icon-btn" type="button" data-dd-toggle aria-haspopup="menu" aria-expanded="false" aria-label="Дії"><svg><use href="#i-more"/></svg></button>
+          <div class="dd-menu end" role="menu" data-dd-menu>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-edit"/></svg>Редагувати</button>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-swap"/></svg>Змінити статус</button>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-list"/></svg>Додати до списку</button>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-heart"/></svg>В улюблені</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item danger" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-trash"/></svg>Видалити</button>
+          </div>
+        </div>
+
+        <!-- sort (radio) -->
+        <div class="dd" data-dd>
+          <button class="btn" type="button" data-dd-toggle aria-haspopup="menu" aria-expanded="false">Сортування: <b style="font-weight:600;color:var(--ink)" data-dd-current>Назва (А–Я)</b><svg class="dd-chev"><use href="#i-chev-down"/></svg></button>
+          <div class="dd-menu" role="menu" data-dd-menu>
+            <button class="dd-item" role="menuitemradio" aria-checked="true" data-value="Назва (А–Я)" tabindex="-1">Назва (А–Я)<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemradio" aria-checked="false" data-value="Назва (Я–А)" tabindex="-1">Назва (Я–А)<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemradio" aria-checked="false" data-value="Дата додавання" tabindex="-1">Дата додавання<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemradio" aria-checked="false" data-value="Рейтинг" tabindex="-1">Рейтинг<svg class="check"><use href="#i-check"/></svg></button>
+          </div>
+        </div>
+
+        <!-- filters (checkbox) -->
+        <div class="dd" data-dd>
+          <button class="btn" type="button" data-dd-toggle aria-haspopup="menu" aria-expanded="false"><svg><use href="#i-list"/></svg>Фільтри<svg class="dd-chev"><use href="#i-chev-down"/></svg></button>
+          <div class="dd-menu" role="menu" data-dd-menu>
+            <div class="dd-label">Жанр</div>
+            <button class="dd-item" role="menuitemcheckbox" aria-checked="true" tabindex="-1">Фентезі<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemcheckbox" aria-checked="false" tabindex="-1">Детектив<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemcheckbox" aria-checked="false" tabindex="-1">Романтика<svg class="check"><use href="#i-check"/></svg></button>
+            <div class="dd-label">Статус</div>
+            <button class="dd-item" role="menuitemcheckbox" aria-checked="false" tabindex="-1">Читаю<svg class="check"><use href="#i-check"/></svg></button>
+            <button class="dd-item" role="menuitemcheckbox" aria-checked="false" tabindex="-1">Прочитано<svg class="check"><use href="#i-check"/></svg></button>
+          </div>
+        </div>
+
+        <!-- account -->
+        <div class="dd" data-dd>
+          <button class="acct" type="button" data-dd-toggle aria-haspopup="menu" aria-expanded="false"><span class="av">МК</span><span class="nm">Марія К.</span><svg class="dd-chev"><use href="#i-chev-down"/></svg></button>
+          <div class="dd-menu end" role="menu" data-dd-menu style="min-width:240px">
+            <div class="dd-user"><span class="av">МК</span><span><span class="t">Марія К.</span><br><span class="e">mariya.k@example.com</span></span></div>
+            <div class="dd-sep"></div>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-user"/></svg>Профіль</button>
+            <button class="dd-item" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-settings"/></svg>Налаштування</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item danger" role="menuitem" tabindex="-1"><svg class="ic"><use href="#i-logout"/></svg>Вийти</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="status" data-dd-statusbox="st1"></div>
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <dl class="tref">
+      <div><dt>Відкрити</dt><dd>клік по тригеру або <kbd>↓</kbd> на ньому; фокус переходить у меню</dd></div>
+      <div><dt>Навігація</dt><dd><kbd>↑</kbd><kbd>↓</kbd> по пунктах (циклічно), <kbd>Home</kbd>/<kbd>End</kbd></dd></div>
+      <div><dt>Вибір</dt><dd><kbd>Enter</kbd>/клік; radio закриває й оновлює тригер, checkbox лишає відкритим</dd></div>
+      <div><dt>Закрити</dt><dd><kbd>Esc</kbd> (фокус назад на тригер), клік повз, <kbd>Tab</kbd> з меню</dd></div>
+      <div class="last"><dt>Семантика</dt><dd><code>role="menu"</code> + <code>menuitem/radio/checkbox</code>; тригер — <code>aria-expanded</code></dd></div>
+    </dl>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Дії (⋮)</dt><dd>контекстні команди над елементом; деструктив — окремо під роздільником</dd></div>
+      <div><dt>vs Select</dt><dd>Select — вибір значення у формі; Dropdown-radio — швидке перемикання (сортування/вигляд)</dd></div>
+      <div><dt>vs Modal</dt><dd>проста дія/вибір → меню; складна форма чи підтвердження → модалка</dd></div>
+      <div class="last"><dt>Кількість</dt><dd>багато пунктів — групуй секціями (<code>.dd-label</code>); не вкладай підменю без потреби</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  document.querySelectorAll('[data-dd]').forEach(function(dd){
+    var toggle=dd.querySelector('[data-dd-toggle]');
+    var menu=dd.querySelector('[data-dd-menu]');
+    var statusKey=dd.getAttribute('data-dd-status');
+    var statusBox=statusKey?document.querySelector('[data-dd-statusbox="'+statusKey+'"]'):null;
+    function items(){ return [].slice.call(menu.querySelectorAll('.dd-item:not(:disabled)')); }
+    function open(){
+      dd.classList.add('open'); toggle.setAttribute('aria-expanded','true');
+      var it=items(); if(it.length) setTimeout(function(){ it[0].focus(); }, 10);
+      document.addEventListener('click', onDoc, true);
+    }
+    function close(focusTrigger){
+      if(!dd.classList.contains('open')) return;
+      dd.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+      document.removeEventListener('click', onDoc, true);
+      if(focusTrigger) toggle.focus();
+    }
+    function onDoc(e){ if(!dd.contains(e.target)) close(false); }
+
+    toggle.addEventListener('click', function(e){ e.stopPropagation(); dd.classList.contains('open')?close(false):open(); });
+    toggle.addEventListener('keydown', function(e){ if(e.key==='ArrowDown'){ e.preventDefault(); open(); } });
+
+    menu.addEventListener('keydown', function(e){
+      var it=items(); if(!it.length) return; var i=it.indexOf(document.activeElement);
+      if(e.key==='ArrowDown'){ e.preventDefault(); it[(i+1)%it.length].focus(); }
+      else if(e.key==='ArrowUp'){ e.preventDefault(); it[(i-1+it.length)%it.length].focus(); }
+      else if(e.key==='Home'){ e.preventDefault(); it[0].focus(); }
+      else if(e.key==='End'){ e.preventDefault(); it[it.length-1].focus(); }
+      else if(e.key==='Escape'){ e.preventDefault(); close(true); }
+      else if(e.key==='Tab'){ close(false); }
+    });
+    dd.addEventListener('focusout', function(e){ if(!dd.contains(e.relatedTarget)) close(false); });
+
+    menu.querySelectorAll('.dd-item').forEach(function(item){
+      if(item.disabled) return;
+      item.addEventListener('click', function(){
+        var role=item.getAttribute('role');
+        if(role==='menuitemradio'){
+          menu.querySelectorAll('[role=menuitemradio]').forEach(function(x){ x.setAttribute('aria-checked','false'); });
+          item.setAttribute('aria-checked','true');
+          var cur=dd.querySelector('[data-dd-current]'); if(cur) cur.textContent=item.dataset.value||item.textContent.trim();
+          close(true);
+        } else if(role==='menuitemcheckbox'){
+          item.setAttribute('aria-checked', item.getAttribute('aria-checked')==='true'?'false':'true');
+          item.focus(); // keep open
+        } else {
+          if(statusBox) statusBox.innerHTML='Дія: <b>'+item.textContent.trim()+'</b>';
+          close(true);
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

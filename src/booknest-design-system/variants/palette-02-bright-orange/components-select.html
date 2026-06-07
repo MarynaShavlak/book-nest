@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Селект з автокомплітом</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.hint{font-size:var(--fs-xs);line-height:1.4;color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+.label--required::after{content:" *";color:var(--danger)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ---- поле (як інпут-компонент) ---- */
+.field .label{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.input{width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;color:var(--text);font:inherit;font-size:var(--fs-body);outline:0;transition:border-color .15s,box-shadow .15s,background .15s}
+.input::placeholder{color:var(--muted)}
+.input:hover:not(:disabled):not(.is-disabled),.input.is-hover{border-color:var(--accent-border)}
+.input:focus:not(:disabled),.input.is-focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.input:disabled,.input.is-disabled{background:var(--surface-alt);color:var(--muted);border-color:var(--border);box-shadow:none;opacity:.6;cursor:not-allowed}
+.field.is-error .input{border-color:var(--danger)}
+.field.is-error .input:focus,.field.is-error .input.is-focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 24%,transparent)}
+.msg{display:none;align-items:center;gap:6px;font-size:.78rem;margin-top:6px}
+.msg svg{width:14px;height:14px;flex:0 0 auto}
+.field.is-error .msg.err{display:flex;color:var(--danger)}
+.help{display:flex;align-items:flex-start;gap:6px;font-size:var(--fs-xs);line-height:1.4;color:var(--muted);margin-top:6px}
+.help svg{width:14px;height:14px;flex:0 0 auto;margin-top:1px;color:var(--muted)}
+
+/* ---- COMBOBOX ---- */
+.combo{position:relative}
+.combo-field{position:relative;display:flex;align-items:center}
+.combo-input{padding-right:62px;cursor:pointer;text-overflow:ellipsis}
+.combo.is-open .combo-input{cursor:text}
+.combo-caret{position:absolute;right:14px;width:18px;height:18px;color:var(--muted);pointer-events:none;transition:transform .18s}
+.combo.is-open .combo-caret{transform:rotate(180deg)}
+.combo-clear{position:absolute;right:38px;display:grid;place-items:center;width:22px;height:22px;border:0;background:transparent;color:var(--muted);cursor:pointer;border-radius:var(--radius-full)}
+.combo-clear:hover{color:var(--text);background:var(--surface-alt)}
+.combo-clear svg{width:15px;height:15px}
+.combo-pop{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:50;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-pop);padding:6px;max-height:264px;overflow:auto;display:none}
+.combo.is-open .combo-pop{display:block}
+.combo.is-static .combo-pop{position:static;display:block;box-shadow:var(--shadow-card);max-height:none}
+.combo-opt{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);cursor:pointer}
+.combo-opt:hover,.combo-opt.is-active{background:var(--accent-soft)}
+.combo-opt .opt-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.combo-opt .opt-main{font-size:.9375rem;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.combo-opt.is-active .opt-main{color:var(--accent-soft-fg)}
+.combo-opt .opt-sub{font-size:.78rem;color:var(--muted)}
+.combo-opt mark{background:transparent;color:var(--primary);font-weight:700}
+.combo-opt .opt-check{margin-left:auto;flex:0 0 auto;width:17px;height:17px;color:var(--primary);opacity:0}
+.combo-opt.is-selected .opt-check{opacity:1}
+.combo-sep{height:1px;background:var(--border);margin:6px}
+.combo-create{display:flex;align-items:center;gap:9px;padding:10px;border-radius:var(--radius-sm);cursor:pointer;color:var(--primary);font-weight:600;font-size:.9375rem}
+.combo-create:hover,.combo-create.is-active{background:var(--accent-soft)}
+.combo-create svg{width:17px;height:17px;flex:0 0 auto}
+.combo-empty{padding:11px 10px;color:var(--muted);font-size:.875rem}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+.spec .note{margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.5}
+
+/* anatomy */
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:170px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:13px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:13px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+
+/* playground */
+.play{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:24px;max-width:440px}
+.picked{margin-top:16px;font-size:.875rem;color:var(--muted)}
+.picked b{color:var(--ink)}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-acircle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Селект з автокомплітом</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Селект з автокомплітом</h1>
+    <p class="lead">Single-select комбобокс: фільтрування по введенню, навігація клавіатурою та створення нового айтема прямо зі списку. За основу — поле «Назва серії». Контрол успадковує стилі інпута (фокус, hover, error, disabled).</p>
+  </div>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <p class="sub">Статичні знімки кожного стану. Жива версія — нижче, у «Спробуй».</p>
+    <div class="gallery">
+
+      <div class="spec">
+        <div class="state">Default (закрито)</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input" placeholder="Оберіть або створіть серію" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div></div>
+        <div class="note">Плейсхолдер + шеврон. Виглядає як інпут.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Hover</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input is-hover" placeholder="Оберіть або створіть серію" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div></div>
+        <div class="note">Бордер → <code>--accent-border</code>, як в інпута.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Focus</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input is-focus" placeholder="Оберіть або створіть серію" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div></div>
+        <div class="note">Бордер <code>--primary</code> + кільце <code>--focus-ring</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Вибрано (закрито)</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input" value="Трон зі скла" readonly>
+            <button class="combo-clear" type="button" aria-label="Очистити"><svg><use href="#i-x"/></svg></button>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div></div>
+        <div class="note">Назва обраного + кнопка очищення «×».</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Disabled</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input is-disabled" placeholder="Недоступно" disabled>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div></div>
+        <div class="note">Фон <code>--surface-alt</code>, <code>opacity .6</code>, не відкривається.</div>
+      </div>
+
+      <div class="spec">
+        <div class="field is-error"><div class="state">Error</div>
+          <label class="label label--required">Назва серії</label>
+          <div class="combo"><div class="combo-field">
+            <input class="input combo-input" placeholder="Оберіть або створіть серію" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div></div>
+          <div class="msg err"><svg><use href="#i-acircle"/></svg>Оберіть серію</div></div>
+        <div class="note">Бордер <code>--danger</code> + повідомлення.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Open + вибране</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo is-open is-static"><div class="combo-field">
+            <input class="input combo-input is-focus" value="Трон зі скла" readonly>
+            <button class="combo-clear" type="button" aria-label="Очистити"><svg><use href="#i-x"/></svg></button>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div>
+            <div class="combo-pop" role="listbox">
+              <div class="combo-opt"><span class="opt-text"><span class="opt-main">Двір шипів і троянд</span><span class="opt-sub">Сара Дж. Маас</span></span><svg class="opt-check"><use href="#i-check"/></svg></div>
+              <div class="combo-opt is-selected is-active"><span class="opt-text"><span class="opt-main">Трон зі скла</span><span class="opt-sub">Сара Дж. Маас</span></span><svg class="opt-check"><use href="#i-check"/></svg></div>
+              <div class="combo-opt"><span class="opt-text"><span class="opt-main">Дюна</span><span class="opt-sub">Френк Герберт</span></span><svg class="opt-check"><use href="#i-check"/></svg></div>
+              <div class="combo-sep"></div>
+              <div class="combo-create"><svg><use href="#i-plus"/></svg>Створити нову серію</div>
+            </div></div></div>
+        <div class="note">Активний рядок — <code>--accent-soft</code>; обраний — з галочкою <code>--primary</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Фільтрування + підсвітка</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo is-open is-static"><div class="combo-field">
+            <input class="input combo-input is-focus" value="скл" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div>
+            <div class="combo-pop" role="listbox">
+              <div class="combo-opt is-active"><span class="opt-text"><span class="opt-main">Трон зі <mark>скл</mark>а</span><span class="opt-sub">Сара Дж. Маас</span></span><svg class="opt-check"><use href="#i-check"/></svg></div>
+              <div class="combo-sep"></div>
+              <div class="combo-create"><svg><use href="#i-plus"/></svg>Створити «скл»</div>
+            </div></div></div>
+        <div class="note">Збіг підсвічується <code>--primary</code>; нижче — дія створення.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Нічого не знайдено → створити</div>
+        <div class="field"><label class="label">Назва серії</label>
+          <div class="combo is-open is-static"><div class="combo-field">
+            <input class="input combo-input is-focus" value="Сильмариліон" readonly>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg></div>
+            <div class="combo-pop" role="listbox">
+              <div class="combo-empty">Нічого не знайдено</div>
+              <div class="combo-create is-active"><svg><use href="#i-plus"/></svg>Створити «Сильмариліон»</div>
+            </div></div></div>
+        <div class="note">Коли збігів немає — лишається лише створення нового айтема.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <p class="sub">Логіка взаємодії та клавіатура.</p>
+    <dl class="tref">
+      <div><dt>Відкриття</dt><dd>клік або фокус відкриває список; друк теж відкриває й одразу фільтрує</dd></div>
+      <div><dt>Фільтр (автокомпліт)</dt><dd>підрядковий збіг без регістру; збіг підсвічується <code>--primary</code></dd></div>
+      <div><dt><kbd>↓</kbd> <kbd>↑</kbd></dt><dd>рух по рядках (включно з дією «Створити»), з прокруткою до активного</dd></div>
+      <div><dt><kbd>Enter</kbd></dt><dd>обрати активний рядок / створити новий</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>закрити й повернути попереднє значення</dd></div>
+      <div><dt><kbd>Tab</kbd> / клік поза</dt><dd>закрити</dd></div>
+      <div><dt>Створення</dt><dd>якщо запит не збігається точно — рядок «Створити «запит»»; вибір додає айтем у список і одразу обирає; порожній запит → «Створити нову серію»</dd></div>
+      <div class="last"><dt>Очищення</dt><dd>кнопка «×» при наявному виборі скидає значення</dd></div>
+    </dl>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Відкрий, повводь («тро», «дюн», «скл»), полазь стрілками, створи нову серію.</p>
+    <div class="play">
+      <div class="field">
+        <label class="label label--required">Назва серії</label>
+        <div class="combo" data-combo>
+          <div class="combo-field">
+            <input class="input combo-input" type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" placeholder="Оберіть або створіть серію" autocomplete="off">
+            <button class="combo-clear" type="button" aria-label="Очистити" hidden><svg><use href="#i-x"/></svg></button>
+            <svg class="combo-caret"><use href="#i-chevron"/></svg>
+          </div>
+          <div class="combo-pop" role="listbox"></div>
+        </div>
+        <p class="help"><svg><use href="#i-info"/></svg>Почни вводити, щоб відфільтрувати, або створи нову серію.</p>
+      </div>
+      <div class="picked" id="picked">Нічого не обрано.</div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+  var SERIES=[
+    {name:'Двір шипів і троянд', author:'Сара Дж. Маас'},
+    {name:'Трон зі скла', author:'Сара Дж. Маас'},
+    {name:'Пісня льоду й полум’я', author:'Джордж Р. Р. Мартін'},
+    {name:'Відьмак', author:'Анджей Сапковський'},
+    {name:'Дюна', author:'Френк Герберт'}
+  ];
+
+  function initCombo(node, onChange){
+    var input=node.querySelector('.combo-input');
+    var pop=node.querySelector('.combo-pop');
+    var clearBtn=node.querySelector('.combo-clear');
+    var cid='cb'+Math.random().toString(36).slice(2,7);
+    pop.id=cid+'-pop'; input.setAttribute('aria-controls', pop.id);
+    var items=SERIES.slice(), selected=null, open=false, active=0, rows=[];
+
+    function build(q){
+      q=q.trim(); var ql=q.toLowerCase();
+      var filtered=items.filter(function(it){return it.name.toLowerCase().indexOf(ql)>-1;});
+      rows=filtered.map(function(it){return {type:'option',item:it};});
+      var exact=items.some(function(it){return it.name.toLowerCase()===ql;});
+      if(q==='') rows.push({type:'create',label:'Створити нову серію',name:''});
+      else if(!exact) rows.push({type:'create',label:'Створити «'+q+'»',name:q});
+      return {q:q, filtered:filtered};
+    }
+    function hl(name,q){
+      if(!q) return esc(name);
+      var i=name.toLowerCase().indexOf(q.toLowerCase());
+      if(i<0) return esc(name);
+      return esc(name.slice(0,i))+'<mark>'+esc(name.slice(i,i+q.length))+'</mark>'+esc(name.slice(i+q.length));
+    }
+    function render(){
+      var q=open? input.value : '';
+      var r=build(q); pop.innerHTML='';
+      if(open && r.filtered.length===0 && q.trim()!==''){
+        var e=document.createElement('div'); e.className='combo-empty'; e.textContent='Нічого не знайдено'; pop.appendChild(e);
+      }
+      if(active>rows.length-1) active=rows.length-1; if(active<0) active=0;
+      var firstOptionAdded=false;
+      rows.forEach(function(row,i){
+        var el=document.createElement('div'); el.id=cid+'-r'+i; el.setAttribute('role','option'); el.dataset.i=i;
+        if(row.type==='option'){
+          firstOptionAdded=true;
+          el.className='combo-opt';
+          var sel=selected && selected.name===row.item.name;
+          if(sel){ el.classList.add('is-selected'); el.setAttribute('aria-selected','true'); }
+          if(i===active) el.classList.add('is-active');
+          el.innerHTML='<span class="opt-text"><span class="opt-main">'+hl(row.item.name,r.q)+'</span>'+(row.item.author?'<span class="opt-sub">'+esc(row.item.author)+'</span>':'')+'</span><svg class="opt-check"><use href="#i-check"/></svg>';
+        } else {
+          if(firstOptionAdded){ var sep=document.createElement('div'); sep.className='combo-sep'; pop.appendChild(sep); }
+          el.className='combo-create';
+          if(i===active) el.classList.add('is-active');
+          el.innerHTML='<svg><use href="#i-plus"/></svg>'+esc(row.label);
+        }
+        el.addEventListener('click',function(){ choose(i); });
+        pop.appendChild(el);
+      });
+      var act=pop.querySelector('.is-active');
+      input.setAttribute('aria-activedescendant', act? act.id : '');
+    }
+    function openIt(){
+      if(open || input.disabled) return;
+      open=true; node.classList.add('is-open'); input.setAttribute('aria-expanded','true');
+      input.value='';
+      active=0;
+      if(selected){ var ix=items.findIndex(function(it){return it.name===selected.name;}); if(ix>-1) active=ix; }
+      render();
+    }
+    function closeIt(restore){
+      if(!open) return;
+      open=false; node.classList.remove('is-open'); input.setAttribute('aria-expanded','false');
+      input.setAttribute('aria-activedescendant','');
+      if(restore!==false) input.value = selected? selected.name : '';
+    }
+    function pick(it){ selected=it; input.value=it.name; clearBtn.hidden=false; closeIt(false); if(onChange) onChange(selected); }
+    function choose(i){
+      var row=rows[i]; if(!row) return;
+      if(row.type==='option'){ pick(row.item); }
+      else {
+        var name=(row.name||input.value).trim(); if(!name){ input.focus(); return; }
+        var ex=items.filter(function(it){return it.name.toLowerCase()===name.toLowerCase();})[0];
+        if(!ex){ ex={name:name, author:'Нова серія'}; items.push(ex); }
+        pick(ex);
+      }
+    }
+    function clearSel(){ selected=null; input.value=''; clearBtn.hidden=true; if(onChange) onChange(null); if(open) render(); input.focus(); }
+    function scrollActive(){ var a=pop.querySelector('.is-active'); if(a) a.scrollIntoView({block:'nearest'}); }
+
+    input.addEventListener('focus', openIt);
+    input.addEventListener('click', openIt);
+    input.addEventListener('input', function(){ if(!open) openIt(); active=0; render(); });
+    input.addEventListener('keydown', function(e){
+      if(e.key==='ArrowDown'){ e.preventDefault(); if(!open){ openIt(); return; } active=Math.min(active+1, rows.length-1); render(); scrollActive(); }
+      else if(e.key==='ArrowUp'){ e.preventDefault(); if(!open){ openIt(); return; } active=Math.max(active-1, 0); render(); scrollActive(); }
+      else if(e.key==='Enter'){ if(open){ e.preventDefault(); choose(active); } }
+      else if(e.key==='Escape'){ if(open){ e.preventDefault(); closeIt(true); } }
+      else if(e.key==='Tab'){ if(open) closeIt(true); }
+    });
+    pop.addEventListener('mousedown', function(e){ e.preventDefault(); });
+    clearBtn.addEventListener('mousedown', function(e){ e.preventDefault(); });
+    clearBtn.addEventListener('click', clearSel);
+    input.addEventListener('blur', function(){ setTimeout(function(){ if(!node.contains(document.activeElement)) closeIt(true); }, 0); });
+    clearBtn.hidden=true;
+  }
+
+  var pickedEl=document.getElementById('picked');
+  document.querySelectorAll('[data-combo]').forEach(function(node){
+    if(node.classList.contains('is-static')) return;
+    initCombo(node, function(sel){
+      pickedEl.innerHTML = sel ? ('Обрано: <b>'+esc(sel.name)+'</b>'+(sel.author?' · '+esc(sel.author):'')) : 'Нічого не обрано.';
+    });
+  });
+})();
+</script>
+</body>
+</html>

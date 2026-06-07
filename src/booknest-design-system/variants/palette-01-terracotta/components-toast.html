@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Toast</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* trimmed BUTTON */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:600;font-size:.9375rem;line-height:1;color:var(--ink);border:1px solid transparent;border-radius:var(--radius);background:transparent;cursor:pointer;height:42px;padding:0 16px;white-space:nowrap;transition:background-color .18s,border-color .18s,box-shadow .18s,transform .06s}
+.btn svg{width:18px;height:18px}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn:not(:disabled):active{transform:translateY(1px)}
+.btn.primary{color:var(--on-primary);background:var(--primary);box-shadow:var(--shadow-btn)}
+.btn.primary:hover{background:var(--primary-hover)}
+.btn.secondary{background:var(--surface);border-color:var(--border)}
+.btn.secondary:hover{background:var(--surface-alt);border-color:var(--accent-border)}
+
+/* ============ TOAST ============ */
+.toast-region{position:fixed;z-index:1100;bottom:24px;right:24px;display:flex;flex-direction:column;gap:12px;width:380px;max-width:calc(100vw - 32px);pointer-events:none}
+.toast-region.top{top:24px;bottom:auto}
+.toast-region.center{left:50%;right:auto;transform:translateX(-50%);align-items:center}
+.toast{--accent:var(--icon);--accent-bg:var(--accent-soft);pointer-events:auto;position:relative;display:flex;gap:12px;align-items:flex-start;width:100%;
+  background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);box-shadow:var(--shadow-pop);
+  padding:13px 12px 13px 15px;overflow:hidden;animation:toast-in .25s cubic-bezier(.4,0,.2,1)}
+.toast.out{animation:toast-out .2s ease forwards}
+.toast.demo{animation:none}
+@keyframes toast-in{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes toast-out{to{opacity:0;transform:translateX(24px)}}
+@media (prefers-reduced-motion:reduce){.toast,.toast.out{animation:none}}
+.toast.success{--accent:var(--success);--accent-bg:var(--success-bg)}
+.toast.error{--accent:var(--danger);--accent-bg:var(--danger-bg)}
+.toast.warning{--accent:var(--warning);--accent-bg:var(--warning-bg)}
+.toast.info{--accent:var(--info);--accent-bg:var(--info-bg)}
+.toast-ic{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-bg);color:var(--accent)}
+.toast-ic svg{width:18px;height:18px}
+.toast-content{flex:1;min-width:0;padding-top:1px}
+.toast-title{font-weight:600;color:var(--ink);font-size:.9375rem;line-height:1.3}
+.toast-msg{color:var(--muted);font-size:.8125rem;margin-top:2px;line-height:1.45}
+.toast-action{align-self:center;flex:0 0 auto;border:0;background:transparent;color:var(--primary);font:inherit;font-weight:600;font-size:.8125rem;cursor:pointer;padding:6px 8px;border-radius:var(--radius-sm);white-space:nowrap}
+.toast-action:hover{background:var(--surface-alt)}
+.toast-action:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.toast-close{flex:0 0 auto;width:26px;height:26px;border:0;background:transparent;color:var(--muted);border-radius:var(--radius-xs);display:grid;place-items:center;cursor:pointer;transition:.15s}
+.toast-close:hover{background:var(--surface-alt);color:var(--ink)}
+.toast-close:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.toast-close svg{width:15px;height:15px}
+.toast-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--accent);opacity:.4;transform-origin:left;animation:toast-bar linear forwards}
+.toast:hover .toast-bar{animation-play-state:paused}
+@keyframes toast-bar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.stack{display:flex;flex-direction:column;gap:12px;max-width:380px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:160px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}
+  .toast-region{left:16px;right:16px;width:auto}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+  <symbol id="i-alert-tri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Toast</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Toast</h1>
+    <p class="lead">Коротке тимчасове повідомлення в кутку про результат дії: «Книгу додано», «Збережено», «Помилка». Саме зникає, з паузою на наведенні; колір і іконка — за типом. Не блокує екран (на відміну від модалки).</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="stack" style="margin-bottom:8px">
+      <div class="toast success demo"><span class="toast-ic"><svg><use href="#i-check"/></svg></span><div class="toast-content"><div class="toast-title">Книгу додано</div><div class="toast-msg">«Гірський перевал» у твоїй бібліотеці.</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+    </div>
+    <dl class="tref">
+      <div><dt>icon</dt><dd>кружок-статус у кольорі типу (<code>--accent</code> + м'який фон)</dd></div>
+      <div><dt>title / msg</dt><dd>короткий заголовок + опційний рядок деталей</dd></div>
+      <div><dt>action</dt><dd>опційна текст-дія, напр. «Скасувати» (undo)</dd></div>
+      <div><dt>close</dt><dd>×, ручне закриття</dd></div>
+      <div class="last"><dt>bar</dt><dd>смужка часу до авто-зникнення (пауза на hover)</dd></div>
+    </dl>
+  </section>
+
+  <!-- ТИПИ -->
+  <section class="block">
+    <h2>Типи</h2>
+    <p class="sub">Колір = семантика. Іконка дублює тип (не лише колір).</p>
+    <div class="stack">
+      <div class="toast success demo"><span class="toast-ic"><svg><use href="#i-check"/></svg></span><div class="toast-content"><div class="toast-title">Збережено</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast error demo"><span class="toast-ic"><svg><use href="#i-x-circle"/></svg></span><div class="toast-content"><div class="toast-title">Не вдалося зберегти</div><div class="toast-msg">Перевір з'єднання та спробуй ще раз.</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast warning demo"><span class="toast-ic"><svg><use href="#i-alert-tri"/></svg></span><div class="toast-content"><div class="toast-title">Ліміт майже досягнуто</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast info demo"><span class="toast-ic"><svg><use href="#i-info"/></svg></span><div class="toast-content"><div class="toast-title">Синхронізація запущена</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast demo"><span class="toast-ic"><svg><use href="#i-bell"/></svg></span><div class="toast-content"><div class="toast-title">Нейтральне повідомлення</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+    </div>
+  </section>
+
+  <!-- КОМПОЗИЦІЯ -->
+  <section class="block">
+    <h2>Композиція</h2>
+    <div class="stack">
+      <div class="toast success demo"><span class="toast-ic"><svg><use href="#i-check"/></svg></span><div class="toast-content"><div class="toast-title">Лише заголовок</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast info demo"><span class="toast-ic"><svg><use href="#i-info"/></svg></span><div class="toast-content"><div class="toast-title">Заголовок + опис</div><div class="toast-msg">Додатковий рядок із деталями події.</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast demo"><span class="toast-ic"><svg><use href="#i-bell"/></svg></span><div class="toast-content"><div class="toast-title">Книгу видалено</div></div><button class="toast-action" type="button">Скасувати</button><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+      <div class="toast success demo"><span class="toast-ic"><svg><use href="#i-check"/></svg></span><div class="toast-content"><div class="toast-title">Зі смужкою часу</div></div><button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button><span class="toast-bar" style="animation:none;transform:scaleX(.6)"></span></div>
+    </div>
+  </section>
+
+  <!-- СПРОБУЙ -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Натисни — тост з'явиться внизу праворуч, сам зникне (наведи — пауза).</p>
+    <div class="card row">
+      <button class="btn primary" type="button" data-toast="success">Success</button>
+      <button class="btn secondary" type="button" data-toast="error">Error</button>
+      <button class="btn secondary" type="button" data-toast="warning">Warning</button>
+      <button class="btn secondary" type="button" data-toast="info">Info</button>
+      <button class="btn secondary" type="button" data-toast="action">З дією (undo)</button>
+      <button class="btn secondary" type="button" data-toast="persist">Без авто-зникнення</button>
+      <button class="btn secondary" type="button" data-toast="stack">Стек ×3</button>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Коли тост</dt><dd>підтвердити результат дії, що не вимагає реакції; не для критичних рішень (це модалка)</dd></div>
+      <div><dt>Тривалість</dt><dd>~4–5 с; з дією — довше; помилку можна лишати до закриття</dd></div>
+      <div><dt>Пауза</dt><dd>наведення/фокус зупиняє таймер</dd></div>
+      <div><dt>Стек</dt><dd>кілька — стовпчиком у кутку; не зловживай кількістю</dd></div>
+      <div><dt>Позиція</dt><dd>типово знизу-праворуч; <code>.top</code>/<code>.center</code> на регіоні</dd></div>
+      <div class="last"><dt>Семантика</dt><dd><code>role="status"</code>/<code>aria-live="polite"</code>; помилка — <code>role="alert"</code>/<code>assertive</code></dd></div>
+    </dl>
+  </section>
+</div>
+
+<div class="toast-region" id="toastRegion"></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  var ICON={success:'i-check',error:'i-x-circle',warning:'i-alert-tri',info:'i-info',neutral:'i-bell'};
+  var region=document.getElementById('toastRegion');
+
+  function dismiss(t){
+    if(!t || t.classList.contains('out')) return;
+    if(t._timer){ clearTimeout(t._timer); t._timer=null; }
+    t.classList.add('out');
+    t.addEventListener('animationend', function(){ if(t.parentNode) t.parentNode.removeChild(t); }, {once:true});
+    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 300); // fallback (reduced-motion)
+  }
+
+  function showToast(o){
+    o=o||{}; var type=o.type||'neutral'; var dur=o.duration==null?4500:o.duration;
+    var t=document.createElement('div'); t.className='toast '+type;
+    t.setAttribute('role', type==='error'?'alert':'status');
+    t.setAttribute('aria-live', type==='error'?'assertive':'polite');
+    var html='<span class="toast-ic"><svg><use href="#'+(ICON[type]||'i-bell')+'"/></svg></span>'+
+      '<div class="toast-content"><div class="toast-title">'+esc(o.title||'')+'</div>'+
+      (o.msg?'<div class="toast-msg">'+esc(o.msg)+'</div>':'')+'</div>'+
+      (o.action?'<button class="toast-action" type="button">'+esc(o.action)+'</button>':'')+
+      '<button class="toast-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button>'+
+      (dur>0?'<span class="toast-bar"></span>':'');
+    t.innerHTML=html;
+    region.appendChild(t);
+
+    var bar=t.querySelector('.toast-bar');
+    var remaining=dur, startAt;
+    function startTimer(){ if(dur<=0) return; startAt=Date.now(); t._timer=setTimeout(function(){ dismiss(t); }, remaining); if(bar) bar.style.animationPlayState='running'; }
+    function pause(){ if(dur<=0||!t._timer) return; clearTimeout(t._timer); t._timer=null; remaining-=Date.now()-startAt; if(bar) bar.style.animationPlayState='paused'; }
+    if(bar){ bar.style.animationDuration=dur+'ms'; }
+    t.addEventListener('mouseenter', pause); t.addEventListener('mouseleave', startTimer);
+    t.addEventListener('focusin', pause); t.addEventListener('focusout', startTimer);
+
+    t.querySelector('.toast-close').addEventListener('click', function(){ dismiss(t); });
+    var act=t.querySelector('.toast-action');
+    if(act) act.addEventListener('click', function(){ dismiss(t); showToast({type:'neutral',title:'Скасовано'}); });
+    startTimer();
+    return t;
+  }
+
+  // demo gallery: make static close buttons work too
+  document.querySelectorAll('.toast.demo .toast-close').forEach(function(b){
+    b.addEventListener('click', function(){ dismiss(b.closest('.toast')); });
+  });
+
+  var PRESETS={
+    success:{type:'success',title:'Книгу додано',msg:'«Гірський перевал» у твоїй бібліотеці.'},
+    error:{type:'error',title:'Не вдалося зберегти',msg:'Перевір з\'єднання та спробуй ще раз.',duration:7000},
+    warning:{type:'warning',title:'Ліміт майже досягнуто',msg:'Залишилось 2 слоти у безкоштовному плані.'},
+    info:{type:'info',title:'Синхронізація запущена'},
+    action:{type:'neutral',title:'Книгу видалено',action:'Скасувати',duration:6000},
+    persist:{type:'info',title:'Постійне повідомлення',msg:'Зникне лише після закриття.',duration:0}
+  };
+  document.querySelectorAll('[data-toast]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var k=btn.getAttribute('data-toast');
+      if(k==='stack'){ showToast(PRESETS.success); setTimeout(function(){ showToast(PRESETS.info); },250); setTimeout(function(){ showToast(PRESETS.warning); },500); return; }
+      showToast(PRESETS[k]||{title:'Повідомлення'});
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Filter panel</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* toolbar context */
+.fbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.fsearch{flex:1 1 auto;max-width:380px;height:44px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-full);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--muted);font-size:.9375rem}
+.fsearch svg{width:18px;height:18px;flex:0 0 auto}
+
+/* ===== FILTER PANEL ===== */
+.filterbox{position:relative}
+.filter-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:1px solid var(--border);background:var(--surface);color:var(--ink);border-radius:var(--radius-sm);font:inherit;font-weight:600;font-size:.9375rem;cursor:pointer;transition:.15s}
+.filter-btn:hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.filter-btn.open{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.filter-btn svg{width:18px;height:18px;color:var(--icon)}
+.fbadge{min-width:20px;height:20px;padding:0 6px;border-radius:var(--radius-full);background:var(--primary);color:var(--on-primary);font-size:.7rem;font-weight:700;display:none;place-items:center;font-variant-numeric:tabular-nums}
+.filter-btn.has-active .fbadge{display:inline-grid}
+
+.filter-pop{position:absolute;top:calc(100% + 10px);right:0;width:328px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-pop);z-index:70;display:flex;flex-direction:column;max-height:min(74vh,640px)}
+.filter-pop[hidden]{display:none}
+.filter-pop.anim{animation:pop-in .14s ease}
+@keyframes pop-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.fp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 0}
+.fp-head h3{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.0625rem;margin:0}
+.fp-close{width:30px;height:30px;border-radius:var(--radius-xs);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s}
+.fp-close:hover{background:var(--surface-alt);color:var(--ink)}
+.fp-close svg{width:17px;height:17px}
+.fp-top{display:flex;justify-content:flex-end;padding:6px 18px 0}
+.fp-reset{color:var(--danger);font-size:.8125rem;font-weight:600;background:0;border:0;cursor:pointer;padding:2px 0}
+.fp-reset:hover{text-decoration:underline}
+.fp-reset:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring);border-radius:var(--radius-xs)}
+.fp-body{overflow-y:auto;padding:12px 18px 16px;display:flex;flex-direction:column;gap:14px;flex:1 1 auto}
+.fp-group{display:flex;flex-direction:column;gap:7px}
+.fp-label{color:var(--ink);font-weight:600;font-size:.8125rem}
+
+/* custom select (matches Select component — no native blue list) */
+.fsel{position:relative}
+.fsel-btn{width:100%;height:42px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--field);color:var(--ink);font:inherit;font-size:.875rem;cursor:pointer;text-align:left;transition:border-color .15s,box-shadow .15s}
+.fsel-btn:hover{border-color:var(--accent-border)}
+.fsel.open .fsel-btn,.fsel-btn:focus-visible{outline:0;border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.fsel-btn .val{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fsel-btn .chev{width:16px;height:16px;color:var(--muted);flex:0 0 auto;transition:transform .15s}
+.fsel.open .fsel-btn .chev{transform:rotate(180deg)}
+.fsel-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-pop);z-index:8;padding:6px;max-height:236px;overflow-y:auto;display:none}
+.fsel.open .fsel-menu{display:block}
+.fsel-opt{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border-radius:var(--radius-xs);color:var(--text);font-size:.875rem;cursor:pointer;scroll-margin:6px}
+.fsel-opt.active{background:var(--surface-alt)}
+.fsel-opt[aria-selected="true"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.fsel-opt .ck{width:15px;height:15px;color:var(--primary);flex:0 0 auto;visibility:hidden}
+.fsel-opt[aria-selected="true"] .ck{visibility:visible}
+
+.fp-fav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:2px}
+.fp-fav .lbl{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;font-size:.9375rem}
+.fp-fav .lbl svg{width:18px;height:18px;color:var(--danger)}
+.tg-switch{position:relative;width:46px;height:26px;flex:0 0 auto;cursor:pointer}
+.tg-switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.tg-track{position:absolute;inset:0;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-full);transition:.2s}
+.tg-thumb{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow-card);transition:.2s}
+.tg-switch input:checked~.tg-track{background:var(--primary);border-color:var(--primary)}
+.tg-switch input:checked~.tg-thumb{transform:translateX(20px)}
+.tg-switch input:focus-visible~.tg-track{box-shadow:0 0 0 3px var(--focus-ring)}
+.fp-foot{padding:14px 18px;border-top:1px solid var(--border);flex:0 0 auto}
+.fp-apply{width:100%;height:44px;border:0;border-radius:var(--radius-sm);background:var(--primary);color:var(--on-primary);font:inherit;font-weight:600;font-size:.9375rem;cursor:pointer;box-shadow:var(--shadow-btn);transition:.15s}
+.fp-apply:hover{background:var(--primary-hover)}
+.fp-apply:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.fp-count{text-align:center;color:var(--muted);font-size:.8125rem;margin-top:10px}
+.fp-count b{color:var(--ink);font-weight:700}
+@media (prefers-reduced-motion:reduce){.filter-pop.anim{animation:none}.tg-track,.tg-thumb,.fsel-btn .chev{transition:none}}
+
+/* layout */
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:140px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Filter panel</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Filter panel</h1>
+    <p class="lead">Попап фільтрів під кнопкою «Фільтри»: групи (статус, жанр, вік, автор, видавництво, мова) + «Тільки улюблені», «Скинути всі» та «Показати результати» з лічильником. Селекти — <b>кастомні</b> (у темі BookNest), без стандартного синього списку браузера.</p>
+  </div>
+
+  <!-- СПРОБУЙ -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Відкрий «Фільтри», розкрий будь-який селект — список оформлений у темі (теплий ховер, обране з галочкою). Зміни значення — лічильник і бейдж оновлюються.</p>
+
+    <div class="fbar">
+      <div class="fsearch"><svg><use href="#i-search"/></svg>Пошук книги, автора, видавництва…</div>
+      <div class="filterbox" id="filterbox">
+        <button class="filter-btn" type="button" id="filterBtn" aria-haspopup="true" aria-expanded="false" aria-controls="filterPop">
+          <svg><use href="#i-filter"/></svg>Фільтри<span class="fbadge" id="fbadge">0</span>
+        </button>
+        <div class="filter-pop" id="filterPop" role="dialog" aria-label="Фільтри" hidden>
+          <div class="fp-head"><h3>Фільтри</h3><button class="fp-close" type="button" id="fpClose" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+          <div class="fp-top"><button class="fp-reset" type="button" id="fpReset">Скинути всі</button></div>
+          <div class="fp-body">
+
+            <div class="fp-group"><span class="fp-label" id="lbl1">Статус читання</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl1"><span class="val">Усі статуси</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі статуси<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Читаю зараз<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Прочитано<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Хочу прочитати<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Хочу купити<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl2">Статус володіння</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl2"><span class="val">Усі статуси</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі статуси<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Маю<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Не маю<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Позичив комусь<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl3">Жанри</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl3"><span class="val">Усі жанри</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі жанри<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Фентезі<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Детектив<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Наукова фантастика<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Романтика<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Класика<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl4">Вікова категорія</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl4"><span class="val">Усі категорії</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі категорії<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">0+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">12+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">16+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">18+<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl5">Автор</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl5"><span class="val">Усі автори</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі автори<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Ребекка Яррос<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Джордж Р. Р. Мартін<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Френк Герберт<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl6">Видавництво</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl6"><span class="val">Усі видавництва</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі видавництва<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Vivat<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">КСД<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Лабораторія<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Наш Формат<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl7">Серія / Соло</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl7"><span class="val">Усі книги</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі книги<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">У серії<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Поза серіями<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-group"><span class="fp-label" id="lbl8">Мова</span>
+              <div class="fsel" data-fsel><button class="fsel-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl8"><span class="val">Усі мови</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+                <div class="fsel-menu" role="listbox"><div class="fsel-opt" role="option" aria-selected="true">Усі мови<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Українська<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Англійська<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">Польська<svg class="ck"><use href="#i-check"/></svg></div></div>
+              </div>
+            </div>
+
+            <div class="fp-fav">
+              <span class="lbl"><svg><use href="#i-heart"/></svg>Тільки улюблені</span>
+              <label class="tg-switch"><input type="checkbox" id="fFav" role="switch" aria-label="Тільки улюблені"><span class="tg-track"></span><span class="tg-thumb"></span></label>
+            </div>
+          </div>
+          <div class="fp-foot">
+            <button class="fp-apply" type="button" id="fpApply">Показати результати</button>
+            <div class="fp-count">Знайдено: <b id="fpCount">243</b> <span id="fpWord">книги</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="sub" style="margin:14px 0 0">Панель прив'язана під кнопкою (праворуч); селекти теж кастомні — без браузерного синього.</p>
+  </section>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">Структура попапа з відкритим кастомним селектом (статичний фрагмент).</p>
+    <div aria-hidden="true" style="max-width:328px">
+      <div class="filter-pop" style="position:static;max-height:none;box-shadow:var(--shadow-card)">
+        <div class="fp-head"><h3>Фільтри</h3><button class="fp-close" type="button" tabindex="-1"><svg><use href="#i-x"/></svg></button></div>
+        <div class="fp-top"><button class="fp-reset" type="button" tabindex="-1">Скинути всі</button></div>
+        <div class="fp-body" style="overflow:visible">
+          <div class="fp-group"><span class="fp-label">Вікова категорія</span>
+            <div class="fsel open"><button class="fsel-btn" type="button" tabindex="-1"><span class="val">Усі категорії</span><svg class="chev"><use href="#i-chevron-down"/></svg></button>
+              <div class="fsel-menu" role="listbox" style="position:static;box-shadow:none;margin-top:6px"><div class="fsel-opt" role="option" aria-selected="true">Усі категорії<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt active" role="option" aria-selected="false">0+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">12+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">16+<svg class="ck"><use href="#i-check"/></svg></div><div class="fsel-opt" role="option" aria-selected="false">18+<svg class="ck"><use href="#i-check"/></svg></div></div>
+            </div>
+          </div>
+          <div class="fp-fav"><span class="lbl"><svg><use href="#i-heart"/></svg>Тільки улюблені</span><label class="tg-switch"><input type="checkbox" tabindex="-1"><span class="tg-track"></span><span class="tg-thumb"></span></label></div>
+        </div>
+        <div class="fp-foot"><button class="fp-apply" type="button" tabindex="-1">Показати результати</button><div class="fp-count">Знайдено: <b>243</b> книги</div></div>
+      </div>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>head</dt><dd>заголовок «Фільтри» + закрити; нижче «Скинути всі»</dd></div>
+      <div><dt>group</dt><dd>підпис + кастомний select (тема BookNest, не нативний)</dd></div>
+      <div><dt>option</dt><dd>ховер — <code>surface-alt</code>; обране — <code>accent-soft</code> + ✓</dd></div>
+      <div><dt>apply</dt><dd>«Показати результати» застосовує й закриває</dd></div>
+      <div class="last"><dt>count</dt><dd>скільки книг підходить — оновлюється наживо</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Селект</dt><dd>кастомний (компонент Select), щоб список був у темі — без нативного синього</dd></div>
+      <div><dt>Розкриття</dt><dd>під кнопкою «Фільтри»; закривається кліком назовні, ×, Esc</dd></div>
+      <div><dt>Активність</dt><dd>бейдж на кнопці показує кількість активних фільтрів</dd></div>
+      <div><dt>Скинути</dt><dd>«Скинути всі» повертає типові значення</dd></div>
+      <div class="last"><dt>vs Dropdown/Search</dt><dd>фільтр звужує список; dropdown — дії пункту; пошук — глобальний перехід</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var box=document.getElementById('filterbox'), btn=document.getElementById('filterBtn'), pop=document.getElementById('filterPop');
+  var closeBtn=document.getElementById('fpClose'), reset=document.getElementById('fpReset'), apply=document.getElementById('fpApply');
+  var badge=document.getElementById('fbadge'), countEl=document.getElementById('fpCount'), wordEl=document.getElementById('fpWord');
+  var fav=document.getElementById('fFav');
+  var BASE=243, fsels=[];
+
+  function plural(n){ var a=Math.abs(n)%100, b=n%10; if(a>10&&a<20) return 'книг'; if(b===1) return 'книга'; if(b>=2&&b<=4) return 'книги'; return 'книг'; }
+  function activeCount(){ var c=0; fsels.forEach(function(s){ if(s.index()>0) c++; }); if(fav.checked) c++; return c; }
+  function recompute(){
+    var a=activeCount();
+    btn.classList.toggle('has-active', a>0); badge.textContent=a;
+    var n = a===0 ? BASE : Math.max(3, Math.round(BASE/(a+1)) - a*4);
+    countEl.textContent=n; wordEl.textContent=plural(n);
+  }
+  function closeAllExcept(except){ fsels.forEach(function(s){ if(s.el!==except) s.close(); }); }
+
+  function makeSelect(el){
+    var b=el.querySelector('.fsel-btn'), menu=el.querySelector('.fsel-menu'), val=el.querySelector('.val');
+    var opts=Array.prototype.slice.call(menu.querySelectorAll('.fsel-opt'));
+    var sel=0, act=0;
+    function setActive(i){ opts.forEach(function(o,k){ o.classList.toggle('active', k===i); }); act=i; if(opts[i]) opts[i].scrollIntoView({block:'nearest'}); }
+    function open(){ closeAllExcept(el); el.classList.add('open'); b.setAttribute('aria-expanded','true'); setActive(sel); }
+    function close(){ el.classList.remove('open'); b.setAttribute('aria-expanded','false'); }
+    function choose(i){ sel=i; opts.forEach(function(o,k){ o.setAttribute('aria-selected', k===i?'true':'false'); }); val.textContent=opts[i].textContent.trim(); close(); recompute(); }
+    b.addEventListener('click', function(){ el.classList.contains('open')?close():open(); });
+    opts.forEach(function(o,i){ o.addEventListener('click', function(){ choose(i); b.focus(); }); o.addEventListener('mousemove', function(){ if(i!==act) setActive(i); }); });
+    b.addEventListener('keydown', function(e){
+      var on=el.classList.contains('open');
+      if(!on && (e.key==='Enter'||e.key===' '||e.key==='ArrowDown'||e.key==='ArrowUp')){ e.preventDefault(); open(); return; }
+      if(on){
+        if(e.key==='ArrowDown'){ e.preventDefault(); setActive((act+1)%opts.length); }
+        else if(e.key==='ArrowUp'){ e.preventDefault(); setActive((act-1+opts.length)%opts.length); }
+        else if(e.key==='Enter'||e.key===' '){ e.preventDefault(); choose(act); }
+        else if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); close(); }
+        else if(e.key==='Tab'){ close(); }
+      }
+    });
+    return { el:el, close:close, index:function(){ return sel; }, reset:function(){ sel=0; opts.forEach(function(o,k){ o.setAttribute('aria-selected', k===0?'true':'false'); }); val.textContent=opts[0].textContent.trim(); close(); } };
+  }
+  Array.prototype.slice.call(pop.querySelectorAll('[data-fsel]')).forEach(function(d){ fsels.push(makeSelect(d)); });
+
+  fav.addEventListener('change', recompute);
+  reset.addEventListener('click', function(){ fsels.forEach(function(s){ s.reset(); }); fav.checked=false; recompute(); });
+
+  function openPanel(){ if(!pop.hidden) return; pop.hidden=false; pop.classList.add('anim'); btn.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  function closePanel(){ if(pop.hidden) return; closeAllExcept(null); pop.hidden=true; pop.classList.remove('anim'); btn.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  btn.addEventListener('click', function(){ pop.hidden?openPanel():closePanel(); });
+  closeBtn.addEventListener('click', closePanel);
+  apply.addEventListener('click', closePanel);
+
+  document.addEventListener('mousedown', function(e){
+    if(!box.contains(e.target)){ closePanel(); return; }
+    fsels.forEach(function(s){ if(s.el.classList.contains('open') && !s.el.contains(e.target)) s.close(); });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Escape') return;
+    var anyOpen=false; fsels.forEach(function(s){ if(s.el.classList.contains('open')) anyOpen=true; });
+    if(anyOpen) return; // окремий select сам закриється
+    if(!pop.hidden){ closePanel(); btn.focus(); }
+  });
+
+  recompute();
+})();
+</script>
+</body>
+</html>

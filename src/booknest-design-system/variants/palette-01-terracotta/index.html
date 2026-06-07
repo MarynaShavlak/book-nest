@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Дизайн-система</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1,h2,.h2,h3,.h3{font-family:var(--font-serif);color:var(--ink);margin:0}
+h1,.h1{font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+h3,.h3{font-size:var(--fs-h3);font-weight:var(--fw-semibold)}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600;text-decoration:none}
+</style>
+
+<!-- ===== Сторінка ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:color-mix(in srgb,var(--surface-alt) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{width:34px;height:34px;color:var(--ink);--logo-page:#E4C6AA}
+.brand .bn{font-family:var(--font-serif);font-weight:700;color:var(--ink);font-size:1.25rem;line-height:1}
+.brand .bs{font-size:.72rem;color:var(--muted)}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+
+/* hero */
+.hero{padding:64px 0 8px;position:relative}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(2.9rem,6vw,4.25rem)}
+.hero .tag{margin-top:14px;font-size:1.125rem;color:var(--muted);max-width:60ch}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-full);font-size:.85rem;font-weight:600;color:var(--ink)}
+.pill svg{width:15px;height:15px;color:var(--primary)}
+
+/* toc */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 0;padding-bottom:4px}
+.toc a{display:inline-flex;height:34px;align-items:center;padding:0 13px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-full);font-size:.82rem;font-weight:600;color:var(--text-secondary);transition:.15s}
+.toc a:hover{background:var(--surface-alt);border-color:var(--accent-border);color:var(--ink)}
+
+.section{padding:40px 0 8px;border-top:1px solid var(--border);margin-top:44px;scroll-margin-top:70px}
+.section>h2{margin-bottom:6px}
+.section .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px;max-width:64ch}
+.subhead{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px}
+
+/* color swatches */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px}
+.sw{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-card)}
+.sw .chip{height:62px;border-bottom:1px solid var(--border)}
+.sw .meta{padding:9px 11px}
+.sw .nm{font-family:ui-monospace,Menlo,monospace;font-size:.76rem;font-weight:600;color:var(--ink);word-break:break-all}
+.sw .hex{font-size:.72rem;color:var(--text-secondary);text-transform:uppercase;font-variant-numeric:tabular-nums;margin-top:2px}
+.sw .role{font-size:.7rem;color:var(--muted);margin-top:3px}
+
+/* typography */
+.typewrap{display:flex;flex-direction:column;gap:2px}
+.tyrow{display:flex;align-items:baseline;gap:18px;padding:12px 0;border-bottom:1px dashed var(--border)}
+.tyrow:last-child{border-bottom:0}
+.tyrow .sample{flex:1 1 auto;min-width:0;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tyrow .info{flex:0 0 auto;text-align:right;font-family:ui-monospace,Menlo,monospace;font-size:.74rem;color:var(--muted)}
+.tyrow .info b{display:block;color:var(--text-secondary);font-weight:600}
+.fonts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px}
+@media(max-width:640px){.fonts{grid-template-columns:1fr}}
+.fontcard{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-card);padding:20px}
+.fontcard .big{font-size:3rem;line-height:1.05;color:var(--ink)}
+.fontcard .lbl{margin-top:8px;font-size:.78rem;color:var(--muted)}
+.fontcard .lbl b{color:var(--ink)}
+.weights{display:flex;flex-wrap:wrap;gap:22px;margin-top:8px}
+.weights span{color:var(--ink)}
+.weights small{display:block;font-size:.7rem;color:var(--muted);font-family:ui-monospace,monospace;font-weight:400}
+
+/* radii */
+.radii{display:flex;flex-wrap:wrap;gap:18px}
+.rad{display:flex;flex-direction:column;align-items:center;gap:8px}
+.rad .box{width:88px;height:62px;background:var(--accent-soft);border:1.5px solid var(--accent-border)}
+.rad .lab{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--muted);text-align:center}
+.rad .lab b{display:block;color:var(--ink)}
+
+/* shadows */
+.shadows{display:flex;flex-wrap:wrap;gap:22px}
+.shc{display:flex;flex-direction:column;align-items:center;gap:10px}
+.shc .box{width:136px;height:84px;background:var(--surface);border-radius:var(--radius-md);border:1px solid color-mix(in srgb,var(--border) 50%,transparent)}
+.shc .lab{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--muted)}
+
+/* borders & focus */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.tile{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-card);padding:18px}
+.tile .t{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:12px}
+.demo-border{height:46px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--field)}
+.demo-focus{height:46px;border:1px solid var(--primary);border-radius:var(--radius-sm);background:var(--field);box-shadow:0 0 0 3px var(--focus-ring)}
+.tile .note{margin-top:10px;font-size:.74rem;color:var(--muted);font-family:ui-monospace,monospace}
+
+/* spacing */
+.spaces{display:flex;flex-direction:column;gap:10px}
+.spc{display:flex;align-items:center;gap:14px}
+.spc .lab{width:54px;font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted)}
+.spc .bar{height:16px;background:var(--accent-soft);border:1px solid var(--accent-border);border-radius:4px}
+
+/* motion + icons */
+.rows{display:flex;flex-direction:column;gap:0}
+.mrow{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed var(--border);font-size:.875rem}
+.mrow:last-child{border-bottom:0}
+.mrow .k{font-family:ui-monospace,Menlo,monospace;color:var(--ink);font-weight:600}
+.mrow .v{color:var(--muted)}
+.icons{display:flex;flex-wrap:wrap;gap:12px}
+.ico-chip{width:46px;height:46px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);display:grid;place-items:center;color:var(--icon)}
+.ico-chip svg{width:22px;height:22px}
+
+/* components catalog */
+.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+.ccard{display:flex;align-items:flex-start;gap:12px;padding:15px 16px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-card);transition:transform .15s,box-shadow .15s,border-color .15s}
+.ccard:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);border-color:var(--accent-border)}
+.ccard .dot{width:36px;height:36px;border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--icon);display:grid;place-items:center;flex:0 0 auto}
+.ccard .dot svg{width:18px;height:18px}
+.ccard .tx{min-width:0}
+.ccard .nm{display:block;color:var(--ink);font-weight:700;font-size:.95rem}
+.ccard .ds{display:block;color:var(--muted);font-size:.78rem;margin-top:2px;line-height:1.4}
+.ccard .arr{margin-left:auto;color:var(--muted);flex:0 0 auto;transition:transform .15s}
+.ccard:hover .arr{transform:translateX(2px);color:var(--primary)}
+.ccard .arr svg{width:16px;height:16px}
+
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:8px}
+footer svg{width:16px;height:16px;color:var(--primary)}
+@media (prefers-reduced-motion:reduce){.theme-fab,.ccard,.ccard .arr{transition:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10.5 4h4v16h-4z"/><path d="m16.5 5 3.5.8-2.6 14.4-3.4-.7"/></symbol>
+  <symbol id="logo-mark" viewBox="0 0 100 100"><path d="M33 53 C40 56 60 56 67 53 C65 59 58 61 50 61 C42 61 35 59 33 53 Z" fill="var(--logo-page,#E4C6AA)"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 60 C20 72 40 76 50 76 C60 76 80 72 84 60"/><path d="M20 62 C24 73 42 78 50 78 C58 78 76 73 80 62"/><path d="M25 64 C28 75 44 80 50 80 C56 80 72 75 75 64"/><path d="M31 66 C34 77 46 81 50 81 C54 81 66 77 69 66"/><path d="M38 72 C44 75 56 75 62 72"/><path d="M34 69 L41 73"/><path d="M66 69 L59 73"/><path d="M50 25 C42 23 33 25 24 31 L24 55 C33 51 42 53 50 58"/><path d="M50 25 C58 23 67 25 76 31 L76 55 C67 51 58 53 50 58"/><path d="M50 25 L50 58"/><path d="M24 33 L21 35 L21 55 L24 54"/><path d="M76 33 L79 35 L79 55 L76 54"/></g></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.6L18 9l-4.3 1.4L12 15l-1.7-4.6L6 9l4.3-1.4z"/><path d="M5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.4-.3-.4-.5-.9-.5-1.4 0-1.1.9-2 2-2h2.5A4.5 4.5 0 0 0 22 11 10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.95 6.2 6.55.95-4.75 4.6 1.12 6.55L12 17.9 5.13 20.9l1.12-6.55L1.5 9.15l6.55-.95z"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="brand"><svg class="mark" viewBox="0 0 100 100"><use href="#logo-mark"/></svg><div><div class="bn">BookNest</div><div class="bs">Дизайн-система</div></div></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><svg viewBox="0 0 100 100" style="width:18px;height:18px;color:var(--ink);--logo-page:#E4C6AA"><use href="#logo-mark"/></svg>BookNest</span>
+    <h1>Дизайн-система</h1>
+    <p class="tag">Твій затишний куточок читача — у вигляді узгодженої системи: токени, типографіка та <b>48 компонентів</b>, побудовані на спільній основі. Світла й темна теми.</p>
+    <div class="meta">
+      <span class="pill"><svg><use href="#i-layers"/></svg>48 компонентів</span>
+      <span class="pill"><svg><use href="#i-palette"/></svg>Токени · світла / темна</span>
+      <span class="pill"><svg><use href="#i-type"/></svg>Playfair Display + Manrope</span>
+    </div>
+    <nav class="toc">
+      <a href="#colors">Кольори</a>
+      <a href="#type">Типографіка</a>
+      <a href="#radii">Радіуси</a>
+      <a href="#shadows">Тіні</a>
+      <a href="#borders">Бордери та фокус</a>
+      <a href="#spacing">Відступи</a>
+      <a href="#motion">Рух та іконки</a>
+      <a href="#components">Компоненти</a>
+    </nav>
+  </section>
+
+  <!-- КОЛЬОРИ -->
+  <section class="section" id="colors">
+    <h2>Кольори</h2>
+    <p class="sub">Семантичні токени (не сирі hex). Значення показано для поточної теми — перемкни тему вгорі, щоб побачити темні відповідники.</p>
+    <div id="colorGroups"></div>
+  </section>
+
+  <!-- ТИПОГРАФІКА -->
+  <section class="section" id="type">
+    <h2>Типографіка</h2>
+    <p class="sub">Дисплей і заголовки — Playfair Display (serif); інтерфейс і текст — Manrope (sans).</p>
+    <div class="fonts">
+      <div class="fontcard"><div class="big" style="font-family:var(--font-serif);font-weight:700">Аа Bg</div><div class="lbl"><b>Playfair Display</b> · 600/700 · заголовки, дисплей, великі числа</div></div>
+      <div class="fontcard"><div class="big" style="font-family:var(--font-sans);font-weight:700">Аа Bg</div><div class="lbl"><b>Manrope</b> · 400–700 · текст, мітки, кнопки, навігація</div></div>
+    </div>
+    <div class="subhead">Шкала</div>
+    <div class="typewrap">
+      <div class="tyrow"><span class="sample" style="font-family:var(--font-serif);font-size:var(--fs-h1);font-weight:700;letter-spacing:var(--tracking-display)">Затишний куточок</span><span class="info"><b>--fs-h1</b>clamp 2.75–3.25rem</span></div>
+      <div class="tyrow"><span class="sample" style="font-family:var(--font-serif);font-size:var(--fs-h2);font-weight:600">Заголовок секції</span><span class="info"><b>--fs-h2</b>clamp 1.75–2.125rem</span></div>
+      <div class="tyrow"><span class="sample" style="font-family:var(--font-serif);font-size:var(--fs-h3);font-weight:600">Підзаголовок</span><span class="info"><b>--fs-h3</b>1.375rem</span></div>
+      <div class="tyrow"><span class="sample" style="font-size:var(--fs-body)">Основний текст — читається легко.</span><span class="info"><b>--fs-body</b>1rem · lh 1.5</span></div>
+      <div class="tyrow"><span class="sample" style="font-size:var(--fs-label);font-weight:600">Мітка поля</span><span class="info"><b>--fs-label</b>0.875rem</span></div>
+      <div class="tyrow"><span class="sample" style="font-size:var(--fs-sm)">Допоміжний дрібний текст</span><span class="info"><b>--fs-sm</b>0.8125rem</span></div>
+      <div class="tyrow"><span class="sample" style="font-size:var(--fs-xs)">Капс / підписи</span><span class="info"><b>--fs-xs</b>0.75rem</span></div>
+    </div>
+    <div class="subhead">Накреслення (Manrope)</div>
+    <div class="weights">
+      <span style="font-weight:400">Regular<small>400 · --fw-regular</small></span>
+      <span style="font-weight:500">Medium<small>500 · --fw-medium</small></span>
+      <span style="font-weight:600">Semibold<small>600 · --fw-semibold</small></span>
+      <span style="font-weight:700">Bold<small>700 · --fw-bold</small></span>
+    </div>
+  </section>
+
+  <!-- РАДІУСИ -->
+  <section class="section" id="radii">
+    <h2>Радіуси</h2>
+    <p class="sub">Скруглення для поверхонь, полів і пілюль.</p>
+    <div class="radii">
+      <div class="rad"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="lab"><b>--radius-lg</b>24px</div></div>
+      <div class="rad"><div class="box" style="border-radius:var(--radius-md)"></div><div class="lab"><b>--radius-md</b>16px</div></div>
+      <div class="rad"><div class="box" style="border-radius:var(--radius)"></div><div class="lab"><b>--radius</b>12px</div></div>
+      <div class="rad"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="lab"><b>--radius-sm</b>10px</div></div>
+      <div class="rad"><div class="box" style="border-radius:var(--radius-xs)"></div><div class="lab"><b>--radius-xs</b>8px</div></div>
+      <div class="rad"><div class="box" style="border-radius:var(--radius-full)"></div><div class="lab"><b>--radius-full</b>9999px</div></div>
+    </div>
+  </section>
+
+  <!-- ТІНІ -->
+  <section class="section" id="shadows">
+    <h2>Тіні</h2>
+    <p class="sub">Теплі тіні у світлій темі, глибші в темній. Зростають за «висотою» елемента.</p>
+    <div class="shadows">
+      <div class="shc"><div class="box" style="box-shadow:var(--shadow-card)"></div><div class="lab">--shadow-card</div></div>
+      <div class="shc"><div class="box" style="box-shadow:var(--shadow-hover)"></div><div class="lab">--shadow-hover</div></div>
+      <div class="shc"><div class="box" style="box-shadow:var(--shadow-pop)"></div><div class="lab">--shadow-pop</div></div>
+      <div class="shc"><div class="box" style="box-shadow:var(--shadow-page)"></div><div class="lab">--shadow-page</div></div>
+      <div class="shc"><div class="box" style="box-shadow:var(--shadow-btn)"></div><div class="lab">--shadow-btn</div></div>
+    </div>
+  </section>
+
+  <!-- БОРДЕРИ ТА ФОКУС -->
+  <section class="section" id="borders">
+    <h2>Бордери та фокус</h2>
+    <p class="sub">Лінії — 1px <code>--border</code>; стан фокуса — бордер <code>--primary</code> + кільце <code>--focus-ring</code>.</p>
+    <div class="tiles">
+      <div class="tile"><div class="t">Бордер</div><div class="demo-border"></div><div class="note">1px solid var(--border)</div></div>
+      <div class="tile"><div class="t">Hover-бордер</div><div class="demo-border" style="border-color:var(--accent-border)"></div><div class="note">1px solid var(--accent-border)</div></div>
+      <div class="tile"><div class="t">Фокус</div><div class="demo-focus"></div><div class="note">border --primary · ring var(--focus-ring)</div></div>
+    </div>
+  </section>
+
+  <!-- ВІДСТУПИ -->
+  <section class="section" id="spacing">
+    <h2>Відступи</h2>
+    <p class="sub">Ритм інтерфейсу кратний 4px. Орієнтир для відступів, проміжків і паддінгів.</p>
+    <div class="spaces">
+      <div class="spc"><span class="lab">4</span><span class="bar" style="width:4px"></span></div>
+      <div class="spc"><span class="lab">8</span><span class="bar" style="width:8px"></span></div>
+      <div class="spc"><span class="lab">12</span><span class="bar" style="width:12px"></span></div>
+      <div class="spc"><span class="lab">16</span><span class="bar" style="width:16px"></span></div>
+      <div class="spc"><span class="lab">20</span><span class="bar" style="width:20px"></span></div>
+      <div class="spc"><span class="lab">24</span><span class="bar" style="width:24px"></span></div>
+      <div class="spc"><span class="lab">32</span><span class="bar" style="width:32px"></span></div>
+      <div class="spc"><span class="lab">48</span><span class="bar" style="width:48px"></span></div>
+    </div>
+  </section>
+
+  <!-- РУХ ТА ІКОНКИ -->
+  <section class="section" id="motion">
+    <h2>Рух та іконки</h2>
+    <p class="sub">Анімації короткі й м'які; усе з гардом <code>prefers-reduced-motion</code>. Іконки — лінійні, 24×24, обведення 2, круглі кінці.</p>
+    <div class="subhead">Тривалості переходів</div>
+    <div class="rows">
+      <div class="mrow"><span class="k">120ms</span><span class="v">мікровзаємодії (×, тогли)</span></div>
+      <div class="mrow"><span class="k">150ms</span><span class="v">бордери/фон контролів, hover</span></div>
+      <div class="mrow"><span class="k">200ms</span><span class="v">кнопки, підняття карток</span></div>
+      <div class="mrow"><span class="k">300ms</span><span class="v">перемикання теми</span></div>
+      <div class="mrow"><span class="k">600–700ms</span><span class="v">відмальовування графіків (ease)</span></div>
+    </div>
+    <div class="subhead">Іконки</div>
+    <div class="icons">
+      <span class="ico-chip"><svg><use href="#i-book"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-search"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-heart"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-star"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-layers"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-grid"/></svg></span>
+      <span class="ico-chip"><svg><use href="#i-spark"/></svg></span>
+    </div>
+  </section>
+
+  <!-- КОМПОНЕНТИ -->
+  <section class="section" id="components">
+    <h2>Компоненти</h2>
+    <p class="sub">Усі сторінки бібліотеки. Клікни картку, щоб відкрити компонент (файли лежать поруч у цій теці).</p>
+    <div id="catalog"></div>
+  </section>
+
+  <footer><svg viewBox="0 0 100 100" style="width:18px;height:18px;color:var(--ink);--logo-page:#E4C6AA"><use href="#logo-mark"/></svg>BookNest · дизайн-система · усі компоненти на спільних токенах</footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+
+  /* ---- colors ---- */
+  var COLORS=[
+    ['Поверхні', [['--bg','тло сторінки'],['--surface','картки, поверхні'],['--surface-alt','підкладки, hover'],['--field','поля вводу']]],
+    ['Текст', [['--ink','заголовки, акцентний текст'],['--text','основний текст'],['--text-secondary','вторинний текст'],['--muted','приглушений / підписи']]],
+    ['Бренд', [['--primary','головний акцент'],['--primary-hover','акцент · hover'],['--on-primary','текст на акценті'],['--accent-soft','м’який акцент (пілюлі)'],['--accent-soft-fg','текст на м’якому'],['--accent-border','акцентний бордер']]],
+    ['Лінії та іконки', [['--border','бордери, роздільники'],['--icon','іконки'],['--chip-bg','чип · тло'],['--chip-fg','чип · текст'],['--tag-bg','тег · тло'],['--tag-fg','тег · текст']]],
+    ['Статуси', [['--success','успіх'],['--success-bg','успіх · тло'],['--warning','увага'],['--warning-bg','увага · тло'],['--danger','помилка / небезпека'],['--danger-bg','помилка · тло'],['--info','інформація'],['--info-bg','інфо · тло']]],
+    ['Фокус', [['--focus-ring','кільце фокуса']]]
+  ];
+  var box=document.getElementById('colorGroups');
+  function fillColors(){
+    box.innerHTML='';
+    var cs=getComputedStyle(root);
+    COLORS.forEach(function(g){
+      var h=document.createElement('div'); h.className='subhead'; h.textContent=g[0]; box.appendChild(h);
+      var grid=document.createElement('div'); grid.className='swatches';
+      g[1].forEach(function(v){
+        var val=cs.getPropertyValue(v[0]).trim();
+        var card=document.createElement('div'); card.className='sw';
+        card.innerHTML='<div class="chip" style="background:var('+v[0]+')"></div><div class="meta"><div class="nm">'+v[0]+'</div><div class="hex">'+val+'</div><div class="role">'+v[1]+'</div></div>';
+        grid.appendChild(card);
+      });
+      box.appendChild(grid);
+    });
+  }
+
+  /* ---- catalog ---- */
+  var CATS=[
+    ['Поля та форми','i-type',[
+      ['components-input.html','Input','поле вводу: стани, іконки, типи, афікси'],
+      ['components-textarea.html','Textarea','багаторядкове + лічильник'],
+      ['components-select.html','Select','кастомний випадний список'],
+      ['components-multiselect.html','Multiselect','мультивибір'],
+      ['components-checkbox-radio.html','Checkbox / Radio','чекбокси та радіо'],
+      ['components-toggle.html','Toggle','перемикач'],
+      ['components-rating.html','Rating','зірковий рейтинг'],
+      ['components-upload.html','Upload','завантаження обкладинки/файлу'],
+      ['components-tag-input.html','TagInput','токени в полі + typeahead'],
+      ['components-number-stepper.html','NumberStepper','лічильник «− N +»'],
+      ['components-datepicker.html','Date picker','поле дати + календар']
+    ]],
+    ['Кнопки та дії','i-spark',[
+      ['components-button.html','Button','усі варіанти кнопок'],
+      ['components-segmented.html','Segmented','сегментований перемикач'],
+      ['components-chip-group.html','Chip group','вибір чипами'],
+      ['components-action-list.html','Action list','список дій'],
+      ['components-action-row.html','Action row','рядок дії']
+    ]],
+    ['Навігація','i-grid',[
+      ['components-tabs.html','Tabs','вкладки'],
+      ['components-breadcrumbs.html','Breadcrumbs','хлібні крихти'],
+      ['components-pagination.html','Pagination','пагінація'],
+      ['components-sidebar.html','Sidebar','бічне меню + рейка'],
+      ['components-appbar.html','App bar','верхня панель'],
+      ['components-stepper.html','Stepper','степер послідовності']
+    ]],
+    ['Оверлеї та спливаючі','i-layers',[
+      ['components-modal.html','Modal','модальне вікно'],
+      ['components-toast.html','Toast','сповіщення'],
+      ['components-dropdown.html','Dropdown','меню дій'],
+      ['components-tooltip.html','Tooltip','підказка'],
+      ['components-command-palette.html','Command palette','глобальний пошук'],
+      ['components-filter-panel.html','Filter panel','панель фільтрів'],
+      ['components-drawer.html','Drawer','висувна панель збоку']
+    ]],
+    ['Картки','i-book',[
+      ['components-card.html','Card','примітив + книжкова картка'],
+      ['components-card-series.html','Card · Series','картка серії'],
+      ['components-card-quote.html','Card · Quote','картка цитати'],
+      ['components-card-note.html','Card · Note','картка нотатки'],
+      ['components-card-collection.html','Card · Collection','картка колекції/списку'],
+      ['components-card-purchase.html','Card · Purchase','картка покупки'],
+      ['components-card-summary.html','Card · Summary','картка-підсумок'],
+      ['components-card-callout.html','Card · Callout','акцентний блок'],
+      ['components-character-card.html','Card · Character','картка персонажа']
+    ]],
+    ['Дані, статистика, візуалізація','i-palette',[
+      ['components-stat-card.html','Stat card','картка-показник'],
+      ['components-progress.html','Progress','лінійний прогрес'],
+      ['components-bar-list.html','Bar list','горизонтальний рейтинг'],
+      ['components-ring-progress.html','Ring progress','кільцевий прогрес'],
+      ['components-barchart.html','Bar chart','стовпчиковий графік'],
+      ['components-line-chart.html','Line chart','лінійний графік трендів'],
+      ['components-donut.html','Donut','кругова діаграма'],
+      ['components-calendar.html','Calendar','теплокарта активності'],
+      ['components-table.html','Table','повна дата-таблиця']
+    ]],
+    ['Індикатори та службові','i-star',[
+      ['components-badge-tag.html','Badge / Tag','бейджі та теги'],
+      ['components-user-avatar.html','User avatar','аватар користувача'],
+      ['components-skeleton.html','Skeleton','скелетон-завантаження'],
+      ['components-theme-switcher.html','Theme switcher','перемикач теми + акцент'],
+      ['components-alert.html','Alert','інлайн-банер: тони та стани']
+    ]],
+    ['Екрани','i-book',[
+      ['login.html','Login','екран входу'],
+      ['registration.html','Registration','екран реєстрації'],
+      ['layout-appshell.html','AppShell','каркас застосунку · сайдбар, топбар, контент']
+    ]],
+    ['Іконки','i-palette',[
+      ['ui-icons.html','UI-іконки','99 інтерфейсних іконок'],
+      ['genre-icons.html','Іконки жанрів','89 іконок жанрів']
+    ]],
+    ['Статуси','i-list',[
+      ['status-matrix.html','Матриця статусів','усі статуси книги, тони та іконки']
+    ]],
+    ['Порожні стани','i-image',[
+      ['components-empty-state.html','EmptyState','порожні екрани та помилки · 16 сценаріїв']
+    ]],
+    ['Бренд','i-sparkles',[
+      ['components-logo.html','Логотип','знак, вордмарк, lockup-и · правила використання']
+    ]],
+    ['Analytics pages','i-chart',[
+      ['layout-analytics.html','Статистика','дашборд статистики читання'],
+      ['layout-goals.html','Цілі читання','річні цілі, виклики та прогрес'],
+      ['layout-calendar.html','Календар читання','теплокарта активності та хронологія']
+    ]],
+    ['Auth pages','i-lock',[
+      ['auth-login.html','Login','сторінка входу'],
+      ['auth-register.html','Register','сторінка реєстрації'],
+      ['auth-reset.html','Forgot password','відновлення паролю']
+    ]],
+    ['Detail pages','i-file',[
+      ['detail-book.html','Книга','сторінка деталей книги'],
+      ['detail-series.html','Серія','сторінка деталей серії'],
+      ['detail-list.html','Список','сторінка деталей списку'],
+      ['detail-publisher.html','Видавництво','сторінка деталей видавця'],
+      ['detail-author.html','Автор','сторінка деталей автора']
+    ]],
+    ['Book list pages','i-library',[
+      ['page-library.html','Бібліотека','уся бібліотека'],
+      ['page-favorites.html','Улюблене','улюблені книги'],
+      ['page-queue.html','Черга читання','черга на читання'],
+      ['page-delivery.html','Доставка','книги в дорозі'],
+      ['page-borrowed.html','Позичені','позичені книги'],
+      ['page-series.html','Серії','список серій']
+    ]],
+    ['Directory pages','i-list',[
+      ['page-authors.html','Автори','довідник авторів'],
+      ['page-publishers.html','Видавництва','довідник видавництв'],
+      ['page-genres.html','Жанри / Теги','жанри та теги'],
+      ['page-notes.html','Нотатки','усі нотатки'],
+      ['page-quotes.html','Цитати','збережені цитати'],
+      ['page-lists.html','Власні списки','користувацькі списки']
+    ]],
+    ['Settings pages','i-settings',[
+      ['settings-profile-dashboard.html','Профіль','огляд профілю та читацька статистика'],
+      ['settings-profile.html','Редагування профілю','зміна особистих даних користувача'],
+      ['settings-settings.html','Налаштування','параметри застосунку та вподобання'],
+      ['settings-import-export.html','Імпорт / Експорт','перенесення та резервне копіювання бібліотеки']
+    ]],
+    ['Form pages','i-edit',[
+      ['page-add-book.html','Додати книгу','форма додавання нової книги']
+    ]]
+  ];
+  var cat=document.getElementById('catalog');
+  CATS.forEach(function(c){
+    var h=document.createElement('div'); h.className='subhead'; h.textContent=c[0]; cat.appendChild(h);
+    var grid=document.createElement('div'); grid.className='catgrid';
+    c[2].forEach(function(it){
+      var a=document.createElement('a'); a.className='ccard'; a.href=it[0];
+      a.innerHTML='<span class="dot"><svg><use href="#'+c[1]+'"/></svg></span><span class="tx"><span class="nm">'+it[1]+'</span><span class="ds">'+it[2]+'</span></span><span class="arr"><svg><use href="#i-chevron-right"/></svg></span>';
+      grid.appendChild(a);
+    });
+    cat.appendChild(grid);
+  });
+
+  function refresh(){ applyIcon(); fillColors(); }
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); refresh(); });
+  refresh();
+})();
+</script>
+</body>
+</html>

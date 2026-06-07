@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Іконки жанрів</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+<style>
+:root {
+  color-scheme: light;
+
+  /* — Поверхні — */
+  --bg:           #F6F0E7;  /* фон сторінки (глибший linen — щоб картки спливали) */
+  --surface:      #FDFCFA;  /* картки, праві панелі, модалки (найсвітліше) */
+  --surface-alt:  #F1E9DD;  /* сайдбар, hero, утоплені секції */
+  --field:        #F4EDE2;  /* фон інпутів (помітний інсет на картці) */
+  --border:       #E0D5C5;  /* тонкі лінії, дільники */
+
+  /* — Текст — */
+  --ink:            #3D2719; /* заголовки (еспресо) */
+  --text:           #4A4039; /* основний текст */
+  --text-secondary: #6F625D; /* вторинний рівень (необов'язковий) */
+  --muted:          #736858; /* placeholder, приглушений текст (AA ≥4.5) */
+
+  /* — Бренд (теракота) — */
+  --primary:        #ED8041; /* кнопки, активні елементи, лінки, progress */
+  --primary-hover:  #D96E2E;
+  --on-primary:     #3D2719; /* текст/іконки на --primary */
+
+  /* — Акцент: м'який персик (підсвічення) — */
+  --accent-soft:    #EED4BF; /* активний пункт меню, вибраний тогл */
+  --accent-soft-fg: #3D2719; /* текст на --accent-soft */
+  --accent-border:  #E2C3A3; /* контур вибраного тогла / персикові рамки */
+  --tag-bg:         #F4ECE3; /* фон тегів/чипів */
+  --tag-fg:         #4A4039; /* текст тегів */
+
+  /* — Акцент: насичений (іконки, бейджі, вибрані статус-чипи) — */
+  --icon:           #63412E; /* outline-іконки на світлому */
+  --chip-bg:        #63412E; /* заливка нумерованих бейджів і вибраних статус-чипів */
+  --chip-fg:        #FDFCFA; /* номер/текст на --chip-bg */
+
+  /* — Статуси (семантика; текст-відтінок підібрано під AA на світлому фоні) — */
+  --success:    #2F7048;   --success-bg: #EAF6EA;
+  --warning:    #8A5314;   --warning-bg: #FFF3DF;
+  --danger:     #BE3022;   --danger-bg:  #FFE9E7;  /* також = колір зірочки обов'язкового поля */
+  --info:       #2A6299;   --info-bg:    #EAF4FF;
+
+  /* — Фокус — */
+  --focus-ring: rgba(237, 128, 65, .20);
+
+  /* — Тіні (теплі, не сірі) — */
+  --shadow-card:  0 1px 2px rgba(58,38,24,.04), 0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover: 0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:   0 16px 40px rgba(58,38,24,.14);  /* дропдауни / поповери */
+  --shadow-page:  0 20px 60px rgba(58,38,24,.10);  /* підйом великої картки */
+  --shadow-btn:   0 2px 8px rgba(237,128,65,.30);  /* primary-кнопка */
+
+  /* — Радіуси (спільні для обох тем) — */
+  --radius-lg:   24px;    /* велика картка auth-сторінки */
+  --radius-md:   16px;    /* секційні картки */
+  --radius:      12px;    /* інпути, селекти, кнопки, дропзона */
+  --radius-sm:   10px;    /* сегментний тогл */
+  --radius-xs:   8px;     /* чипи, теги, статус-пілюлі */
+  --radius-full: 9999px;  /* аватар, кругла нумерована плашка */
+
+  /* — Шрифти (родини) — */
+  --font-serif: "Playfair Display", "Lora", Georgia, serif;               /* заголовки */
+  --font-sans:  "Manrope", "Inter", system-ui, -apple-system, sans-serif; /* UI / текст */
+
+  /* — Типографіка: розміри (clamp = адаптивний діапазон min→max) — */
+  --fs-display: clamp(3.25rem, 5vw, 3.75rem);    /* 52→60px — велике заголовкове ("Додати книгу") */
+  --fs-h1:      clamp(2.75rem, 4.2vw, 3.25rem);  /* 44→52px — заголовок сторінки/форми */
+  --fs-h2:      clamp(1.75rem, 2.6vw, 2.125rem); /* 28→34px — велика секція */
+  --fs-h3:      1.375rem;   /* 22px — підзаголовок */
+  --fs-title:   1.25rem;    /* 20px — нумеровані секції ("Основна інформація") */
+  --fs-body:    1rem;       /* 16px — основний текст / лід */
+  --fs-label:   0.875rem;   /* 14px — лейбли полів */
+  --fs-sm:      0.8125rem;  /* 13px — дрібний текст */
+  --fs-xs:      0.75rem;    /* 12px — підказки ("0/500") */
+  --fs-button:  1rem;       /* 16px — текст кнопок */
+  --fs-nav:     0.9375rem;  /* 15px — сайдбар / меню */
+
+  /* — Типографіка: товщини — */
+  --fw-regular:  400;
+  --fw-medium:   500;   /* сайдбар */
+  --fw-semibold: 600;   /* заголовки H2/H3, лейбли, кнопки */
+  --fw-bold:     700;   /* display / H1 */
+
+  /* — Типографіка: міжрядкові та трекінг — */
+  --lh-display: 1.05;
+  --lh-heading: 1.2;
+  --lh-snug:    1.3;
+  --lh-body:    1.5;
+  --tracking-display: -0.01em;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* — Поверхні (світлішають із підйомом) — */
+  --bg:           #17120E;
+  --surface:      #241C15;
+  --surface-alt:  #1E1712;
+  --field:        #332820;
+  --border:       #41342A;
+
+  /* — Текст (теплі вершкові) — */
+  --ink:            #F4EADF;
+  --text:           #DFD2C5;
+  --text-secondary: #B0A092;
+  --muted:          #9E9184;
+
+  /* — Бренд (теракота, трохи підняли для читабельності) — */
+  --primary:        #EE8B53;
+  --primary-hover:  #F29E6C;
+  --on-primary:     #2A1A0E;
+
+  /* — Акцент: м'який (у темній — теплий брунатний) — */
+  --accent-soft:    #3A2A1E;
+  --accent-soft-fg: #EAD9C8;
+  --accent-border:  #4E3A29;
+  --tag-bg:         #2E231B;
+  --tag-fg:         #DFD2C5;
+
+  /* — Акцент: насичений (іконки світлішають, щоб читались на темному) — */
+  --icon:           #C9A98C;
+  --chip-bg:        #7A5840;
+  --chip-fg:        #F4EADF;
+
+  /* — Статуси — */
+  --success:    #7FB37F;   --success-bg: #1C2A1C;
+  --warning:    #ECA45D;   --warning-bg: #2C2415;
+  --danger:     #E36B5C;   --danger-bg:  #2E1A18;
+  --info:       #82AED6;   --info-bg:    #19232F;
+
+  /* — Фокус — */
+  --focus-ring: rgba(238, 139, 83, .32);
+
+  /* — Тіні (на темному — глибші) — */
+  --shadow-card:  0 1px 2px rgba(0,0,0,.30), 0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover: 0 12px 28px rgba(0,0,0,.42);
+  --shadow-pop:   0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:  0 24px 60px rgba(0,0,0,.55);
+  --shadow-btn:   0 2px 10px rgba(238,139,83,.40);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);transition:background .3s,color .3s}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mk{width:32px;height:32px;color:var(--primary)}
+.brand b{font-family:var(--font-serif);color:var(--ink);font-size:1.15rem}
+.brand span{font-size:.72rem;color:var(--muted);display:block}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card)}
+.theme-fab svg{width:18px;height:18px}
+h1{font-family:var(--font-serif);color:var(--ink);font-size:clamp(2.2rem,4vw,3rem);margin:0}
+.head{padding:46px 0 4px}.head p{color:var(--muted);margin:10px 0 0}
+
+.controls{position:sticky;top:69px;z-index:40;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px;padding:14px 16px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card)}
+.ctl{display:flex;align-items:center;gap:10px}
+.ctl .lab{font-size:.8rem;color:var(--muted);font-weight:600}
+.swatches{display:flex;gap:7px}
+.sw{width:26px;height:26px;border-radius:var(--radius-full);border:2px solid var(--border);cursor:pointer;padding:0}
+.sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}
+input[type=color]{width:32px;height:32px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);padding:2px;cursor:pointer}
+input[type=range]{accent-color:var(--primary)}
+.szval{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600;font-size:.85rem;width:42px}
+
+.ghead{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.2rem;margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+.ghead span{font:600 .72rem/1 var(--font-sans);color:var(--muted);background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-full);padding:4px 9px}
+#stage{color:var(--primary)} /* icons inherit this via currentColor */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.ic{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative}
+.ic:hover,.ic:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-hover);border-color:var(--accent-border);outline:none}
+.gi{width:var(--gs,30px);height:var(--gs,30px);display:block;transition:width .12s,height .12s}
+.ic figcaption{text-align:center;line-height:1.3}
+.ic figcaption b{display:block;color:var(--ink);font-size:.82rem;font-weight:600}
+.ic figcaption code{font-family:ui-monospace,Menlo,monospace;font-size:.68rem;color:var(--muted)}
+.ic .copied{position:absolute;top:8px;right:8px;font-size:.66rem;font-weight:700;color:var(--success);opacity:0;transition:opacity .15s}
+.ic.is-copied .copied{opacity:1}
+footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem;line-height:1.6}
+footer code{font-family:ui-monospace,Menlo,monospace;background:var(--field);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:.92em;color:var(--text)}
+@media (prefers-reduced-motion:reduce){.ic,.gi,.theme-fab{transition:none}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="genre-fentezi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M14.5 9.5 5 19'/><path d='m14 5 1 2 2 1-2 1-1 2-1-2-2-1 2-1z'/><path d='M19.5 13l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z'/></symbol>
+  <symbol id="genre-temne-fentezi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M20 14.5A7.5 7.5 0 1 1 9.5 4.7a6 6 0 0 0 10.5 9.8z'/><path d='m6.5 7 .5 1.3 1.3.5-1.3.5L6.5 11 6 9.8 4.7 9.3 6 8.8z'/></symbol>
+  <symbol id="genre-miske-fentezi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 20h18'/><path d='M6 20V9l5-3v14'/><path d='M11 20V11l5 2.5V20'/><path d='M9 12h.01M9 15h.01M14 16h.01'/><path d='m18.5 5 .4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z'/></symbol>
+  <symbol id="genre-epichne-fentezi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 21V8l2-2h8l2 2v13'/><path d='M6 8h12M9 6V4h2v2M13 6V4h2v2'/><path d='M11 21v-4a1 1 0 0 1 2 0v4'/></symbol>
+  <symbol id="genre-cozy-fantasy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M5 11.5a7 7 0 0 1 14 0z'/><path d='M10 11.5V16a2 2 0 0 0 4 0v-4.5'/><path d='M9 8.5h.01M13.5 9h.01'/></symbol>
+  <symbol id="genre-naukova-fantastyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 3c3 2.6 4 6 4 9l-4 3-4-3c0-3 1-6.4 4-9z'/><path d='M9 13l-2.5 5 3.5-2M15 13l2.5 5-3.5-2'/><circle cx='12' cy='9' r='1.6'/></symbol>
+  <symbol id="genre-antyutopiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z'/><circle cx='12' cy='12' r='2.6'/></symbol>
+  <symbol id="genre-postapokalipsys" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='10' r='6'/><circle cx='9.6' cy='10' r='1.3'/><circle cx='14.4' cy='10' r='1.3'/><path d='M10 16l-1 4M14 16l1 4'/></symbol>
+  <symbol id="genre-kiberpank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='7' y='7' width='10' height='10' rx='1.5'/><rect x='10' y='10' width='4' height='4'/><path d='M9 4v3M15 4v3M9 17v3M15 17v3M4 9h3M4 15h3M17 9h3M17 15h3'/></symbol>
+  <symbol id="genre-stympank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='3.5'/><path d='M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.8 5.8l1.8 1.8M16.4 16.4l1.8 1.8M5.8 18.2l1.8-1.8M16.4 7.6l1.8-1.8'/></symbol>
+  <symbol id="genre-roman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 6.5C10.4 5.3 7.7 4.8 4 5.3v13c3.7-.5 6.4 0 8 1.3 1.6-1.3 4.3-1.8 8-1.3v-13c-3.7-.5-6.4 0-8 1.2z'/><path d='M12 6.5v13'/></symbol>
+  <symbol id="genre-suchasna-proza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 20l1.2-4L15 6.2 17.8 9 8 18.8z'/><path d='M14 7.2 16.8 10'/><path d='M4 20l4-1.2'/></symbol>
+  <symbol id="genre-klasychna-literatura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 4h12M5 8h14M7 8v9M12 8v9M17 8v9M5 20h14'/></symbol>
+  <symbol id="genre-istorychnyy-roman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 5a2 2 0 0 1 2-2h8v14a2 2 0 0 0 2 2H8a2 2 0 0 1-2-2z'/><path d='M16 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2'/><path d='M9 8h5M9 11h5'/></symbol>
+  <symbol id="genre-simeyna-saha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='9' cy='8' r='3'/><path d='M3.8 19a5.2 5.2 0 0 1 10.4 0'/><circle cx='17' cy='9' r='2'/><path d='M15.5 19a4 4 0 0 1 6-3.2'/></symbol>
+  <symbol id="genre-sotsialna-proza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='8' cy='9' r='2.6'/><circle cx='16' cy='9' r='2.6'/><path d='M3.5 18a4.5 4.5 0 0 1 9 0M11.5 18a4.5 4.5 0 0 1 9 0'/></symbol>
+  <symbol id="genre-psykholohichna-proza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M15.5 21v-4.3c1.6-1.1 2.5-2.8 2.5-4.7a6 6 0 1 0-9 5.2V21'/><path d='M12 13.6a1.6 1.6 0 1 0-1.4-2.3'/></symbol>
+  <symbol id="genre-romantyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 20s-7-4.6-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.4 12 20 12 20z'/></symbol>
+  <symbol id="genre-suchasna-romantyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/><path d='M12 13.2s-3-1.8-3-3.7A1.6 1.6 0 0 1 12 8.2a1.6 1.6 0 0 1 3 1.3c0 1.9-3 3.7-3 3.7z'/></symbol>
+  <symbol id="genre-istorychna-romantyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 11c-2 0-3.5-1.6-3.5-3.5S10 4 12 4s3.5 1.6 3.5 3.5S14 11 12 11z'/><path d='M12 11v9'/><path d='M12 15c-2 .2-3-.8-4-2M12 17.5c2 .2 3-.8 4-2'/></symbol>
+  <symbol id="genre-fentezi-romantyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 20s-7-4.6-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5'/><path d='m18.5 13 .5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z'/></symbol>
+  <symbol id="genre-paranormalna-romantyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M11.5 19.5S5.5 15.5 5.5 11A3 3 0 0 1 11.5 8.5a3 3 0 0 1 5.5 1.5'/><path d='M21 9.5a3 3 0 1 1-3.2-3 2.4 2.4 0 0 0 3.2 3z'/></symbol>
+  <symbol id="genre-romantychna-komediia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='10' cy='11.5' r='6'/><path d='M8 10.5h.01M12 10.5h.01M8 13.5a3 3 0 0 0 4 0'/><path d='M18 5.5s2 1 2 2.5-2 2.5-2 2.5-2-1-2-2.5 2-2.5 2-2.5z'/></symbol>
+  <symbol id="genre-detektyv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='10.5' cy='10.5' r='6'/><path d='m20 20-4.7-4.7'/></symbol>
+  <symbol id="genre-klasychnyy-detektyv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6.5 9a6 6 0 0 1 11 0'/><path d='M8 11a4 4 0 0 1 8 0v1'/><path d='M9.5 13.5v-1.5a2.5 2.5 0 0 1 5 0v2.5'/><path d='M12 20v-8'/></symbol>
+  <symbol id="genre-psykholohichnyy-detektyv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='10.5' cy='10.5' r='6'/><path d='m20 20-4.7-4.7'/><path d='M10.5 13a2.5 2.5 0 1 0-2.3-3.4'/></symbol>
+  <symbol id="genre-politseyskyy-detektyv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z'/><path d='m12 8 1.2 2.5 2.7.3-2 1.9.5 2.7L12 15l-2.4 1.3.5-2.7-2-1.9 2.7-.3z'/></symbol>
+  <symbol id="genre-kryminalnyy-roman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='7' cy='15' r='3.5'/><circle cx='17' cy='15' r='3.5'/><path d='M9.4 12.6 12 10l2.6 2.6'/><path d='M10 9h4'/></symbol>
+  <symbol id="genre-tryler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M13 3 5 13.5h6l-1 7.5L18 10.5h-6z'/></symbol>
+  <symbol id="genre-psykholohichnyy-tryler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M15.5 21v-4.3c1.6-1.1 2.5-2.8 2.5-4.7a6 6 0 1 0-9 5.2V21'/><path d='M12.5 8.5 10 12h2.6l-1 3.5'/></symbol>
+  <symbol id="genre-mistychnyy-tryler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z'/><path d='M12 8.5c.9 1 .9 6 0 7'/></symbol>
+  <symbol id="genre-shpyhunskyy-tryler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3.5 10h17'/><path d='M4 10a3 3 0 0 0 6 .5l2-.5 2 .5a3 3 0 0 0 6-.5'/><circle cx='7' cy='13' r='2.6'/><circle cx='17' cy='13' r='2.6'/></symbol>
+  <symbol id="genre-horor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 19.5V11a6 6 0 0 1 12 0v8.5l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5z'/><path d='M9.5 10.5h.01M14.5 10.5h.01'/></symbol>
+  <symbol id="genre-mistyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='10' r='6'/><path d='M9 20h6M10 16l-1 4M14 16l1 4'/><path d='M9.5 9a2.5 2.5 0 0 1 2.5-2'/></symbol>
+  <symbol id="genre-hotychnyy-roman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 21V11a5 5 0 0 1 10 0v10'/><path d='M12 21V11M7.5 14h9'/><path d='M7 21h10'/></symbol>
+  <symbol id="genre-paranormalne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M5 11a7 7 0 0 1 14 0v3a2 2 0 0 1-1 1.7V18a1 1 0 0 1-1 1h-1v-2h-2v2h-4v-2H7v2H6a1 1 0 0 1-1-1v-1.3A2 2 0 0 1 5 14z'/><circle cx='9' cy='11.5' r='1.3'/><circle cx='15' cy='11.5' r='1.3'/></symbol>
+  <symbol id="genre-saspens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 12a1.6 1.6 0 0 1 1.6 1.6A3.2 3.2 0 0 1 10.4 16.8 4.8 4.8 0 0 1 5.6 12 6.4 6.4 0 0 1 12 5.6 8 8 0 0 1 20 13.6'/></symbol>
+  <symbol id="genre-young-adult" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L2.5 9.7l5.9-.9z'/></symbol>
+  <symbol id="genre-new-adult" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M9.5 3l1.7 4.6L16 9l-4.8 1.4L9.5 15l-1.7-4.6L3 9l4.8-1.4z'/><path d='m17 13.5.6 1.7 1.9.6-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.6z'/></symbol>
+  <symbol id="genre-pidlitkova-literatura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 8a5 5 0 0 1 10 0v11a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z'/><path d='M9 8a3 3 0 0 1 6 0M9 13.5h6v4H9z'/></symbol>
+  <symbol id="genre-dytiacha-literatura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 13.5a5 5 0 1 0-5-5 5 5 0 0 0 5 5z'/><path d='M12 13.5v3'/><path d='M12 16.5c-1 1 1 2 0 3.5'/></symbol>
+  <symbol id="genre-kazky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M5 18h14M6 18l-1-9 4 3 3-5 3 5 4-3-1 9'/><path d='M5 15h14'/></symbol>
+  <symbol id="genre-pryhody" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='8'/><path d='m14.7 9.3-2.2 5.4-3 1.6 2.2-5.4z'/><path d='M12 4v1.2M12 18.8V20M4 12h1.2M18.8 12H20'/></symbol>
+  <symbol id="genre-komiksy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/><path d='M13 7.5 9.5 12H12l-1 3.5L14.5 11H12z'/></symbol>
+  <symbol id="genre-manga" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='6.5' r='2'/><circle cx='17' cy='10' r='2'/><circle cx='15' cy='15.5' r='2'/><circle cx='9' cy='15.5' r='2'/><circle cx='7' cy='10' r='2'/><circle cx='12' cy='11' r='1.6'/></symbol>
+  <symbol id="genre-hrafichnyy-roman" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='4' y='4' width='16' height='16' rx='1.5'/><path d='M13 4v7M4 11h16M13 15.5h7'/></symbol>
+  <symbol id="genre-non-fikshn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z'/><path d='M14 3v4h4M9 12h6M9 16h6'/></symbol>
+  <symbol id="genre-biohrafiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='5' y='4' width='14' height='16' rx='1.5'/><circle cx='12' cy='10' r='2.5'/><path d='M8 17a4 4 0 0 1 8 0'/></symbol>
+  <symbol id="genre-avtobiohrafiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='10' cy='8' r='3'/><path d='M4.5 19a5.5 5.5 0 0 1 9.5-3.4'/><path d='M14.5 18.5 19 14l2 2-4.5 4.5h-2z'/></symbol>
+  <symbol id="genre-memuary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 4a2 2 0 0 1 2-2h10v18a2 2 0 0 0 2 2H8a2 2 0 0 1-2-2z'/><path d='M14 2v8l-2-1.5L10 10V2'/></symbol>
+  <symbol id="genre-eseistyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M19 5C12 5 6 9 5 17l-1 3 3-1c8-1 12-7 12-14z'/><path d='M13.5 8 7 14.5'/></symbol>
+  <symbol id="genre-publitsystyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 6h12v13a1 1 0 0 0 1 1H5a1 1 0 0 1-1-1z'/><path d='M16 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1'/><path d='M7 9h6M7 12h6M7 15h4'/></symbol>
+  <symbol id="genre-reportazhystyka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='9' y='3' width='6' height='10' rx='3'/><path d='M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6'/></symbol>
+  <symbol id="genre-istoriia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 3h10M7 21h10'/><path d='M7 3c0 4 2 6 5 9 3-3 5-5 5-9M7 21c0-4 2-6 5-9'/></symbol>
+  <symbol id="genre-populiarna-nauka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='1.6'/><ellipse cx='12' cy='12' rx='9' ry='3.6'/><ellipse cx='12' cy='12' rx='9' ry='3.6' transform='rotate(60 12 12)'/><ellipse cx='12' cy='12' rx='9' ry='3.6' transform='rotate(120 12 12)'/></symbol>
+  <symbol id="genre-psykholohiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 5a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 2'/><path d='M12 5a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 2'/><path d='M12 5v15'/></symbol>
+  <symbol id="genre-samorozvytok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 20v-7'/><path d='M12 13c-3 0-5-2-5-5 3 0 5 2 5 5z'/><path d='M12 11c0-3 2-5 5-5 0 3-2 5-5 5z'/></symbol>
+  <symbol id="genre-biznes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='4' y='8' width='16' height='11' rx='2'/><path d='M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M4 13h16'/></symbol>
+  <symbol id="genre-menedzhment" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='9' y='3' width='6' height='4' rx='1'/><rect x='3' y='15' width='6' height='4' rx='1'/><rect x='15' y='15' width='6' height='4' rx='1'/><path d='M12 7v4M6 15v-2h12v2'/></symbol>
+  <symbol id="genre-marketynh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 10v4l3 1 1.5 4h2L9 15l9 3V6l-9 3H7z'/><path d='M7 9.5v5'/></symbol>
+  <symbol id="genre-finansy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='8'/><path d='M8.5 11h7M8.5 14h7M13.5 7.5l-3.5 9'/></symbol>
+  <symbol id="genre-ekonomika" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 19V5M4 19h16'/><path d='M7 15l3-3 3 2 4-5'/><path d='M17.5 9H20v2.5'/></symbol>
+  <symbol id="genre-polityka" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M4 9 12 4l8 5'/><path d='M5 9v8M9 9v8M15 9v8M19 9v8M4 20h16M4 17h16'/></symbol>
+  <symbol id="genre-filosofiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='10' r='6'/><path d='M10 9a2 2 0 1 1 2.5 1.9c-.5.2-.5.7-.5 1.1M12 14h.01'/><path d='M7 17l-1 3 3-1'/></symbol>
+  <symbol id="genre-sotsiolohiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='6' cy='7' r='2'/><circle cx='18' cy='7' r='2'/><circle cx='12' cy='17' r='2'/><path d='M7.5 8.5 11 15M16.5 8.5 13 15M8 7h8'/></symbol>
+  <symbol id="genre-kultura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M9 4h6M10 4c0 2-3 3-3 7a5 5 0 0 0 10 0c0-4-3-5-3-7'/><path d='M7 11c-2 0-2 3 0 3M17 11c2 0 2 3 0 3'/><path d='M9 20h6'/></symbol>
+  <symbol id="genre-mystetstvo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 4a8 8 0 0 0 0 16c1.5 0 2-1 2-2s-.5-1.5-.5-2.5 1-1.5 2-1.5h1.5A3 3 0 0 0 20 11a8 8 0 0 0-8-7z'/><circle cx='8.5' cy='10.5' r='1'/><circle cx='12' cy='8' r='1'/><circle cx='15.5' cy='10.5' r='1'/></symbol>
+  <symbol id="genre-relihiia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='m12 3 3 4H9z'/><path d='M7 7h10v2H7zM8 9v8M16 9v8M12 9v8M6 20h12M6 17h12'/></symbol>
+  <symbol id="genre-dukhovnist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 19c-4 0-7-2-8-5 2-1 4-1 5.5.3C9 11 10 8.5 12 6.5c2 2 3 4.5 2.5 7.8C16 13 18 13 20 14c-1 3-4 5-8 5z'/></symbol>
+  <symbol id="genre-poeziia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 7h3.5v4.5a3.5 3.5 0 0 1-3.5 3.5'/><path d='M14 7h3.5v4.5a3.5 3.5 0 0 1-3.5 3.5'/></symbol>
+  <symbol id="genre-drama" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M5 5h14v4a7 7 0 0 1-14 0z'/><path d='M9 9h.01M15 9h.01M9 13a3.5 3.5 0 0 0 6 0'/></symbol>
+  <symbol id="genre-piesa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 4h18'/><path d='M5 4v13c2 0 3-1 3-3V4M19 4v13c-2 0-3-1-3-3V4'/><path d='M8 17h8'/></symbol>
+  <symbol id="genre-humor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='8'/><path d='M9 10h.01M15 10h.01M8 14a5 5 0 0 0 8 0'/></symbol>
+  <symbol id="genre-satyra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx='12' cy='12' r='8'/><path d='M8 9.5 10.5 10M16 9.5 13.5 10M9 14.5a4 4 0 0 0 6-.6'/></symbol>
+  <symbol id="genre-navchalna-literatura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='m12 5 9 4-9 4-9-4z'/><path d='M6 11v4c0 1 3 3 6 3s6-2 6-3v-4M21 9v5'/></symbol>
+  <symbol id="genre-profesiyna-literatura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='4' y='4' width='16' height='12' rx='1.5'/><path d='M8 8h8M8 11h5'/><circle cx='12' cy='18' r='2.5'/><path d='m10.5 19.5-1.5 2.5 3-1 3 1-1.5-2.5'/></symbol>
+  <symbol id="genre-it" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x='3' y='4' width='18' height='12' rx='1.5'/><path d='M8 20h8M12 16v4'/></symbol>
+  <symbol id="genre-prohramuvannia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='m8 8-4 4 4 4M16 8l4 4-4 4M13.5 6l-3 12'/></symbol>
+  <symbol id="genre-medytsyna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 12h4l2-4 3 8 2-4h7'/></symbol>
+  <symbol id="genre-pravo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 4v16M7 20h10'/><path d='M12 6 5 8M12 6l7 2'/><path d='M5 8 3 13a3 3 0 0 0 4 0zM19 8l-2 5a3 3 0 0 0 4 0z'/></symbol>
+  <symbol id="genre-osvita" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 8c-1-2-3-2-4.2-1-1.8 1.4-1.8 5 .2 7 1 1 2.5 2 4 3.8 1.5-1.8 3-2.8 4-3.8 2-2 2-5.6.2-7-1.2-1-3.2-1-4.2 1z'/><path d='M12 8c.2-2 1.2-3 2.5-3.2'/></symbol>
+  <symbol id="genre-movy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 6h10a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H7l-3 2v-2a1 1 0 0 1-1-1z'/><path d='M11 13.5V17a1 1 0 0 0 1 1h5l3 2v-2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3'/></symbol>
+  <symbol id="genre-pidruchnyk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M6 4h12a1 1 0 0 1 1 1v15H7a1 1 0 0 1-1-1z'/><path d='M6 18h13'/><path d='M9.5 8h5M9.5 11h5'/></symbol>
+  <symbol id="genre-kulinariia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M7 14a4 4 0 0 1-1-7.7A4 4 0 0 1 13.5 5 4 4 0 0 1 18 6.5 4 4 0 0 1 17 14z'/><path d='M7 14v4a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-4'/></symbol>
+  <symbol id="genre-podorozhi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 3c1 0 1.5 1 1.5 3v3l7 4v2l-7-2v3.5l2 1.5V22l-3.5-1L8.5 22v-1.5l2-1.5V15l-7 2v-2l7-4V6c0-2 .5-3 1.5-3z'/></symbol>
+  <symbol id="genre-sport" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M8 4h8v4a4 4 0 0 1-8 0z'/><path d='M8 5H5v1.5A3 3 0 0 0 8 9.5M16 5h3v1.5A3 3 0 0 1 16 9.5'/><path d='M12 12v4M10 20h4M10.5 16h3v4h-3z'/></symbol>
+  <symbol id="genre-zdorovia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M12 20s-7-4.6-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.4 12 20 12 20z'/><path d='M7.5 11.5h2L11 9l2 5 1.5-2.5h2'/></symbol>
+  <symbol id="genre-khobi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M9 4h3a1 1 0 0 1 1 1 1.5 1.5 0 0 0 3 0 1 1 0 0 1 1 1v3a1.5 1.5 0 0 0 0 3v3a1 1 0 0 1-1 1h-3a1.5 1.5 0 0 0-3 0H6a1 1 0 0 1-1-1v-3a1.5 1.5 0 0 0 0-3V6a1 1 0 0 1 1-1h3a1.5 1.5 0 0 0 0-1z'/></symbol>
+  <symbol id="genre-inshe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M3 12V5.5a2 2 0 0 1 2-2h6.5l9 9-8.5 8.5-9-9z'/><circle cx='8' cy='8' r='1.4'/></symbol>
+</svg>
+
+
+<header class="topbar">
+  <div class="brand"><svg class="mk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><div><b>BookNest</b><span>Іконки жанрів</span></div></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Іконки жанрів</h1>
+    <p>89 іконок у 11 групах. Усі лінійні, на <code style="font-family:ui-monospace,monospace">currentColor</code> — колір змінюється через CSS. Клікни по іконці, щоб скопіювати <code style="font-family:ui-monospace,monospace">&lt;use&gt;</code>.</p>
+  </div>
+
+  <div class="controls">
+    <div class="ctl"><span class="lab">Колір</span>
+      <div class="swatches" id="presets">
+        <button class="sw on" data-c="var(--primary)" style="background:#ED8041" title="Акцент"></button>
+        <button class="sw" data-c="var(--ink)" style="background:#3D2719" title="Чорнило"></button>
+        <button class="sw" data-c="var(--success)" style="background:#2F7048" title="Успіх"></button>
+        <button class="sw" data-c="var(--info)" style="background:#2A6299" title="Інфо"></button>
+        <button class="sw" data-c="var(--danger)" style="background:#BE3022" title="Небезпека"></button>
+      </div>
+      <input type="color" id="pick" value="#ed8041" aria-label="Власний колір">
+    </div>
+    <div class="ctl"><span class="lab">Розмір</span>
+      <input type="range" id="size" min="16" max="48" step="2" value="30" aria-label="Розмір іконки">
+      <span class="szval" id="sizeval">30px</span>
+    </div>
+  </div>
+
+  <div id="stage">
+    <div class="ghead">Фентезі та фантастика <span>10</span></div>
+<div class="grid">
+<figure class="ic" data-id="fentezi" tabindex="0"><svg class="gi"><use href="#genre-fentezi"/></svg><figcaption><b>Фентезі</b><code>fentezi</code></figcaption></figure>
+<figure class="ic" data-id="temne-fentezi" tabindex="0"><svg class="gi"><use href="#genre-temne-fentezi"/></svg><figcaption><b>Темне фентезі</b><code>temne-fentezi</code></figcaption></figure>
+<figure class="ic" data-id="miske-fentezi" tabindex="0"><svg class="gi"><use href="#genre-miske-fentezi"/></svg><figcaption><b>Міське фентезі</b><code>miske-fentezi</code></figcaption></figure>
+<figure class="ic" data-id="epichne-fentezi" tabindex="0"><svg class="gi"><use href="#genre-epichne-fentezi"/></svg><figcaption><b>Епічне фентезі</b><code>epichne-fentezi</code></figcaption></figure>
+<figure class="ic" data-id="cozy-fantasy" tabindex="0"><svg class="gi"><use href="#genre-cozy-fantasy"/></svg><figcaption><b>Cozy fantasy</b><code>cozy-fantasy</code></figcaption></figure>
+<figure class="ic" data-id="naukova-fantastyka" tabindex="0"><svg class="gi"><use href="#genre-naukova-fantastyka"/></svg><figcaption><b>Наукова фантастика</b><code>naukova-fantastyka</code></figcaption></figure>
+<figure class="ic" data-id="antyutopiia" tabindex="0"><svg class="gi"><use href="#genre-antyutopiia"/></svg><figcaption><b>Антиутопія</b><code>antyutopiia</code></figcaption></figure>
+<figure class="ic" data-id="postapokalipsys" tabindex="0"><svg class="gi"><use href="#genre-postapokalipsys"/></svg><figcaption><b>Постапокаліпсис</b><code>postapokalipsys</code></figcaption></figure>
+<figure class="ic" data-id="kiberpank" tabindex="0"><svg class="gi"><use href="#genre-kiberpank"/></svg><figcaption><b>Кіберпанк</b><code>kiberpank</code></figcaption></figure>
+<figure class="ic" data-id="stympank" tabindex="0"><svg class="gi"><use href="#genre-stympank"/></svg><figcaption><b>Стимпанк</b><code>stympank</code></figcaption></figure>
+</div>
+<div class="ghead">Художня проза <span>7</span></div>
+<div class="grid">
+<figure class="ic" data-id="roman" tabindex="0"><svg class="gi"><use href="#genre-roman"/></svg><figcaption><b>Роман</b><code>roman</code></figcaption></figure>
+<figure class="ic" data-id="suchasna-proza" tabindex="0"><svg class="gi"><use href="#genre-suchasna-proza"/></svg><figcaption><b>Сучасна проза</b><code>suchasna-proza</code></figcaption></figure>
+<figure class="ic" data-id="klasychna-literatura" tabindex="0"><svg class="gi"><use href="#genre-klasychna-literatura"/></svg><figcaption><b>Класична література</b><code>klasychna-literatura</code></figcaption></figure>
+<figure class="ic" data-id="istorychnyy-roman" tabindex="0"><svg class="gi"><use href="#genre-istorychnyy-roman"/></svg><figcaption><b>Історичний роман</b><code>istorychnyy-roman</code></figcaption></figure>
+<figure class="ic" data-id="simeyna-saha" tabindex="0"><svg class="gi"><use href="#genre-simeyna-saha"/></svg><figcaption><b>Сімейна сага</b><code>simeyna-saha</code></figcaption></figure>
+<figure class="ic" data-id="sotsialna-proza" tabindex="0"><svg class="gi"><use href="#genre-sotsialna-proza"/></svg><figcaption><b>Соціальна проза</b><code>sotsialna-proza</code></figcaption></figure>
+<figure class="ic" data-id="psykholohichna-proza" tabindex="0"><svg class="gi"><use href="#genre-psykholohichna-proza"/></svg><figcaption><b>Психологічна проза</b><code>psykholohichna-proza</code></figcaption></figure>
+</div>
+<div class="ghead">Романтика <span>6</span></div>
+<div class="grid">
+<figure class="ic" data-id="romantyka" tabindex="0"><svg class="gi"><use href="#genre-romantyka"/></svg><figcaption><b>Романтика</b><code>romantyka</code></figcaption></figure>
+<figure class="ic" data-id="suchasna-romantyka" tabindex="0"><svg class="gi"><use href="#genre-suchasna-romantyka"/></svg><figcaption><b>Сучасна романтика</b><code>suchasna-romantyka</code></figcaption></figure>
+<figure class="ic" data-id="istorychna-romantyka" tabindex="0"><svg class="gi"><use href="#genre-istorychna-romantyka"/></svg><figcaption><b>Історична романтика</b><code>istorychna-romantyka</code></figcaption></figure>
+<figure class="ic" data-id="fentezi-romantyka" tabindex="0"><svg class="gi"><use href="#genre-fentezi-romantyka"/></svg><figcaption><b>Фентезі-романтика</b><code>fentezi-romantyka</code></figcaption></figure>
+<figure class="ic" data-id="paranormalna-romantyka" tabindex="0"><svg class="gi"><use href="#genre-paranormalna-romantyka"/></svg><figcaption><b>Паранормальна романтика</b><code>paranormalna-romantyka</code></figcaption></figure>
+<figure class="ic" data-id="romantychna-komediia" tabindex="0"><svg class="gi"><use href="#genre-romantychna-komediia"/></svg><figcaption><b>Романтична комедія</b><code>romantychna-komediia</code></figcaption></figure>
+</div>
+<div class="ghead">Детективи та трилери <span>9</span></div>
+<div class="grid">
+<figure class="ic" data-id="detektyv" tabindex="0"><svg class="gi"><use href="#genre-detektyv"/></svg><figcaption><b>Детектив</b><code>detektyv</code></figcaption></figure>
+<figure class="ic" data-id="klasychnyy-detektyv" tabindex="0"><svg class="gi"><use href="#genre-klasychnyy-detektyv"/></svg><figcaption><b>Класичний детектив</b><code>klasychnyy-detektyv</code></figcaption></figure>
+<figure class="ic" data-id="psykholohichnyy-detektyv" tabindex="0"><svg class="gi"><use href="#genre-psykholohichnyy-detektyv"/></svg><figcaption><b>Психологічний детектив</b><code>psykholohichnyy-detektyv</code></figcaption></figure>
+<figure class="ic" data-id="politseyskyy-detektyv" tabindex="0"><svg class="gi"><use href="#genre-politseyskyy-detektyv"/></svg><figcaption><b>Поліцейський детектив</b><code>politseyskyy-detektyv</code></figcaption></figure>
+<figure class="ic" data-id="kryminalnyy-roman" tabindex="0"><svg class="gi"><use href="#genre-kryminalnyy-roman"/></svg><figcaption><b>Кримінальний роман</b><code>kryminalnyy-roman</code></figcaption></figure>
+<figure class="ic" data-id="tryler" tabindex="0"><svg class="gi"><use href="#genre-tryler"/></svg><figcaption><b>Трилер</b><code>tryler</code></figcaption></figure>
+<figure class="ic" data-id="psykholohichnyy-tryler" tabindex="0"><svg class="gi"><use href="#genre-psykholohichnyy-tryler"/></svg><figcaption><b>Психологічний трилер</b><code>psykholohichnyy-tryler</code></figcaption></figure>
+<figure class="ic" data-id="mistychnyy-tryler" tabindex="0"><svg class="gi"><use href="#genre-mistychnyy-tryler"/></svg><figcaption><b>Містичний трилер</b><code>mistychnyy-tryler</code></figcaption></figure>
+<figure class="ic" data-id="shpyhunskyy-tryler" tabindex="0"><svg class="gi"><use href="#genre-shpyhunskyy-tryler"/></svg><figcaption><b>Шпигунський трилер</b><code>shpyhunskyy-tryler</code></figcaption></figure>
+</div>
+<div class="ghead">Горор та містика <span>5</span></div>
+<div class="grid">
+<figure class="ic" data-id="horor" tabindex="0"><svg class="gi"><use href="#genre-horor"/></svg><figcaption><b>Горор</b><code>horor</code></figcaption></figure>
+<figure class="ic" data-id="mistyka" tabindex="0"><svg class="gi"><use href="#genre-mistyka"/></svg><figcaption><b>Містика</b><code>mistyka</code></figcaption></figure>
+<figure class="ic" data-id="hotychnyy-roman" tabindex="0"><svg class="gi"><use href="#genre-hotychnyy-roman"/></svg><figcaption><b>Готичний роман</b><code>hotychnyy-roman</code></figcaption></figure>
+<figure class="ic" data-id="paranormalne" tabindex="0"><svg class="gi"><use href="#genre-paranormalne"/></svg><figcaption><b>Паранормальне</b><code>paranormalne</code></figcaption></figure>
+<figure class="ic" data-id="saspens" tabindex="0"><svg class="gi"><use href="#genre-saspens"/></svg><figcaption><b>Саспенс</b><code>saspens</code></figcaption></figure>
+</div>
+<div class="ghead">Дитяча та підліткова література <span>9</span></div>
+<div class="grid">
+<figure class="ic" data-id="young-adult" tabindex="0"><svg class="gi"><use href="#genre-young-adult"/></svg><figcaption><b>Young Adult</b><code>young-adult</code></figcaption></figure>
+<figure class="ic" data-id="new-adult" tabindex="0"><svg class="gi"><use href="#genre-new-adult"/></svg><figcaption><b>New Adult</b><code>new-adult</code></figcaption></figure>
+<figure class="ic" data-id="pidlitkova-literatura" tabindex="0"><svg class="gi"><use href="#genre-pidlitkova-literatura"/></svg><figcaption><b>Підліткова література</b><code>pidlitkova-literatura</code></figcaption></figure>
+<figure class="ic" data-id="dytiacha-literatura" tabindex="0"><svg class="gi"><use href="#genre-dytiacha-literatura"/></svg><figcaption><b>Дитяча література</b><code>dytiacha-literatura</code></figcaption></figure>
+<figure class="ic" data-id="kazky" tabindex="0"><svg class="gi"><use href="#genre-kazky"/></svg><figcaption><b>Казки</b><code>kazky</code></figcaption></figure>
+<figure class="ic" data-id="pryhody" tabindex="0"><svg class="gi"><use href="#genre-pryhody"/></svg><figcaption><b>Пригоди</b><code>pryhody</code></figcaption></figure>
+<figure class="ic" data-id="komiksy" tabindex="0"><svg class="gi"><use href="#genre-komiksy"/></svg><figcaption><b>Комікси</b><code>komiksy</code></figcaption></figure>
+<figure class="ic" data-id="manga" tabindex="0"><svg class="gi"><use href="#genre-manga"/></svg><figcaption><b>Манґа</b><code>manga</code></figcaption></figure>
+<figure class="ic" data-id="hrafichnyy-roman" tabindex="0"><svg class="gi"><use href="#genre-hrafichnyy-roman"/></svg><figcaption><b>Графічний роман</b><code>hrafichnyy-roman</code></figcaption></figure>
+</div>
+<div class="ghead">Нон-фікшн <span>23</span></div>
+<div class="grid">
+<figure class="ic" data-id="non-fikshn" tabindex="0"><svg class="gi"><use href="#genre-non-fikshn"/></svg><figcaption><b>Нон-фікшн</b><code>non-fikshn</code></figcaption></figure>
+<figure class="ic" data-id="biohrafiia" tabindex="0"><svg class="gi"><use href="#genre-biohrafiia"/></svg><figcaption><b>Біографія</b><code>biohrafiia</code></figcaption></figure>
+<figure class="ic" data-id="avtobiohrafiia" tabindex="0"><svg class="gi"><use href="#genre-avtobiohrafiia"/></svg><figcaption><b>Автобіографія</b><code>avtobiohrafiia</code></figcaption></figure>
+<figure class="ic" data-id="memuary" tabindex="0"><svg class="gi"><use href="#genre-memuary"/></svg><figcaption><b>Мемуари</b><code>memuary</code></figcaption></figure>
+<figure class="ic" data-id="eseistyka" tabindex="0"><svg class="gi"><use href="#genre-eseistyka"/></svg><figcaption><b>Есеїстика</b><code>eseistyka</code></figcaption></figure>
+<figure class="ic" data-id="publitsystyka" tabindex="0"><svg class="gi"><use href="#genre-publitsystyka"/></svg><figcaption><b>Публіцистика</b><code>publitsystyka</code></figcaption></figure>
+<figure class="ic" data-id="reportazhystyka" tabindex="0"><svg class="gi"><use href="#genre-reportazhystyka"/></svg><figcaption><b>Репортажистика</b><code>reportazhystyka</code></figcaption></figure>
+<figure class="ic" data-id="istoriia" tabindex="0"><svg class="gi"><use href="#genre-istoriia"/></svg><figcaption><b>Історія</b><code>istoriia</code></figcaption></figure>
+<figure class="ic" data-id="populiarna-nauka" tabindex="0"><svg class="gi"><use href="#genre-populiarna-nauka"/></svg><figcaption><b>Популярна наука</b><code>populiarna-nauka</code></figcaption></figure>
+<figure class="ic" data-id="psykholohiia" tabindex="0"><svg class="gi"><use href="#genre-psykholohiia"/></svg><figcaption><b>Психологія</b><code>psykholohiia</code></figcaption></figure>
+<figure class="ic" data-id="samorozvytok" tabindex="0"><svg class="gi"><use href="#genre-samorozvytok"/></svg><figcaption><b>Саморозвиток</b><code>samorozvytok</code></figcaption></figure>
+<figure class="ic" data-id="biznes" tabindex="0"><svg class="gi"><use href="#genre-biznes"/></svg><figcaption><b>Бізнес</b><code>biznes</code></figcaption></figure>
+<figure class="ic" data-id="menedzhment" tabindex="0"><svg class="gi"><use href="#genre-menedzhment"/></svg><figcaption><b>Менеджмент</b><code>menedzhment</code></figcaption></figure>
+<figure class="ic" data-id="marketynh" tabindex="0"><svg class="gi"><use href="#genre-marketynh"/></svg><figcaption><b>Маркетинг</b><code>marketynh</code></figcaption></figure>
+<figure class="ic" data-id="finansy" tabindex="0"><svg class="gi"><use href="#genre-finansy"/></svg><figcaption><b>Фінанси</b><code>finansy</code></figcaption></figure>
+<figure class="ic" data-id="ekonomika" tabindex="0"><svg class="gi"><use href="#genre-ekonomika"/></svg><figcaption><b>Економіка</b><code>ekonomika</code></figcaption></figure>
+<figure class="ic" data-id="polityka" tabindex="0"><svg class="gi"><use href="#genre-polityka"/></svg><figcaption><b>Політика</b><code>polityka</code></figcaption></figure>
+<figure class="ic" data-id="filosofiia" tabindex="0"><svg class="gi"><use href="#genre-filosofiia"/></svg><figcaption><b>Філософія</b><code>filosofiia</code></figcaption></figure>
+<figure class="ic" data-id="sotsiolohiia" tabindex="0"><svg class="gi"><use href="#genre-sotsiolohiia"/></svg><figcaption><b>Соціологія</b><code>sotsiolohiia</code></figcaption></figure>
+<figure class="ic" data-id="kultura" tabindex="0"><svg class="gi"><use href="#genre-kultura"/></svg><figcaption><b>Культура</b><code>kultura</code></figcaption></figure>
+<figure class="ic" data-id="mystetstvo" tabindex="0"><svg class="gi"><use href="#genre-mystetstvo"/></svg><figcaption><b>Мистецтво</b><code>mystetstvo</code></figcaption></figure>
+<figure class="ic" data-id="relihiia" tabindex="0"><svg class="gi"><use href="#genre-relihiia"/></svg><figcaption><b>Релігія</b><code>relihiia</code></figcaption></figure>
+<figure class="ic" data-id="dukhovnist" tabindex="0"><svg class="gi"><use href="#genre-dukhovnist"/></svg><figcaption><b>Духовність</b><code>dukhovnist</code></figcaption></figure>
+</div>
+<div class="ghead">Поезія, драма та гумор <span>5</span></div>
+<div class="grid">
+<figure class="ic" data-id="poeziia" tabindex="0"><svg class="gi"><use href="#genre-poeziia"/></svg><figcaption><b>Поезія</b><code>poeziia</code></figcaption></figure>
+<figure class="ic" data-id="drama" tabindex="0"><svg class="gi"><use href="#genre-drama"/></svg><figcaption><b>Драма</b><code>drama</code></figcaption></figure>
+<figure class="ic" data-id="piesa" tabindex="0"><svg class="gi"><use href="#genre-piesa"/></svg><figcaption><b>П’єса</b><code>piesa</code></figcaption></figure>
+<figure class="ic" data-id="humor" tabindex="0"><svg class="gi"><use href="#genre-humor"/></svg><figcaption><b>Гумор</b><code>humor</code></figcaption></figure>
+<figure class="ic" data-id="satyra" tabindex="0"><svg class="gi"><use href="#genre-satyra"/></svg><figcaption><b>Сатира</b><code>satyra</code></figcaption></figure>
+</div>
+<div class="ghead">Навчальна та професійна література <span>9</span></div>
+<div class="grid">
+<figure class="ic" data-id="navchalna-literatura" tabindex="0"><svg class="gi"><use href="#genre-navchalna-literatura"/></svg><figcaption><b>Навчальна література</b><code>navchalna-literatura</code></figcaption></figure>
+<figure class="ic" data-id="profesiyna-literatura" tabindex="0"><svg class="gi"><use href="#genre-profesiyna-literatura"/></svg><figcaption><b>Професійна література</b><code>profesiyna-literatura</code></figcaption></figure>
+<figure class="ic" data-id="it" tabindex="0"><svg class="gi"><use href="#genre-it"/></svg><figcaption><b>IT</b><code>it</code></figcaption></figure>
+<figure class="ic" data-id="prohramuvannia" tabindex="0"><svg class="gi"><use href="#genre-prohramuvannia"/></svg><figcaption><b>Програмування</b><code>prohramuvannia</code></figcaption></figure>
+<figure class="ic" data-id="medytsyna" tabindex="0"><svg class="gi"><use href="#genre-medytsyna"/></svg><figcaption><b>Медицина</b><code>medytsyna</code></figcaption></figure>
+<figure class="ic" data-id="pravo" tabindex="0"><svg class="gi"><use href="#genre-pravo"/></svg><figcaption><b>Право</b><code>pravo</code></figcaption></figure>
+<figure class="ic" data-id="osvita" tabindex="0"><svg class="gi"><use href="#genre-osvita"/></svg><figcaption><b>Освіта</b><code>osvita</code></figcaption></figure>
+<figure class="ic" data-id="movy" tabindex="0"><svg class="gi"><use href="#genre-movy"/></svg><figcaption><b>Мови</b><code>movy</code></figcaption></figure>
+<figure class="ic" data-id="pidruchnyk" tabindex="0"><svg class="gi"><use href="#genre-pidruchnyk"/></svg><figcaption><b>Підручник</b><code>pidruchnyk</code></figcaption></figure>
+</div>
+<div class="ghead">Lifestyle та хобі <span>5</span></div>
+<div class="grid">
+<figure class="ic" data-id="kulinariia" tabindex="0"><svg class="gi"><use href="#genre-kulinariia"/></svg><figcaption><b>Кулінарія</b><code>kulinariia</code></figcaption></figure>
+<figure class="ic" data-id="podorozhi" tabindex="0"><svg class="gi"><use href="#genre-podorozhi"/></svg><figcaption><b>Подорожі</b><code>podorozhi</code></figcaption></figure>
+<figure class="ic" data-id="sport" tabindex="0"><svg class="gi"><use href="#genre-sport"/></svg><figcaption><b>Спорт</b><code>sport</code></figcaption></figure>
+<figure class="ic" data-id="zdorovia" tabindex="0"><svg class="gi"><use href="#genre-zdorovia"/></svg><figcaption><b>Здоров’я</b><code>zdorovia</code></figcaption></figure>
+<figure class="ic" data-id="khobi" tabindex="0"><svg class="gi"><use href="#genre-khobi"/></svg><figcaption><b>Хобі</b><code>khobi</code></figcaption></figure>
+</div>
+<div class="ghead">Інше <span>1</span></div>
+<div class="grid">
+<figure class="ic" data-id="inshe" tabindex="0"><svg class="gi"><use href="#genre-inshe"/></svg><figcaption><b>Інше</b><code>inshe</code></figcaption></figure>
+</div>
+  </div>
+
+  <footer>
+    <div><b style="color:var(--ink)">Використання.</b> Підключи спрайт <code>genre-icons.svg</code> один раз і постав іконку: <code>&lt;svg width="20" height="20"&gt;&lt;use href="#genre-fentezi"/&gt;&lt;/svg&gt;</code>. Колір задається через CSS <code>color</code> (іконка тягне його з <code>currentColor</code>), напр. <code>.genre-ic{color:var(--primary)}</code>.</div>
+    <div style="margin-top:8px">Або бери окремий файл <code>&lt;id&gt;.svg</code> з архіву — теж на <code>currentColor</code>.</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function ic(){ tIcon.innerHTML = root.dataset.theme==='dark'
+     ? '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>'
+     : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'; }
+  ic();
+  tBtn.addEventListener('click',function(){ root.dataset.theme=root.dataset.theme==='dark'?'light':'dark'; localStorage.setItem('theme',root.dataset.theme); ic(); });
+
+  var stage=document.getElementById('stage');
+  // color presets
+  var presets=document.getElementById('presets'), pick=document.getElementById('pick');
+  presets.addEventListener('click',function(e){ var b=e.target.closest('.sw'); if(!b)return;
+    presets.querySelectorAll('.sw').forEach(function(x){x.classList.toggle('on',x===b);});
+    stage.style.color=b.dataset.c; });
+  pick.addEventListener('input',function(){ stage.style.color=pick.value; presets.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on');}); });
+  // size
+  var size=document.getElementById('size'), sizeval=document.getElementById('sizeval');
+  function applySize(){ stage.style.setProperty('--gs', size.value+'px'); sizeval.textContent=size.value+'px'; }
+  size.addEventListener('input',applySize); applySize();
+  // copy
+  stage.addEventListener('click',function(e){ var f=e.target.closest('.ic'); if(!f)return;
+    var id=f.dataset.id, code='<svg width="20" height="20"><use href="#genre-'+id+'"/></svg>';
+    (navigator.clipboard?navigator.clipboard.writeText(code):Promise.reject()).then(show,show);
+    function show(){ if(!f.querySelector('.copied')){ var s=document.createElement('span'); s.className='copied'; s.textContent='скопійовано'; f.appendChild(s);} f.classList.add('is-copied'); clearTimeout(f._t); f._t=setTimeout(function(){f.classList.remove('is-copied');},1200); }
+  });
+  stage.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('ic')){ e.preventDefault(); e.target.click(); } });
+})();
+</script>
+</body>
+</html>

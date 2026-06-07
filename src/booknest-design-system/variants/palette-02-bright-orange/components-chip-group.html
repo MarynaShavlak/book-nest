@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · ChipGroup</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ---- CHIP ---- */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-sans);font-size:.875rem;font-weight:500;
+  padding:9px 16px;border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;outline:0;
+  transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+.chip svg{width:16px;height:16px;flex:0 0 auto}
+.chip:hover:not(:disabled):not(.is-selected):not([aria-checked="true"]):not([aria-pressed="true"]){border-color:var(--accent-border);background:var(--surface-alt)}
+.chip:focus-visible{box-shadow:0 0 0 3px var(--focus-ring);border-color:var(--primary)}
+.chip.is-selected,.chip[aria-checked="true"],.chip[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-fg);border-color:var(--chip-bg)}
+.chip.is-selected:hover,.chip[aria-checked="true"]:hover,.chip[aria-pressed="true"]:hover{background:color-mix(in srgb,var(--chip-bg) 88%,#000)}
+.chip:disabled,.chip.is-disabled{opacity:.45;cursor:not-allowed}
+.chips--sm .chip{padding:6px 13px;font-size:.8125rem}
+.chips--sm .chip svg{width:14px;height:14px}
+
+.picked{margin-top:14px;font-size:.875rem;color:var(--muted)}.picked b{color:var(--ink)}
+
+/* gallery + anatomy */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px;display:flex;flex-direction:column;gap:0}
+.spec .demo{min-height:48px;display:flex;align-items:center}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+.spec .note{margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:24px;max-width:620px}
+.panel + .panel{margin-top:18px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:190px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:13px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:13px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-circle-slash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6 18.4 18.4"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.4 2.4 2.4 4.6-5.2"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>ChipGroup</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>ChipGroup</h1>
+    <p class="lead">Група вибору з пілюль-чипів. Два режими: <b>одиночний</b> (radiogroup — рівно один обраний, як «Статус володіння») і <b>множинний</b> (перемикачі — як жанри). Обраний чип залитий <code>--chip-bg</code>, решта — обведені.</p>
+  </div>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани чипа</h2>
+    <p class="sub">Один елемент у різних станах.</p>
+    <div class="gallery">
+      <div class="spec"><div class="state">Default</div><div class="demo"><button class="chip" type="button">Хочу</button></div><div class="note">Обведений: <code>--border</code> + <code>--surface</code>.</div></div>
+      <div class="spec"><div class="state">Hover</div><div class="demo"><button class="chip" type="button" style="border-color:var(--accent-border);background:var(--surface-alt)">Хочу</button></div><div class="note">Бордер → <code>--accent-border</code>, фон → <code>--surface-alt</code>.</div></div>
+      <div class="spec"><div class="state">Selected</div><div class="demo"><button class="chip is-selected" type="button"><svg><use href="#i-circle-slash"/></svg>Немає</button></div><div class="note">Залитий <code>--chip-bg</code>, текст <code>--chip-fg</code>.</div></div>
+      <div class="spec"><div class="state">Focus</div><div class="demo"><button class="chip" type="button" style="box-shadow:0 0 0 3px var(--focus-ring);border-color:var(--primary)">Хочу</button></div><div class="note"><code>:focus-visible</code> — кільце <code>--focus-ring</code>.</div></div>
+      <div class="spec"><div class="state">Disabled</div><div class="demo"><button class="chip" type="button" disabled>Хочу</button></div><div class="note"><code>opacity .45</code>, не фокусується/не обирається.</div></div>
+      <div class="spec"><div class="state">З іконкою</div><div class="demo" style="gap:8px"><button class="chip" type="button"><svg><use href="#i-bookmark"/></svg>Хочу</button></div><div class="note">Опційна іконка зліва (16px).</div></div>
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <p class="sub">Залежить від режиму.</p>
+    <dl class="tref">
+      <div><dt>Одиночний</dt><dd><code>role="radiogroup"</code>, чипи <code>role="radio"</code> + <code>aria-checked</code>; рівно один обраний</dd></div>
+      <div><dt>Множинний</dt><dd><code>role="group"</code>, чипи — кнопки <code>aria-pressed</code>; перемикаються незалежно</dd></div>
+      <div><dt>Клавіатура (одиночний)</dt><dd><kbd>←</kbd><kbd>→</kbd>/<kbd>↑</kbd><kbd>↓</kbd> рух і вибір (roving tabindex, з обгортанням), <kbd>Home</kbd>/<kbd>End</kbd> — край</dd></div>
+      <div><dt>Клавіатура (множинний)</dt><dd><kbd>Tab</kbd> по чипах, <kbd>Space</kbd>/<kbd>Enter</kbd> — перемкнути</dd></div>
+      <div class="last"><dt>Disabled</dt><dd>чип пропускається при навігації й не реагує на вибір</dd></div>
+    </dl>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Одиночний — стрілками; множинний — Tab + Space.</p>
+
+    <div class="panel">
+      <label class="label" style="display:block;margin-bottom:10px">Статус володіння</label>
+      <div class="chips" role="radiogroup" aria-label="Статус володіння" data-chip-group data-mode="single">
+        <button type="button" class="chip is-selected" role="radio" aria-checked="true"><svg><use href="#i-circle-slash"/></svg>Немає</button>
+        <button type="button" class="chip" role="radio" aria-checked="false"><svg><use href="#i-bookmark"/></svg>Хочу</button>
+        <button type="button" class="chip" role="radio" aria-checked="false"><svg><use href="#i-book"/></svg>Маю (не прочитано)</button>
+        <button type="button" class="chip" role="radio" aria-checked="false"><svg><use href="#i-check-circle"/></svg>Маю (прочитано)</button>
+      </div>
+      <div class="picked" data-picked>—</div>
+    </div>
+
+    <div class="panel">
+      <label class="label" style="display:block;margin-bottom:10px">Жанри <span style="color:var(--muted);font-weight:400">(множинний)</span></label>
+      <div class="chips" role="group" aria-label="Жанри" data-chip-group data-mode="multi">
+        <button type="button" class="chip" aria-pressed="true">Фентезі</button>
+        <button type="button" class="chip" aria-pressed="false">Романтика</button>
+        <button type="button" class="chip" aria-pressed="true">Young Adult</button>
+        <button type="button" class="chip" aria-pressed="false">Детектив</button>
+        <button type="button" class="chip" aria-pressed="false">Трилер</button>
+        <button type="button" class="chip" aria-pressed="false">Нон-фікшн</button>
+      </div>
+      <div class="picked" data-picked>—</div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Який режим</dt><dd>взаємовиключні варіанти (статус) → одиночний; ярлики/жанри → множинний</dd></div>
+      <div><dt>Іконки</dt><dd>опційні, для статусів — корисні; для довгих списків (жанри) краще без них</dd></div>
+      <div><dt>Розмір</dt><dd>клас <code>.chips--sm</code> для щільніших груп</dd></div>
+      <div class="last"><dt>Звідки колір</dt><dd>обраний — <code>--chip-bg</code>/<code>--chip-fg</code>; це не «теги з ×» (ті — в мультиселекті)</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function initChipGroup(group, onChange){
+    var mode=group.dataset.mode||'single';
+    var chips=[].slice.call(group.querySelectorAll('.chip'));
+    function label(c){ return (c.textContent||'').trim(); }
+    function values(){
+      return chips.filter(function(c){ return mode==='single'? c.getAttribute('aria-checked')==='true' : c.getAttribute('aria-pressed')==='true'; }).map(label);
+    }
+    function fire(){ if(onChange) onChange(values()); }
+
+    if(mode==='single'){
+      function setChecked(target){
+        chips.forEach(function(c){ var on=c===target; c.setAttribute('aria-checked', on?'true':'false'); c.classList.toggle('is-selected',on); c.tabIndex=on?0:-1; });
+        if(!chips.some(function(c){return c.tabIndex===0;}) && chips[0]) chips[0].tabIndex=0;
+      }
+      var cur=chips.filter(function(c){return c.getAttribute('aria-checked')==='true';})[0];
+      chips.forEach(function(c,i){ c.tabIndex = cur? (c===cur?0:-1) : (i===0?0:-1); });
+      function focusSelect(c){ setChecked(c); c.focus(); fire(); }
+      function move(from,dir){ var n=chips.length,i=from,guard=0; do{ i=(i+dir+n)%n; guard++; }while(chips[i].disabled && guard<=n); if(!chips[i].disabled) focusSelect(chips[i]); }
+      chips.forEach(function(c){
+        c.addEventListener('click',function(){ if(c.disabled) return; setChecked(c); c.focus(); fire(); });
+        c.addEventListener('keydown',function(e){
+          var idx=chips.indexOf(c), enabled=chips.filter(function(x){return !x.disabled;});
+          if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); move(idx,1); }
+          else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); move(idx,-1); }
+          else if(e.key==='Home'){ e.preventDefault(); focusSelect(enabled[0]); }
+          else if(e.key==='End'){ e.preventDefault(); focusSelect(enabled[enabled.length-1]); }
+        });
+      });
+    } else {
+      chips.forEach(function(c){
+        c.addEventListener('click',function(){ if(c.disabled) return; var on=c.getAttribute('aria-pressed')==='true'; c.setAttribute('aria-pressed', on?'false':'true'); c.classList.toggle('is-selected',!on); fire(); });
+      });
+    }
+    fire();
+  }
+
+  document.querySelectorAll('[data-chip-group]').forEach(function(group){
+    var out=group.parentElement.querySelector('[data-picked]');
+    initChipGroup(group, function(vals){
+      if(!out) return;
+      out.innerHTML = vals.length ? ('Обрано: <b>'+vals.join('</b>, <b>')+'</b>') : '<span>нічого не обрано</span>';
+    });
+  });
+})();
+</script>
+</body>
+</html>

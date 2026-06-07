@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Checkbox &amp; Radio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+.kicker{font-family:var(--font-serif);font-size:1.6rem;color:var(--ink);font-weight:700;margin:10px 0 -8px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* shared label text */
+.check-text{display:flex;flex-direction:column;gap:1px}
+.check-text .t{color:var(--ink);font-weight:500;font-size:.9375rem;line-height:1.25}
+.check-text .d{color:var(--muted);font-size:.8125rem}
+
+/* ============ CHECKBOX ============ */
+.check{display:inline-flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;vertical-align:middle}
+.check>input{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+.check-box{flex:0 0 auto;width:20px;height:20px;margin-top:1px;border-radius:var(--radius-xs);border:1.5px solid var(--border);background:var(--field);display:grid;place-items:center;transition:background-color .15s,border-color .15s}
+.check-box svg{grid-area:1/1;width:14px;height:14px;color:var(--on-primary);opacity:0;transition:opacity .12s}
+.check>input:checked + .check-box,.check>input:indeterminate + .check-box{background:var(--primary);border-color:var(--primary)}
+.check>input:checked + .check-box .ck{opacity:1}
+.check>input:indeterminate + .check-box .ck{opacity:0}
+.check>input:indeterminate + .check-box .ind{opacity:1}
+.check>input:focus-visible + .check-box{box-shadow:0 0 0 3px var(--focus-ring)}
+.check>input:disabled + .check-box{opacity:.45}
+.check:has(>input:disabled){cursor:not-allowed}
+.check.error .check-box{border-color:var(--danger);background:var(--danger-bg)}
+.check.sm .check-box{width:16px;height:16px}
+.check.sm .check-box svg{width:11px;height:11px}
+
+/* ============ RADIO ============ */
+.radio{display:inline-flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;vertical-align:middle}
+.radio>input{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+.radio-mark{flex:0 0 auto;width:20px;height:20px;margin-top:1px;border-radius:50%;border:1.5px solid var(--border);background:var(--field);display:grid;place-items:center;transition:background-color .15s,border-color .15s}
+.radio-mark::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--on-primary);transform:scale(0);transition:transform .15s}
+.radio>input:checked + .radio-mark{background:var(--primary);border-color:var(--primary)}
+.radio>input:checked + .radio-mark::after{transform:scale(1)}
+.radio>input:focus-visible + .radio-mark{box-shadow:0 0 0 3px var(--focus-ring)}
+.radio>input:disabled + .radio-mark{opacity:.45}
+.radio:has(>input:disabled){cursor:not-allowed}
+.radio.sm .radio-mark{width:16px;height:16px}
+.radio.sm .radio-mark::after{width:7px;height:7px}
+@media (prefers-reduced-motion:reduce){.check-box svg,.radio-mark::after{transition:none}}
+
+/* radio list (selectable rows) */
+.radio-list{display:flex;flex-direction:column;gap:8px}
+.r-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;transition:background-color .15s,border-color .15s}
+.r-row:hover{background:var(--surface-alt)}
+.r-row .r-ic{display:flex;color:var(--icon)}
+.r-row .r-ic svg{width:20px;height:20px}
+.r-row .check-text{flex:1}
+.r-row .check-text .t{font-weight:600}
+.r-row:has(>input:checked){border-color:var(--accent-border);background:var(--accent-soft)}
+.r-row:has(>input:checked) .r-ic{color:var(--primary)}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.spec .demo{min-height:48px;display:flex;align-items:center;flex-wrap:wrap;gap:20px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:26px}
+.col{display:flex;flex-direction:column;gap:14px}
+.msg{display:flex;align-items:center;gap:7px;font-size:.8125rem;color:var(--danger);margin-top:10px}
+.msg svg{width:15px;height:15px}
+.group-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--border)}
+.out{font-size:.8125rem;color:var(--muted);margin-top:14px}.out b{color:var(--ink)}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:130px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+.play{max-width:460px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Checkbox &amp; Radio</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Checkbox &amp; Radio</h1>
+    <p class="lead">Вибір у формах: <b>Checkbox</b> — кілька незалежних опцій (або одна згода), <b>Radio</b> — один варіант із групи. Обидва на нативних <code>&lt;input&gt;</code>: працюють без JS, у формах і з клавіатури. Позначене — <code>--primary</code>.</p>
+  </div>
+
+  <!-- ===================== CHECKBOX ===================== -->
+  <div class="kicker">Checkbox</div>
+
+  <section class="block">
+    <h2>Анатомія / API</h2>
+    <div class="row" style="margin-bottom:8px">
+      <label class="check"><input type="checkbox" checked><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Тільки улюблені</span></span></label>
+    </div>
+    <dl class="tref">
+      <div><dt>box</dt><dd>квадрат <code>--radius-xs</code>: off <code>--field</code>+бордер → on/mixed <code>--primary</code></dd></div>
+      <div><dt>mark</dt><dd>галочка (checked) або риска (indeterminate), білі</dd></div>
+      <div><dt>input</dt><dd>прихований нативний <code>&lt;input type="checkbox"&gt;</code></dd></div>
+      <div class="last"><dt>label</dt><dd>опційний <code>.check-text</code> (заголовок + опис)</dd></div>
+    </dl>
+  </section>
+
+  <section class="block">
+    <h2>Стани</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Unchecked</div><div class="demo"><label class="check"><input type="checkbox" aria-label="unchecked"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label></div></div>
+      <div class="spec"><div class="state">Checked</div><div class="demo"><label class="check"><input type="checkbox" checked aria-label="checked"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label></div></div>
+      <div class="spec"><div class="state">Indeterminate</div><div class="demo"><label class="check"><input type="checkbox" data-indeterminate aria-label="mixed"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label></div><div class="note">«Частково» — для «обрати все».</div></div>
+      <div class="spec"><div class="state">Disabled</div><div class="demo"><label class="check"><input type="checkbox" disabled aria-label="d off"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label><label class="check"><input type="checkbox" checked disabled aria-label="d on"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label></div></div>
+      <div class="spec"><div class="state">Error</div><div class="demo" style="display:block"><label class="check error"><input type="checkbox" aria-label="terms"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Приймаю умови</span></span></label><div class="msg"><svg><use href="#i-alert"/></svg>Потрібно прийняти умови</div></div></div>
+      <div class="spec"><div class="state">Focus (Tab →)</div><div class="demo"><label class="check"><input type="checkbox" aria-label="focus"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span></label></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Розміри й опис</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">sm / md</div><div class="demo"><label class="check sm"><input type="checkbox" checked aria-label="sm"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">sm</span></span></label><label class="check"><input type="checkbox" checked aria-label="md"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">md</span></span></label></div></div>
+      <div class="spec"><div class="state">Із описом</div><div class="demo"><label class="check"><input type="checkbox" checked><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Завершені серії</span><span class="d">Показувати лише дочитані цикли</span></span></label></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Група + «обрати все»</h2>
+    <p class="sub">Батьківський чекбокс стає «частковим» (indeterminate), коли обрано не все.</p>
+    <div class="card play" data-checkgroup>
+      <div class="group-head"><label class="check"><input type="checkbox" data-all aria-label="Обрати всі жанри"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Усі жанри</span></span></label></div>
+      <div class="col">
+        <label class="check"><input type="checkbox" data-item checked aria-label="Фентезі"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Фентезі</span></span></label>
+        <label class="check"><input type="checkbox" data-item aria-label="Детектив"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Детектив</span></span></label>
+        <label class="check"><input type="checkbox" data-item aria-label="Наукова фантастика"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Наукова фантастика</span></span></label>
+        <label class="check"><input type="checkbox" data-item aria-label="Романтика"><span class="check-box"><svg class="ck"><use href="#i-check"/></svg><svg class="ind"><use href="#i-minus"/></svg></span><span class="check-text"><span class="t">Романтика</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RADIO ===================== -->
+  <div class="kicker">Radio</div>
+
+  <section class="block">
+    <h2>Анатомія / API</h2>
+    <div class="row" style="margin-bottom:8px">
+      <label class="radio"><input type="radio" name="anatomy" checked><span class="radio-mark"></span><span class="check-text"><span class="t">М'яка обкладинка</span></span></label>
+      <label class="radio"><input type="radio" name="anatomy"><span class="radio-mark"></span><span class="check-text"><span class="t">Тверда обкладинка</span></span></label>
+    </div>
+    <dl class="tref">
+      <div><dt>mark</dt><dd>коло: off <code>--field</code>+бордер → selected <code>--primary</code> + біла крапка</dd></div>
+      <div><dt>name</dt><dd>спільний <code>name</code> робить групу взаємовиключною</dd></div>
+      <div class="last"><dt>input</dt><dd>прихований нативний <code>&lt;input type="radio"&gt;</code></dd></div>
+    </dl>
+  </section>
+
+  <section class="block">
+    <h2>Стани й розміри</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Unselected / Selected</div><div class="demo"><label class="radio"><input type="radio" name="s1" aria-label="off"><span class="radio-mark"></span></label><label class="radio"><input type="radio" name="s1" checked aria-label="on"><span class="radio-mark"></span></label></div></div>
+      <div class="spec"><div class="state">Disabled</div><div class="demo"><label class="radio"><input type="radio" name="s2" disabled aria-label="d off"><span class="radio-mark"></span></label><label class="radio"><input type="radio" name="s3" checked disabled aria-label="d on"><span class="radio-mark"></span></label></div></div>
+      <div class="spec"><div class="state">sm / md</div><div class="demo"><label class="radio sm"><input type="radio" name="s4" checked aria-label="sm"><span class="radio-mark"></span><span class="check-text"><span class="t">sm</span></span></label><label class="radio"><input type="radio" name="s5" checked aria-label="md"><span class="radio-mark"></span><span class="check-text"><span class="t">md</span></span></label></div></div>
+      <div class="spec"><div class="state">Focus (Tab →)</div><div class="demo"><label class="radio"><input type="radio" name="s6" aria-label="focus"><span class="radio-mark"></span></label></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Група-список (вибір статусу)</h2>
+    <p class="sub">Рядки з іконкою й описом — твоя модалка «Змінити статус».</p>
+    <div class="card play">
+      <div class="radio-list" data-radiogroup role="radiogroup" aria-label="Статус читання">
+        <label class="radio r-row"><input type="radio" name="status" data-label="Хочу прочитати" aria-label="Хочу прочитати"><span class="radio-mark"></span><span class="r-ic"><svg><use href="#i-bookmark"/></svg></span><span class="check-text"><span class="t">Хочу прочитати</span><span class="d">У списку бажаного</span></span></label>
+        <label class="radio r-row"><input type="radio" name="status" data-label="Читаю" checked aria-label="Читаю"><span class="radio-mark"></span><span class="r-ic"><svg><use href="#i-book"/></svg></span><span class="check-text"><span class="t">Читаю</span><span class="d">Зараз у процесі</span></span></label>
+        <label class="radio r-row"><input type="radio" name="status" data-label="Прочитано" aria-label="Прочитано"><span class="radio-mark"></span><span class="r-ic"><svg><use href="#i-check-circle"/></svg></span><span class="check-text"><span class="t">Прочитано</span><span class="d">Завершено</span></span></label>
+      </div>
+      <div class="out" data-rout></div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Коли що</h2>
+    <dl class="tref">
+      <div><dt>Checkbox</dt><dd>кілька незалежних опцій або одна згода (фільтри, «прийняти умови»)</dd></div>
+      <div><dt>Radio</dt><dd>рівно один варіант із 2+ (тип обкладинки, статус) — коли всі варіанти варто бачити</dd></div>
+      <div><dt>vs Segmented</dt><dd>2–4 короткі варіанти в один рядок → Segmented; довший список з описами → Radio</dd></div>
+      <div><dt>vs Toggle</dt><dd>увімк/вимк налаштування з миттєвою дією → Toggle, не Checkbox</dd></div>
+      <div class="last"><dt>Семантика</dt><dd>нативні input: Space/стрілки, групам — спільний <code>name</code>; без тексту — <code>aria-label</code></dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  // indeterminate (can only be set via JS)
+  document.querySelectorAll('[data-indeterminate]').forEach(function(i){ i.indeterminate=true; });
+
+  // checkbox group + select-all
+  document.querySelectorAll('[data-checkgroup]').forEach(function(group){
+    var all=group.querySelector('[data-all]');
+    var items=[].slice.call(group.querySelectorAll('[data-item]'));
+    function sync(){ var n=items.filter(function(i){return i.checked;}).length; all.checked=n===items.length; all.indeterminate=n>0&&n<items.length; }
+    if(all) all.addEventListener('change',function(){ items.forEach(function(i){ i.checked=all.checked; }); });
+    items.forEach(function(i){ i.addEventListener('change', sync); });
+    sync();
+  });
+
+  // radio group output
+  document.querySelectorAll('[data-radiogroup]').forEach(function(g){
+    var out=g.parentElement.querySelector('[data-rout]');
+    var radios=[].slice.call(g.querySelectorAll('input[type=radio]'));
+    function r(){ var s=radios.filter(function(x){return x.checked;})[0]; if(out&&s) out.innerHTML='Обрано: <b>'+(s.dataset.label||'')+'</b>'; }
+    radios.forEach(function(x){ x.addEventListener('change', r); }); r();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Галерея дизайн-систем</title>
+<meta name="description" content="Галерея палітр дизайн-системи BookNest. Обери варіант, щоб переглянути його токени та всі компоненти.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- тема запам'ятовується між візитами -->
+<script>(function(){var s=localStorage.getItem('bn-gallery-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(s==='light'||s==='dark')?s:(d?'dark':'light');})();</script>
+
+<!-- іконки -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".8" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".8" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".8" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".8" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z"/></symbol>
+</svg>
+
+<style>
+/* ============================================================
+   Хром галереї — теракотові токени BookNest (канонічна палітра).
+   Картки рендеряться у власних кольорах через інлайн --v-*.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-border:#E2C3A3;
+  --focus-ring:rgba(169,110,71,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 18px 44px rgba(58,38,24,.13);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-border:#4E3A29;
+  --focus-ring:rgba(176,116,79,.34);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 20px 48px rgba(0,0,0,.52);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-sans);font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;
+  transition:background .3s ease,color .3s ease;
+  background-image:radial-gradient(120% 80% at 50% -10%, color-mix(in srgb,var(--accent-soft) 36%, transparent) 0%, transparent 60%);
+  background-attachment:fixed;
+}
+h1,h2,h3{font-family:var(--font-serif);color:var(--ink);margin:0}
+a{color:inherit;text-decoration:none}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  padding:14px max(24px,calc((100% - 1180px)/2));
+  background:color-mix(in srgb,var(--surface-alt) 86%,transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:34px;height:34px;color:var(--primary)}
+.brand .bn{font-family:var(--font-serif);font-weight:800;color:var(--ink);font-size:1.3rem;line-height:1}
+.brand .bs{font-size:.72rem;color:var(--muted);letter-spacing:.02em}
+.theme-fab{width:42px;height:42px;border-radius:var(--radius-full);display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;
+  box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:19px;height:19px}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 110px}
+
+/* hero */
+.hero{padding:66px 0 30px;max-width:760px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--primary);font-weight:800;
+  font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.eyebrow svg{width:15px;height:15px}
+.hero h1{font-size:clamp(3rem,7vw,4.75rem);font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.hero .tag{margin-top:18px;font-size:1.18rem;color:var(--muted);max-width:60ch}
+.hero .tag b{color:var(--text);font-weight:700}
+
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 15px;border:1px solid var(--border);
+  background:var(--surface);border-radius:var(--radius-full);font-size:.86rem;font-weight:700;color:var(--ink);
+  box-shadow:var(--shadow-card)}
+.pill svg{width:15px;height:15px;color:var(--primary)}
+.pill .n{font-variant-numeric:tabular-nums}
+
+/* search */
+.searchbar{position:relative;margin-top:30px;max-width:440px}
+.searchbar svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+.searchbar input{width:100%;height:50px;padding:0 16px 0 46px;border:1px solid var(--border);
+  background:var(--surface);border-radius:var(--radius-full);color:var(--ink);font:inherit;font-size:1rem;
+  box-shadow:var(--shadow-card);transition:.18s}
+.searchbar input::placeholder{color:var(--muted)}
+.searchbar input:focus{outline:none;border-color:var(--accent-border);box-shadow:0 0 0 4px var(--focus-ring)}
+
+.count{margin:34px 0 16px;font-size:.92rem;font-weight:600;color:var(--muted)}
+.count b{color:var(--ink);font-weight:700}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+
+/* картка варіанта — рендериться у власній палітрі через --v-* */
+.card{position:relative;display:flex;flex-direction:column;border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-card);
+  transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s ease,border-color .22s ease;
+  animation:rise .5s both}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:var(--accent-border)}
+.card:focus-visible{outline:none;box-shadow:0 0 0 4px var(--focus-ring),var(--shadow-hover)}
+
+/* міні-прев'ю інтерфейсу у фірмових кольорах варіанта */
+.stage{padding:22px 22px 0;background:var(--v-bg);position:relative}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 -22px 26px -22px rgba(0,0,0,.10)}
+.mini{background:var(--v-surf);border:1px solid var(--v-bord);border-radius:14px;padding:15px 16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.07)}
+.mini .mt{font-family:var(--font-serif);font-weight:700;color:var(--v-ink);font-size:1.25rem;line-height:1;margin-bottom:12px}
+.mini .row{display:flex;align-items:center;gap:8px;margin-bottom:13px}
+.mini .btn{display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;
+  background:var(--v-primary);color:var(--v-surf);font-size:.8rem;font-weight:700;letter-spacing:.01em}
+.mini .chip{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;
+  background:var(--v-soft);color:var(--v-ink);font-size:.78rem;font-weight:600;border:1px solid var(--v-bord)}
+.mini .bars{display:flex;flex-direction:column;gap:7px}
+.mini .bar{height:7px;border-radius:999px;background:var(--v-primary)}
+.mini .bar.b2{opacity:.62}.mini .bar.b3{opacity:.32}
+
+/* тіло картки */
+.body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;flex:1}
+.head{display:flex;align-items:baseline;gap:11px}
+.head .idx{font-family:ui-monospace,Menlo,monospace;font-size:.82rem;font-weight:700;color:var(--muted);
+  background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:3px 7px;line-height:1}
+.head h3{font-size:1.32rem;font-weight:700}
+
+.sw-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:8px;border:1px solid rgba(0,0,0,.10);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+[data-theme="dark"] .sw{border-color:rgba(255,255,255,.10)}
+.sw.lg{width:46px;height:30px;border-radius:9px}
+.sw.dark-dot{position:relative}
+.sw.dark-dot::after{content:"";position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border-radius:50%;
+  background:var(--ink);color:var(--surface);
+  -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>') center/9px no-repeat;
+          mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>') center/9px no-repeat}
+
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px}
+.foot .hex{font-family:ui-monospace,Menlo,monospace;font-size:.78rem;font-weight:600;color:var(--text-secondary);
+  text-transform:uppercase;font-variant-numeric:tabular-nums}
+.foot .go{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-weight:700;font-size:.88rem}
+.foot .go svg{width:15px;height:15px;transition:transform .2s}
+.card:hover .foot .go svg{transform:translateX(3px)}
+
+/* empty / помилка */
+.empty{margin-top:30px;border:1px dashed var(--border);border-radius:var(--radius-lg);padding:34px;
+  background:var(--surface);color:var(--text-secondary);text-align:center}
+.empty h3{margin-bottom:8px;font-size:1.3rem}
+.empty code{font-family:ui-monospace,Menlo,monospace;background:var(--surface-alt);border:1px solid var(--border);
+  border-radius:8px;padding:3px 8px;color:var(--ink);font-size:.9em}
+.no-match{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0;font-size:1.02rem}
+
+footer{margin-top:60px;padding-top:26px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:9px;color:var(--muted);font-size:.86rem}
+footer svg{width:17px;height:17px;color:var(--primary)}
+
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.card{animation:none}*{transition:none!important}}
+@media (max-width:560px){.hero{padding:46px 0 22px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="./" aria-label="BookNest — на головну">
+    <svg class="mark"><use href="#i-book"/></svg>
+    <span><span class="bn">BookNest</span><br><span class="bs">галерея дизайн-систем</span></span>
+  </a>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему" title="Світла / темна">
+    <svg id="ticon"><use href="#i-moon"/></svg>
+  </button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow"><svg><use href="#i-palette"/></svg>Палітри · компоненти · токени</span>
+    <h1>Дизайн-система BookNest</h1>
+    <p class="tag">Одна бібліотека компонентів — <b>багато колірних варіантів</b>. Обери палітру нижче, щоб відкрити її токени, типографіку й усі компоненти в живому вигляді.</p>
+
+    <div class="meta">
+      <span class="pill"><svg><use href="#i-palette"/></svg><span class="n" id="mPalettes">0</span>&nbsp;палітр</span>
+      <span class="pill"><svg><use href="#i-grid"/></svg>~50 компонентів у кожній</span>
+      <span class="pill"><svg><use href="#i-layers"/></svg>світла + темна теми</span>
+    </div>
+
+    <div class="searchbar">
+      <svg><use href="#i-search"/></svg>
+      <input id="search" type="search" placeholder="Пошук палітри за назвою…" autocomplete="off" aria-label="Пошук палітри">
+    </div>
+  </section>
+
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>
+    <h3>Поки що жодного варіанта</h3>
+    <p>Поклади теки палітр у <code>variants/</code> і виконай <code>python scripts/build.py</code>, щоб зібрати галерею.</p>
+  </div>
+</main>
+
+<footer>
+  <svg><use href="#i-book"/></svg>
+  <span>BookNest · усі варіанти на спільних компонентах і семантичних токенах</span>
+</footer>
+
+<script src="variants.js"></script>
+<script>
+(function(){
+  var root=document.documentElement;
+
+  /* ---- тема ---- */
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){
+    root.dataset.theme = root.dataset.theme==='dark'?'light':'dark';
+    try{ localStorage.setItem('bn-gallery-theme', root.dataset.theme); }catch(e){}
+    applyIcon();
+  });
+
+  /* ---- дані ---- */
+  var DATA = Array.isArray(window.BOOKNEST_VARIANTS) ? window.BOOKNEST_VARIANTS : [];
+  var grid=document.getElementById('grid');
+  var empty=document.getElementById('empty');
+  var countEl=document.getElementById('count');
+  document.getElementById('mPalettes').textContent = DATA.length;
+
+  if(!DATA.length){ empty.hidden=false; countEl.hidden=true; return; }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  function cardHTML(v){
+    var c=v.colors||{};
+    var pad=String(v.order||0).padStart(2,'0');
+    var primary=c.primary||'#888';
+    var sw=function(val,label,extra){
+      return '<span class="sw '+(extra||'')+'" style="background:'+(val||'#0000')+'" title="'+esc(label)+': '+esc(val||'—')+'"></span>';
+    };
+    var swatches =
+      sw(c.primary,'--primary','lg') +
+      sw(c['primary-hover'],'--primary-hover') +
+      sw(c.ink,'--ink') +
+      sw(c.surface,'--surface') +
+      sw(c['surface-alt'],'--surface-alt') +
+      sw(c['accent-soft'],'--accent-soft') +
+      sw(c.border,'--border') +
+      sw(v.primaryDark,'--primary (dark)','dark-dot');
+
+    var style = [
+      '--v-bg:'+(c.bg||'#fff'),
+      '--v-surf:'+(c.surface||'#fff'),
+      '--v-surfalt:'+(c['surface-alt']||'#eee'),
+      '--v-ink:'+(c.ink||'#222'),
+      '--v-primary:'+primary,
+      '--v-soft:'+(c['accent-soft']||'#eee'),
+      '--v-bord:'+(c.border||'#ddd')
+    ].join(';');
+
+    return ''+
+    '<a class="card" href="'+esc(v.path)+'" style="'+style+'" aria-label="Відкрити дизайн-систему: '+esc(v.title||v.name)+'">'+
+      '<div class="stage">'+
+        '<div class="mini">'+
+          '<div class="mt">Затишний куточок</div>'+
+          '<div class="row"><span class="btn">Читати</span><span class="chip">Роман</span></div>'+
+          '<div class="bars"><span class="bar"></span><span class="bar b2"></span><span class="bar b3"></span></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="body">'+
+        '<div class="head"><span class="idx">'+pad+'</span><h3>'+esc(v.name||v.slug)+'</h3></div>'+
+        '<div class="sw-row">'+swatches+'</div>'+
+        '<div class="foot"><span class="hex">'+esc(primary)+'</span>'+
+          '<span class="go">Відкрити<svg><use href="#i-chevron-right"/></svg></span></div>'+
+      '</div>'+
+    '</a>';
+  }
+
+  function render(list){
+    if(!list.length){
+      grid.innerHTML='<p class="no-match">Нічого не знайдено за цим запитом.</p>';
+    } else {
+      grid.innerHTML=list.map(cardHTML).join('');
+      // легкий каскад появи
+      Array.prototype.forEach.call(grid.children,function(el,i){ el.style.animationDelay=(i*45)+'ms'; });
+    }
+    countEl.innerHTML='Показано <b>'+list.length+'</b> з '+DATA.length;
+  }
+
+  render(DATA);
+
+  /* ---- пошук ---- */
+  var search=document.getElementById('search');
+  search.addEventListener('input',function(){
+    var q=search.value.trim().toLowerCase();
+    if(!q){ render(DATA); return; }
+    render(DATA.filter(function(v){
+      return (v.name||'').toLowerCase().includes(q)
+          || (v.slug||'').toLowerCase().includes(q)
+          || (v.title||'').toLowerCase().includes(q);
+    }));
+  });
+})();
+</script>
+</body>
+</html>

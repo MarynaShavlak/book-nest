@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Pagination</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#ED8041; --primary-hover:#D96E2E; --on-primary:#3D2719;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(237,128,65,.20);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(237,128,65,.30);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#EE8B53; --primary-hover:#F29E6C; --on-primary:#2A1A0E;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(238,139,83,.32);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(238,139,83,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ PAGINATION ============ */
+.pg{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+.pg-btn{min-width:38px;height:38px;padding:0 10px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:var(--radius-sm);font:inherit;font-weight:600;font-size:.9375rem;cursor:pointer;display:inline-grid;place-items:center;transition:background-color .15s,border-color .15s,color .15s;font-variant-numeric:tabular-nums}
+.pg-btn:hover:not(:disabled):not([aria-current]){background:var(--surface-alt);border-color:var(--accent-border)}
+.pg-btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.pg-btn[aria-current="page"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary);box-shadow:var(--shadow-btn)}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed}
+.pg-btn svg{width:18px;height:18px}
+.pg-ellipsis{min-width:30px;height:38px;display:inline-grid;place-items:center;color:var(--muted);font-weight:700}
+.pg-info{padding:0 14px;color:var(--text-secondary);font-size:.9375rem;font-weight:500;font-variant-numeric:tabular-nums}
+/* sizes */
+.pg.sm .pg-btn{min-width:32px;height:32px;font-size:.875rem;padding:0 8px}
+.pg.sm .pg-btn svg{width:16px;height:16px}
+.pg.sm .pg-ellipsis{height:32px;min-width:26px}
+/* list footer */
+.pg-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.pg-summary{color:var(--muted);font-size:.875rem;font-variant-numeric:tabular-nums}
+.pg-summary b{color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){.pg-btn{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.demo{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:10px 22px 20px;margin-bottom:16px}
+.demo .lbl{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);padding:12px 2px 12px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-chev-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Pagination</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Pagination</h1>
+    <p class="lead">Гортання довгих списків посторінково — «‹ 1 2 3 ›» внизу бібліотеки чи серій. Активна сторінка виділена, «‹/›» вимикаються на межах, довгі діапазони згортаються в «…».</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="card">
+      <nav class="pg" aria-label="Пагінація">
+        <button class="pg-btn" aria-label="Попередня"><svg><use href="#i-chev-left"/></svg></button>
+        <button class="pg-btn" aria-label="Сторінка 1">1</button>
+        <button class="pg-btn" aria-current="page" aria-label="Сторінка 2">2</button>
+        <button class="pg-btn" aria-label="Сторінка 3">3</button>
+        <span class="pg-ellipsis" aria-hidden="true">…</span>
+        <button class="pg-btn" aria-label="Сторінка 12">12</button>
+        <button class="pg-btn" aria-label="Наступна"><svg><use href="#i-chev-right"/></svg></button>
+      </nav>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>nav</dt><dd><code>&lt;nav aria-label="Пагінація"&gt;</code></dd></div>
+      <div><dt>prev/next</dt><dd>шеврони; <code>disabled</code> на першій/останній</dd></div>
+      <div><dt>active</dt><dd>поточна сторінка — <code>aria-current="page"</code>, заливка <code>--primary</code></dd></div>
+      <div class="last"><dt>ellipsis</dt><dd>«…» згортає пропуск у довгому діапазоні</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+
+    <div class="demo">
+      <div class="lbl">Номерна (короткий список)</div>
+      <nav class="pg" aria-label="Пагінація">
+        <button class="pg-btn" disabled aria-label="Попередня"><svg><use href="#i-chev-left"/></svg></button>
+        <button class="pg-btn" aria-current="page" aria-label="Сторінка 1">1</button>
+        <button class="pg-btn" aria-label="Сторінка 2">2</button>
+        <button class="pg-btn" aria-label="Сторінка 3">3</button>
+        <button class="pg-btn" aria-label="Сторінка 4">4</button>
+        <button class="pg-btn" aria-label="Сторінка 5">5</button>
+        <button class="pg-btn" aria-label="Наступна"><svg><use href="#i-chev-right"/></svg></button>
+      </nav>
+    </div>
+
+    <div class="demo">
+      <div class="lbl">З «…» (довгий список)</div>
+      <nav class="pg" aria-label="Пагінація">
+        <button class="pg-btn" aria-label="Попередня"><svg><use href="#i-chev-left"/></svg></button>
+        <button class="pg-btn" aria-label="Сторінка 1">1</button>
+        <span class="pg-ellipsis" aria-hidden="true">…</span>
+        <button class="pg-btn" aria-label="Сторінка 5">5</button>
+        <button class="pg-btn" aria-current="page" aria-label="Сторінка 6">6</button>
+        <button class="pg-btn" aria-label="Сторінка 7">7</button>
+        <span class="pg-ellipsis" aria-hidden="true">…</span>
+        <button class="pg-btn" aria-label="Сторінка 20">20</button>
+        <button class="pg-btn" aria-label="Наступна"><svg><use href="#i-chev-right"/></svg></button>
+      </nav>
+    </div>
+
+    <div class="demo">
+      <div class="lbl">Компактна</div>
+      <nav class="pg" aria-label="Пагінація">
+        <button class="pg-btn" aria-label="Попередня"><svg><use href="#i-chev-left"/></svg></button>
+        <span class="pg-info">Сторінка 3 з 20</span>
+        <button class="pg-btn" aria-label="Наступна"><svg><use href="#i-chev-right"/></svg></button>
+      </nav>
+    </div>
+
+    <div class="demo">
+      <div class="lbl">Розмір sm</div>
+      <nav class="pg sm" aria-label="Пагінація">
+        <button class="pg-btn" disabled aria-label="Попередня"><svg><use href="#i-chev-left"/></svg></button>
+        <button class="pg-btn" aria-current="page" aria-label="Сторінка 1">1</button>
+        <button class="pg-btn" aria-label="Сторінка 2">2</button>
+        <button class="pg-btn" aria-label="Сторінка 3">3</button>
+        <button class="pg-btn" aria-label="Наступна"><svg><use href="#i-chev-right"/></svg></button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- СПРОБУЙ -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">20 сторінок — гортай, «…» і межі перераховуються.</p>
+    <div class="card" style="text-align:center">
+      <nav class="pg" aria-label="Пагінація" data-pagination data-total="20" data-current="1" data-summary-target="#sum1"></nav>
+      <div class="pg-summary" id="sum1" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ФУТЕР СПИСКУ -->
+  <section class="block">
+    <h2>Футер списку</h2>
+    <p class="sub">Твій патерн зі сторінки серій: підсумок ліворуч, гортання праворуч.</p>
+    <div class="card">
+      <div class="pg-row">
+        <span class="pg-summary" id="sum2"></span>
+        <nav class="pg sm" aria-label="Пагінація" data-pagination data-totalitems="58" data-pagesize="10" data-current="1" data-summary-target="#sum2"></nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Поточна</dt><dd>одна активна, <code>aria-current="page"</code>; решта клікабельні</dd></div>
+      <div><dt>Межі</dt><dd>«‹» на першій і «›» на останній — <code>disabled</code></dd></div>
+      <div><dt>Вікно</dt><dd>перша, остання, поточна ±1; пропуски — «…»</dd></div>
+      <div><dt>Підсумок</dt><dd>«Показано a–b з N» поряд допомагає масштабу</dd></div>
+      <div class="last"><dt>vs Load more</dt><dd>пагінація — коли важлива позиція/перехід; стрічка/«Завантажити ще» — для нескінченного контенту</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function range(cur,total){
+    var delta=1, out=[], r=[], l;
+    for(var i=1;i<=total;i++){ if(i===1||i===total||(i>=cur-delta&&i<=cur+delta)) r.push(i); }
+    r.forEach(function(i){ if(l){ if(i-l===2) out.push(l+1); else if(i-l>2) out.push('…'); } out.push(i); l=i; });
+    return out;
+  }
+  document.querySelectorAll('[data-pagination]').forEach(function(nav){
+    var items=+nav.dataset.totalitems||0, size=+nav.dataset.pagesize||0;
+    var total=items&&size?Math.max(1,Math.ceil(items/size)):(+nav.dataset.total||1);
+    var cur=+nav.dataset.current||1;
+    var summary=nav.dataset.summaryTarget?document.querySelector(nav.dataset.summaryTarget):null;
+    function svg(id){ return '<svg><use href="#'+id+'"/></svg>'; }
+    function render(){
+      var h='';
+      h+='<button class="pg-btn" data-go="'+(cur-1)+'"'+(cur===1?' disabled':'')+' aria-label="Попередня">'+svg('i-chev-left')+'</button>';
+      range(cur,total).forEach(function(p){
+        if(p==='…') h+='<span class="pg-ellipsis" aria-hidden="true">…</span>';
+        else h+='<button class="pg-btn" data-go="'+p+'"'+(p===cur?' aria-current="page"':'')+' aria-label="Сторінка '+p+'">'+p+'</button>';
+      });
+      h+='<button class="pg-btn" data-go="'+(cur+1)+'"'+(cur===total?' disabled':'')+' aria-label="Наступна">'+svg('i-chev-right')+'</button>';
+      nav.innerHTML=h;
+      nav.querySelectorAll('[data-go]').forEach(function(b){
+        if(b.disabled) return;
+        b.addEventListener('click', function(){ var p=+b.dataset.go; if(p>=1&&p<=total&&p!==cur){ cur=p; render(); } });
+      });
+      if(summary){
+        if(items&&size){ var a=(cur-1)*size+1, b=Math.min(cur*size,items); summary.innerHTML='Показано <b>'+a+'–'+b+'</b> з '+items+' книг'; }
+        else summary.innerHTML='Сторінка <b>'+cur+'</b> з '+total;
+      }
+    }
+    render();
+  });
+})();
+</script>
+</body>
+</html>

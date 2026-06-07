@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Картка товару</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* Card primitive + atoms */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card)}
+.cover{position:relative;flex:0 0 auto;border-radius:var(--radius-sm);overflow:hidden;background:var(--accent-soft);box-shadow:0 2px 8px rgba(58,38,24,.14)}
+.cover .ph{width:100%;height:100%;display:grid;place-items:center;color:rgba(255,255,255,.5)}
+.cover .ph svg{width:20px;height:20px}
+.badge{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:var(--radius-full);font-size:.72rem;font-weight:600;line-height:1;white-space:nowrap;background:var(--accent-soft);color:var(--accent-soft-fg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 14px;border-radius:var(--radius-sm);font:inherit;font-weight:600;font-size:.875rem;cursor:pointer;transition:.15s;border:1px solid transparent;white-space:nowrap}
+.btn.primary{background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow-btn)}
+.btn.primary:hover{background:var(--primary-hover)}
+.btn.ghost{background:transparent;border-color:var(--border);color:var(--ink)}
+.btn.ghost:hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn svg{width:16px;height:16px}
+.btn .bi{display:none}
+.btn.bought-state{background:var(--success-bg);color:var(--success);border-color:transparent;box-shadow:none}
+.btn.bought-state .bi{display:inline-flex}
+.ibtn{width:36px;height:36px;border-radius:var(--radius-sm);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s;flex:0 0 auto}
+.ibtn:hover{background:var(--surface-alt);color:var(--ink)}
+.ibtn.danger:hover{background:var(--danger-bg);color:var(--danger)}
+.ibtn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.ibtn svg{width:17px;height:17px}
+
+/* ===== BUY (purchase) CARD ===== */
+.card.buy{display:flex;flex-wrap:wrap;gap:16px;padding:16px;align-items:flex-start;transition:opacity .2s,transform .2s}
+.card.buy.bought{opacity:.55}
+.buy-id{display:flex;align-items:flex-start;gap:11px;flex:1 1 250px;min-width:0}
+.buy-handle{color:var(--muted);cursor:grab;flex:0 0 auto;line-height:0;padding-top:2px}
+.buy-handle svg{width:16px;height:16px}
+.buy-index{color:var(--muted);font-weight:600;font-size:.9375rem;flex:0 0 auto;width:14px;text-align:center;font-variant-numeric:tabular-nums;padding-top:1px}
+.buy .cover{width:58px;height:86px}
+.buy-info{min-width:0;display:flex;flex-direction:column;gap:3px}
+.buy-title{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.0625rem;line-height:1.2;margin:0}
+.buy-author{color:var(--muted);font-size:.8125rem}
+.buy-pub{color:var(--text-secondary);font-size:.78rem}
+.buy-info .badge{align-self:flex-start;margin-top:5px}
+.buy-stores{flex:1 1 280px;min-width:0;display:flex;flex-direction:column}
+.store-row{display:flex;align-items:center;gap:9px;padding:7px 0}
+.store-row+.store-row{border-top:1px solid var(--border)}
+.store-ico{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:.7rem;font-weight:700;flex:0 0 auto}
+.store-name{flex:1 1 auto;min-width:0;color:var(--text);font-size:.875rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.store-best{display:inline-flex;align-items:center;height:18px;padding:0 7px;border-radius:var(--radius-full);background:var(--success-bg);color:var(--success);font-size:.65rem;font-weight:700;flex:0 0 auto}
+.store-price{font-weight:600;color:var(--ink);font-size:.875rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.store-row.best .store-price{color:var(--success)}
+.store-link{width:28px;height:28px;border-radius:var(--radius-xs);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;flex:0 0 auto;transition:.15s}
+.store-link:hover{background:var(--surface-alt);color:var(--primary)}
+.store-link svg{width:15px;height:15px}
+.store-add-trigger{display:inline-flex;align-items:center;gap:6px;background:transparent;border:0;color:var(--primary);font:inherit;font-weight:600;font-size:.8125rem;cursor:pointer;padding:8px 0 0;align-self:flex-start}
+.store-add-trigger svg{width:15px;height:15px}
+.store-add-trigger.hide{display:none}
+.store-add{display:none;align-items:center;gap:8px;margin-top:9px}
+.store-add.open{display:flex}
+.store-select,.store-price-input{height:36px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--field);padding:0 10px;font:inherit;font-size:.8125rem;color:var(--ink)}
+.store-select{flex:1 1 auto;min-width:0}
+.store-select:focus,.store-price-input:focus{outline:0;border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.store-price-input{width:96px;flex:0 0 auto}
+.store-add-ok{width:36px;height:36px;border:0;border-radius:var(--radius-sm);background:var(--primary);color:var(--on-primary);display:grid;place-items:center;cursor:pointer;flex:0 0 auto;transition:.15s}
+.store-add-ok:hover{background:var(--primary-hover)}
+.store-add-ok svg{width:17px;height:17px}
+.buy-actions{flex:0 0 206px;display:flex;flex-direction:column;gap:8px}
+.buy-actions .btn{width:100%}
+.buy-tools{display:flex;justify-content:flex-end;gap:4px}
+@media (max-width:900px){.buy-actions{flex:1 1 100%}.buy-handle{display:none}}
+@media (prefers-reduced-motion:reduce){.card.buy{transition:none}}
+
+/* layout */
+.col{display:flex;flex-direction:column;gap:16px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:160px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Картка товару</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Картка товару</h1>
+    <p class="lead">Книга зі списку «До покупки»: порівняння цін по магазинах із посиланнями + дії. Найнижча ціна підсвічена. Можна додати магазин інлайн і позначити книгу як куплену.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="col">
+      <article class="card buy" data-buy>
+        <div class="buy-id">
+          <span class="buy-handle" title="Перетягнути" aria-hidden="true"><svg><use href="#i-grip"/></svg></span>
+          <span class="buy-index">1</span>
+          <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#2a3a4a,#101820)"><svg><use href="#i-book"/></svg></div></div>
+          <div class="buy-info">
+            <h3 class="buy-title">Дім солі та смутку</h3>
+            <div class="buy-author">Ерін А. Крейг</div>
+            <div class="buy-pub">Вид-во: Vivat</div>
+            <span class="badge">Хочу купити</span>
+          </div>
+        </div>
+        <div class="buy-stores">
+          <div class="store-list" data-store-list>
+            <div class="store-row"><span class="store-ico" style="background:#E0582B">Y</span><span class="store-name">Yakaboo</span><span class="store-price">420 грн</span><button class="store-link" type="button" aria-label="Відкрити в Yakaboo"><svg><use href="#i-external"/></svg></button></div>
+            <div class="store-row best"><span class="store-ico" style="background:#2F8F6B">Є</span><span class="store-name">Книгарня Є</span><span class="store-best">найкраща</span><span class="store-price">389 грн</span><button class="store-link" type="button" aria-label="Відкрити в Книгарня Є"><svg><use href="#i-external"/></svg></button></div>
+          </div>
+          <button class="store-add-trigger" type="button" data-add-trigger><svg><use href="#i-plus"/></svg>Додати посилання</button>
+          <div class="store-add" data-store-add>
+            <select class="store-select" data-select aria-label="Магазин"><option value="">Оберіть магазин</option><option>Yakaboo</option><option>Книгарня Є</option><option>Наш Формат</option><option>Vivat</option><option>КСД</option></select>
+            <input class="store-price-input" data-price placeholder="Ціна, грн" inputmode="numeric" aria-label="Ціна">
+            <button class="store-add-ok" type="button" data-add aria-label="Додати магазин"><svg><use href="#i-plus"/></svg></button>
+          </div>
+        </div>
+        <div class="buy-actions">
+          <button class="btn primary" type="button" data-bought><svg class="bi"><use href="#i-check"/></svg><span class="lbl">Позначити як куплену</span></button>
+          <button class="btn ghost" type="button">Перейти до книги</button>
+          <div class="buy-tools"><button class="ibtn danger" type="button" data-del aria-label="Видалити зі списку"><svg><use href="#i-trash"/></svg></button></div>
+        </div>
+      </article>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>ідентифікація</dt><dd>ручка-перетягування + №, обкладинка, назва/автор/видавництво, статус</dd></div>
+      <div><dt>магазини</dt><dd>рядки «магазин + ціна + ↗»; найдешевший — зелений «найкраща»</dd></div>
+      <div><dt>додати</dt><dd>«+ Додати посилання» → інлайн: магазин + ціна + «+»</dd></div>
+      <div><dt>дії</dt><dd>«Позначити як куплену» (primary), «Перейти до книги» (ghost)</dd></div>
+      <div class="last"><dt>видалити</dt><dd>🗑 — прибрати зі списку покупок</dd></div>
+    </dl>
+  </section>
+
+  <!-- СПИСОК -->
+  <section class="block">
+    <h2>Список</h2>
+    <p class="sub">Спробуй: «+ Додати посилання», «Позначити як куплену», 🗑.</p>
+    <div class="col">
+
+      <article class="card buy" data-buy>
+        <div class="buy-id">
+          <span class="buy-handle" aria-hidden="true"><svg><use href="#i-grip"/></svg></span>
+          <span class="buy-index">2</span>
+          <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#2f3338,#121417)"><svg><use href="#i-book"/></svg></div></div>
+          <div class="buy-info">
+            <h3 class="buy-title">Маленьке життя</h3>
+            <div class="buy-author">Ганья Янаґіхара</div>
+            <div class="buy-pub">Вид-во: Лабораторія</div>
+            <span class="badge">Хочу купити</span>
+          </div>
+        </div>
+        <div class="buy-stores">
+          <div class="store-list" data-store-list>
+            <div class="store-row"><span class="store-ico" style="background:#E0582B">Y</span><span class="store-name">Yakaboo</span><span class="store-price">620 грн</span><button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button></div>
+            <div class="store-row"><span class="store-ico" style="background:#C0392B">Н</span><span class="store-name">Наш Формат</span><span class="store-price">579 грн</span><button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button></div>
+            <div class="store-row best"><span class="store-ico" style="background:#3B7A57">V</span><span class="store-name">Vivat</span><span class="store-best">найкраща</span><span class="store-price">575 грн</span><button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button></div>
+          </div>
+          <button class="store-add-trigger" type="button" data-add-trigger><svg><use href="#i-plus"/></svg>Додати посилання</button>
+          <div class="store-add" data-store-add>
+            <select class="store-select" data-select aria-label="Магазин"><option value="">Оберіть магазин</option><option>Yakaboo</option><option>Книгарня Є</option><option>Наш Формат</option><option>Vivat</option><option>КСД</option></select>
+            <input class="store-price-input" data-price placeholder="Ціна, грн" inputmode="numeric" aria-label="Ціна">
+            <button class="store-add-ok" type="button" data-add aria-label="Додати магазин"><svg><use href="#i-plus"/></svg></button>
+          </div>
+        </div>
+        <div class="buy-actions">
+          <button class="btn primary" type="button" data-bought><svg class="bi"><use href="#i-check"/></svg><span class="lbl">Позначити як куплену</span></button>
+          <button class="btn ghost" type="button">Перейти до книги</button>
+          <div class="buy-tools"><button class="ibtn danger" type="button" data-del aria-label="Видалити зі списку"><svg><use href="#i-trash"/></svg></button></div>
+        </div>
+      </article>
+
+      <article class="card buy" data-buy>
+        <div class="buy-id">
+          <span class="buy-handle" aria-hidden="true"><svg><use href="#i-grip"/></svg></span>
+          <span class="buy-index">3</span>
+          <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#c7b48a,#8a6f3a)"><svg><use href="#i-book"/></svg></div></div>
+          <div class="buy-info">
+            <h3 class="buy-title">Четверте крило</h3>
+            <div class="buy-author">Ребекка Яррос</div>
+            <div class="buy-pub">Вид-во: КСД</div>
+            <span class="badge">Хочу купити</span>
+          </div>
+        </div>
+        <div class="buy-stores">
+          <div class="store-list" data-store-list>
+            <div class="store-row"><span class="store-ico" style="background:#B5403A">К</span><span class="store-name">КСД</span><span class="store-price">549 грн</span><button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button></div>
+            <div class="store-row best"><span class="store-ico" style="background:#2F8F6B">Є</span><span class="store-name">Книгарня Є</span><span class="store-best">найкраща</span><span class="store-price">529 грн</span><button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button></div>
+          </div>
+          <button class="store-add-trigger hide" type="button" data-add-trigger><svg><use href="#i-plus"/></svg>Додати посилання</button>
+          <div class="store-add open" data-store-add>
+            <select class="store-select" data-select aria-label="Магазин"><option value="">Оберіть магазин</option><option>Yakaboo</option><option>Книгарня Є</option><option>Наш Формат</option><option>Vivat</option><option>КСД</option></select>
+            <input class="store-price-input" data-price placeholder="Ціна, грн" inputmode="numeric" aria-label="Ціна">
+            <button class="store-add-ok" type="button" data-add aria-label="Додати магазин"><svg><use href="#i-plus"/></svg></button>
+          </div>
+        </div>
+        <div class="buy-actions">
+          <button class="btn primary" type="button" data-bought><svg class="bi"><use href="#i-check"/></svg><span class="lbl">Позначити як куплену</span></button>
+          <button class="btn ghost" type="button">Перейти до книги</button>
+          <div class="buy-tools"><button class="ibtn danger" type="button" data-del aria-label="Видалити зі списку"><svg><use href="#i-trash"/></svg></button></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Порівняння цін</dt><dd>кілька магазинів на книгу; найдешевший виділено зеленим</dd></div>
+      <div><dt>Посилання</dt><dd>↗ веде в магазин; «+ Додати посилання» додає рядок інлайн</dd></div>
+      <div><dt>Купівля</dt><dd>«Позначити як куплену» → книга йде в бібліотеку зі статусом «Маю»</dd></div>
+      <div><dt>Порядок</dt><dd>ручка ⠿ — перетягування для пріоритету покупки</dd></div>
+      <div class="last"><dt>vs Картка книги</dt><dd>тут акцент на цінах і покупці, а не на читанні/прогресі</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  var COLORS={'Yakaboo':'#E0582B','Книгарня Є':'#2F8F6B','Наш Формат':'#C0392B','Vivat':'#3B7A57','КСД':'#B5403A'};
+
+  document.querySelectorAll('[data-buy]').forEach(function(card){
+    var list=card.querySelector('[data-store-list]');
+    var trigger=card.querySelector('[data-add-trigger]');
+    var form=card.querySelector('[data-store-add]');
+    var sel=card.querySelector('[data-select]');
+    var price=card.querySelector('[data-price]');
+    var add=card.querySelector('[data-add]');
+    var bought=card.querySelector('[data-bought]');
+    var del=card.querySelector('[data-del]');
+
+    function openForm(){ form.classList.add('open'); trigger.classList.add('hide'); sel.focus(); }
+    function closeForm(){ form.classList.remove('open'); trigger.classList.remove('hide'); sel.value=''; price.value=''; }
+    trigger.addEventListener('click', function(){ form.classList.contains('open')?closeForm():openForm(); });
+    add.addEventListener('click', function(){
+      var store=sel.value, p=(price.value||'').trim();
+      if(!store || !p){ if(!store) sel.focus(); else price.focus(); return; }
+      var row=document.createElement('div'); row.className='store-row';
+      var c=COLORS[store]||'#8A6F3A';
+      row.innerHTML='<span class="store-ico" style="background:'+c+'">'+store.charAt(0)+'</span>'+
+        '<span class="store-name">'+store+'</span>'+
+        '<span class="store-price">'+p.replace(/[^0-9]/g,'')+' грн</span>'+
+        '<button class="store-link" type="button" aria-label="Відкрити"><svg><use href="#i-external"/></svg></button>';
+      list.appendChild(row); closeForm();
+    });
+
+    bought.addEventListener('click', function(){
+      var on=card.classList.toggle('bought');
+      bought.classList.toggle('bought-state', on);
+      bought.querySelector('.lbl').textContent = on?'Куплено':'Позначити як куплену';
+    });
+
+    del.addEventListener('click', function(){
+      card.style.opacity='0'; card.style.transform='scale(.98)';
+      setTimeout(function(){ card.remove(); }, 200);
+    });
+  });
+})();
+</script>
+</body>
+</html>
