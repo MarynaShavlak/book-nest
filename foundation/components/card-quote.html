@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Картка цитати</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* Card primitive */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card)}
+.kebab{width:32px;height:32px;border-radius:var(--radius-sm);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s;flex:0 0 auto}
+.kebab:hover{background:var(--surface-alt);color:var(--ink)}
+.kebab:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.kebab svg{width:18px;height:18px}
+.cover{flex:0 0 auto;border-radius:var(--radius-sm);overflow:hidden;background:var(--accent-soft);box-shadow:0 2px 8px rgba(58,38,24,.14)}
+.cover .ph{width:100%;height:100%;display:grid;place-items:center;color:rgba(255,255,255,.55)}
+.cover .ph svg{width:22px;height:22px}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--radius-full);font-size:.74rem;font-weight:600;line-height:1;white-space:nowrap;background:var(--accent-soft);color:var(--accent-soft-fg)}
+.badge svg{width:13px;height:13px;opacity:.7}
+
+/* ===== QUOTE CARD ===== */
+.card.quote{position:relative;display:flex;gap:16px;padding:18px 18px 16px}
+.quote .cover{width:60px;height:90px}
+.quote-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;padding-right:28px}
+.quote-src{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px}
+.quote-src .qs-title{font-weight:600;color:var(--ink);font-size:.9375rem}
+.quote-src .qs-author{color:var(--muted);font-size:.8125rem}
+.quote-text-wrap{position:relative}
+.quote-mark{font-family:var(--font-serif);color:var(--accent-border);font-size:2.6rem;line-height:.4;display:block;height:.7em;font-weight:700}
+.quote-text{font-size:1.0625rem;line-height:1.5;color:var(--ink);margin:4px 0 0;font-weight:500}
+.quote-ref{color:var(--muted);font-size:.8125rem;font-variant-numeric:tabular-nums}
+.quote-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px}
+.quote .kebab{position:absolute;top:14px;right:14px}
+/* spoiler */
+.quote.spoiler .quote-text{filter:blur(5px);user-select:none;transition:filter .25s}
+.quote.spoiler.revealed .quote-text{filter:none;user-select:auto}
+.quote-veil{position:absolute;inset:0;display:grid;place-items:center;background:transparent;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:.8125rem;color:var(--primary)}
+.quote-veil:hover{text-decoration:underline}
+.quote-veil:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring);border-radius:var(--radius-sm)}
+.quote.revealed .quote-veil{display:none}
+@media (prefers-reduced-motion:reduce){.quote.spoiler .quote-text{transition:none}}
+/* favorite */
+.heart{width:36px;height:36px;border-radius:var(--radius-full);border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.15s;flex:0 0 auto}
+.heart:hover{background:var(--surface-alt);color:var(--ink)}
+.heart:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.heart svg{width:20px;height:20px}
+.heart.on{color:var(--danger)}
+.heart.on svg{fill:currentColor}
+
+/* layout */
+.col{display:flex;flex-direction:column;gap:16px;max-width:660px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 10 8 10 8a18 18 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M6.6 6.6A18 18 0 0 0 2 12s3 8 10 8a9 9 0 0 0 4.2-1.02"/><path d="m1 1 22 22"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Картка цитати</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Картка цитати</h1>
+    <p class="lead">Контентна картка (не навігаційна): обкладинка-джерело + велика лапка + сам текст + розділ·сторінка + позначка спойлера + ♥. Цитати «зі спойлерами» розмиті, доки не натиснути «Показати».</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="col">
+      <article class="card quote">
+        <button class="kebab" type="button" aria-label="Дії з цитатою"><svg><use href="#i-more"/></svg></button>
+        <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#3a2c1e,#171008)"><svg><use href="#i-book"/></svg></div></div>
+        <div class="quote-body">
+          <div class="quote-src"><span class="qs-title">Четверте крило</span><span class="qs-author">Ребекка Яррос</span></div>
+          <div class="quote-text-wrap"><span class="quote-mark">“</span><p class="quote-text">Війна змінила нас, але вона не визначає, ким ми є.</p></div>
+          <div class="quote-ref">Розділ 12 · стор. 146</div>
+          <div class="quote-foot"><span class="badge"><svg><use href="#i-eye-off"/></svg>Без спойлерів</span><button class="heart" type="button" aria-pressed="false" aria-label="В улюблені"><svg><use href="#i-heart"/></svg></button></div>
+        </div>
+      </article>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>джерело</dt><dd>обкладинка + назва книги та автор</dd></div>
+      <div><dt>текст</dt><dd>сама цитата з великою декоративною лапкою</dd></div>
+      <div><dt>посилання</dt><dd>«Розділ X · стор. Y»</dd></div>
+      <div><dt>спойлер</dt><dd>бейдж; «зі спойлерами» — текст розмитий до розкриття</dd></div>
+      <div class="last"><dt>дії</dt><dd>♥ улюблене (toggle) + ⋮ меню</dd></div>
+    </dl>
+  </section>
+
+  <!-- СПИСОК -->
+  <section class="block">
+    <h2>Список</h2>
+    <p class="sub">Без спойлера, зі спойлером (натисни «Показати»), в улюблених.</p>
+    <div class="col">
+
+      <article class="card quote">
+        <button class="kebab" type="button" aria-label="Дії"><svg><use href="#i-more"/></svg></button>
+        <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#2f3338,#121417)"><svg><use href="#i-book"/></svg></div></div>
+        <div class="quote-body">
+          <div class="quote-src"><span class="qs-title">Шістка воронів</span><span class="qs-author">Лі Бардуго</span></div>
+          <div class="quote-text-wrap"><span class="quote-mark">“</span><p class="quote-text">У цьому світі не виживають добрі. І не виживають слабкі.</p></div>
+          <div class="quote-ref">Розділ 4 · стор. 58</div>
+          <div class="quote-foot"><span class="badge"><svg><use href="#i-eye-off"/></svg>Без спойлерів</span><button class="heart on" type="button" aria-pressed="true" aria-label="Прибрати з улюблених"><svg><use href="#i-heart"/></svg></button></div>
+        </div>
+      </article>
+
+      <article class="card quote spoiler">
+        <button class="kebab" type="button" aria-label="Дії"><svg><use href="#i-more"/></svg></button>
+        <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#3a4a3f,#16201a)"><svg><use href="#i-book"/></svg></div></div>
+        <div class="quote-body">
+          <div class="quote-src"><span class="qs-title">Тінь і кістка</span><span class="qs-author">Лі Бардуго</span></div>
+          <div class="quote-text-wrap"><span class="quote-mark">“</span><p class="quote-text">Іноді найтемніше небо приховує найяскравіші зірки.</p><button class="quote-veil" type="button" data-reveal>Показати спойлер</button></div>
+          <div class="quote-ref">Розділ 23 · стор. 301</div>
+          <div class="quote-foot"><span class="badge"><svg><use href="#i-eye-off"/></svg>Зі спойлерами</span><button class="heart" type="button" aria-pressed="false" aria-label="В улюблені"><svg><use href="#i-heart"/></svg></button></div>
+        </div>
+      </article>
+
+      <article class="card quote spoiler">
+        <button class="kebab" type="button" aria-label="Дії"><svg><use href="#i-more"/></svg></button>
+        <div class="cover"><div class="ph" style="background:linear-gradient(135deg,#5a2433,#2a0f17)"><svg><use href="#i-book"/></svg></div></div>
+        <div class="quote-body">
+          <div class="quote-src"><span class="qs-title">Сад кісток</span><span class="qs-author">Леа Стоун</span></div>
+          <div class="quote-text-wrap"><span class="quote-mark">“</span><p class="quote-text">Ми всі монстри у чийомусь чужому сні.</p><button class="quote-veil" type="button" data-reveal>Показати спойлер</button></div>
+          <div class="quote-ref">Розділ 8 · стор. 102</div>
+          <div class="quote-foot"><span class="badge"><svg><use href="#i-eye-off"/></svg>Зі спойлерами</span><button class="heart" type="button" aria-pressed="false" aria-label="В улюблені"><svg><use href="#i-heart"/></svg></button></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Контент</dt><dd>картка — сам контент; уся картка не клікається, дії — інлайн</dd></div>
+      <div><dt>Спойлер</dt><dd>«зі спойлерами» розмиває текст до натискання «Показати»</dd></div>
+      <div><dt>Улюблене</dt><dd>♥ — toggle з <code>aria-pressed</code></dd></div>
+      <div><dt>Текст</dt><dd>коротка цитата; довгі — обрізати з «…ще»</dd></div>
+      <div class="last"><dt>vs Нотатка</dt><dd>цитата — дослівний фрагмент книги; нотатка — твій власний запис</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  // reveal spoiler
+  document.querySelectorAll('[data-reveal]').forEach(function(btn){
+    btn.addEventListener('click', function(e){ e.stopPropagation(); btn.closest('.quote').classList.add('revealed'); });
+  });
+  // favorite toggle
+  document.querySelectorAll('.heart').forEach(function(h){
+    h.addEventListener('click', function(e){
+      e.stopPropagation();
+      var on=h.classList.toggle('on'); h.setAttribute('aria-pressed', on?'true':'false');
+      h.setAttribute('aria-label', on?'Прибрати з улюблених':'В улюблені');
+    });
+  });
+  document.querySelectorAll('.kebab').forEach(function(k){ k.addEventListener('click', function(e){ e.stopPropagation(); }); });
+})();
+</script>
+</body>
+</html>

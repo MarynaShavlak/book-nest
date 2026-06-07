@@ -1,0 +1,98 @@
+/* ============================================================
+   BookNest — Tailwind theme bridge (Tailwind v4)
+   Мапить токени з tokens.css (CSS-змінні) на Tailwind-утиліти.
+
+   Підключення в app/globals.css (порядок важливий):
+     @import "tailwindcss";
+     @import "./tokens.css";        // визначає --bg, --primary, --fs-* …
+     @import "./typography.css";    // базові стилі
+     @import "./tailwind-theme.css";// цей файл
+
+   `inline` означає, що утиліта посилається на змінну (var(--bg)),
+   а не копіює її значення. Тому bg-bg / text-text / bg-primary
+   АВТОМАТИЧНО перемикаються між світлою й темною темою
+   (бо tokens.css перевизначає ті змінні під [data-theme="dark"]).
+   Як наслідок — майже не потрібні `dark:`-варіанти.
+
+   Tailwind v3? Замість цього файлу — tailwind.config.ts:
+     theme.extend.colors = { bg:'var(--bg)', primary:'var(--primary)', … }
+     darkMode: ['selector', '[data-theme="dark"]']
+   ============================================================ */
+
+@theme inline {
+  /* — Поверхні — */
+  --color-bg:            var(--bg);
+  --color-surface:       var(--surface);
+  --color-surface-alt:   var(--surface-alt);
+  --color-field:         var(--field);
+  --color-border:        var(--border);
+
+  /* — Текст — */
+  --color-ink:            var(--ink);
+  --color-text:           var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-muted:          var(--muted);
+
+  /* — Бренд / акцент — */
+  --color-primary:        var(--primary);
+  --color-primary-hover:  var(--primary-hover);
+  --color-on-primary:     var(--on-primary);
+  --color-accent-soft:    var(--accent-soft);
+  --color-accent-soft-fg: var(--accent-soft-fg);
+  --color-accent-border:  var(--accent-border);
+  --color-tag-bg:         var(--tag-bg);
+  --color-tag-fg:         var(--tag-fg);
+  --color-icon:           var(--icon);
+  --color-chip-bg:        var(--chip-bg);
+  --color-chip-fg:        var(--chip-fg);
+
+  /* — Статуси (заливка + фон) — */
+  --color-success:    var(--success);   --color-success-bg: var(--success-bg);
+  --color-warning:    var(--warning);   --color-warning-bg: var(--warning-bg);
+  --color-danger:     var(--danger);    --color-danger-bg:  var(--danger-bg);
+  --color-info:       var(--info);      --color-info-bg:    var(--info-bg);
+
+  /* — Радіуси → rounded-lg / -md / rounded / -sm / -xs / -full — */
+  --radius-lg:   var(--radius-lg);
+  --radius-md:   var(--radius-md);
+  --radius:      var(--radius);
+  --radius-sm:   var(--radius-sm);
+  --radius-xs:   var(--radius-xs);
+  --radius-full: var(--radius-full);
+
+  /* — Тіні → shadow-card / -hover / -pop / -page / -btn — */
+  --shadow-card:  var(--shadow-card);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-pop:   var(--shadow-pop);
+  --shadow-page:  var(--shadow-page);
+  --shadow-btn:   var(--shadow-btn);
+
+  /* — Шрифти → font-sans / font-serif — */
+  --font-sans:  var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  /* — Розміри тексту → text-display / text-h1 / … (УВАГА: перекриває дефолтні text-sm/-xs Tailwind на шкалу BookNest) — */
+  --text-display: var(--fs-display);
+  --text-h1:      var(--fs-h1);
+  --text-h2:      var(--fs-h2);
+  --text-h3:      var(--fs-h3);
+  --text-title:   var(--fs-title);
+  --text-body:    var(--fs-body);
+  --text-label:   var(--fs-label);
+  --text-sm:      var(--fs-sm);
+  --text-xs:      var(--fs-xs);
+  --text-button:  var(--fs-button);
+  --text-nav:     var(--fs-nav);
+
+  /* — Товщини → font-regular / -medium / -semibold / -bold — */
+  --font-weight-regular:  var(--fw-regular);
+  --font-weight-medium:   var(--fw-medium);
+  --font-weight-semibold: var(--fw-semibold);
+  --font-weight-bold:     var(--fw-bold);
+
+  /* — Міжрядкові → leading-display / -heading / -snug / -body — */
+  --leading-display: var(--lh-display);
+  --leading-heading: var(--lh-heading);
+  --leading-snug:    var(--lh-snug);
+  --leading-body:    var(--lh-body);
+}

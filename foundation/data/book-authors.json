@@ -1,0 +1,2335 @@
+{
+  "version": 1,
+  "entity": "book_authors",
+  "description": "Default predefined authors for BookNest author autocomplete. User can add custom authors separately.",
+  "items": [
+    {
+      "id": "taras-shevchenko",
+      "name": "Тарас Шевченко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ivan-franko",
+      "name": "Іван Франко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "lesia-ukrainka",
+      "name": "Леся Українка",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mykhaylo-kotsiubynskyy",
+      "name": "Михайло Коцюбинський",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "olha-kobylianska",
+      "name": "Ольга Кобилянська",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vasyl-stefanyk",
+      "name": "Василь Стефаник",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "panas-myrnyy",
+      "name": "Панас Мирний",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ivan-nechuy-levytskyy",
+      "name": "Іван Нечуй-Левицький",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hryhoriy-skovoroda",
+      "name": "Григорій Сковорода",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "marko-vovchok",
+      "name": "Марко Вовчок",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "lina-kostenko",
+      "name": "Ліна Костенко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vasyl-symonenko",
+      "name": "Василь Симоненко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vasyl-stus",
+      "name": "Василь Стус",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hryhir-tiutiunnyk",
+      "name": "Григір Тютюнник",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "valerian-pidmohylnyy",
+      "name": "Валер’ян Підмогильний",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mykola-khvylovyy",
+      "name": "Микола Хвильовий",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iuriy-ianovskyy",
+      "name": "Юрій Яновський",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ostap-vyshnia",
+      "name": "Остап Вишня",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "pavlo-zahrebelnyy",
+      "name": "Павло Загребельний",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "oksana-zabuzhko",
+      "name": "Оксана Забужко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iuriy-andrukhovych",
+      "name": "Юрій Андрухович",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "serhiy-zhadan",
+      "name": "Сергій Жадан",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mariia-matios",
+      "name": "Марія Матіос",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "liubko-deresh",
+      "name": "Любко Дереш",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "irena-karpa",
+      "name": "Ірена Карпа",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "andriy-kurkov",
+      "name": "Андрій Курков",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tania-maliarchuk",
+      "name": "Таня Малярчук",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "sofiia-andrukhovych",
+      "name": "Софія Андрухович",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "artem-chekh",
+      "name": "Артем Чех",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "maks-kidruk",
+      "name": "Макс Кідрук",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "volodymyr-rafieienko",
+      "name": "Володимир Рафєєнко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kateryna-babkina",
+      "name": "Катерина Бабкіна",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ievheniia-kuznietsova",
+      "name": "Євгенія Кузнєцова",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "illarion-pavliuk",
+      "name": "Ілларіон Павлюк",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dara-korniy",
+      "name": "Дара Корній",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "natalka-doliak",
+      "name": "Наталка Доляк",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nataliia-matolinets",
+      "name": "Наталія Матолінець",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "svitlana-talan",
+      "name": "Світлана Талан",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "anastasiia-nikulina",
+      "name": "Анастасія Нікуліна",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "oleksandr-mykhed",
+      "name": "Олександр Михед",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "viktoriia-amelina",
+      "name": "Вікторія Амеліна",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tamara-horikha-zernia",
+      "name": "Тамара Горіха Зерня",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "olena-zakharchenko",
+      "name": "Олена Захарченко",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "haska-shyian",
+      "name": "Гаська Шиян",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "maryna-hrymych",
+      "name": "Марина Гримич",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "andriy-liubka",
+      "name": "Андрій Любка",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "bohdan-kolomiychuk",
+      "name": "Богдан Коломійчук",
+      "origin": "ukrainian",
+      "originName": "Український автор",
+      "groups": [
+        "ukrainian"
+      ],
+      "groupNames": [
+        "Українські автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzheyn-ostin",
+      "name": "Джейн Остін",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "sharlotta-bronte",
+      "name": "Шарлотта Бронте",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "emili-bronte",
+      "name": "Емілі Бронте",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "charlz-dikens",
+      "name": "Чарльз Дікенс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "oskar-vayld",
+      "name": "Оскар Вайлд",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "viktor-hiuho",
+      "name": "Віктор Гюго",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "aleksandr-diuma",
+      "name": "Александр Дюма",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "zhul-vern",
+      "name": "Жуль Верн",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "herman-melvill",
+      "name": "Герман Мелвілл",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mark-tven",
+      "name": "Марк Твен",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhek-london",
+      "name": "Джек Лондон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ernest-hemingvey",
+      "name": "Ернест Гемінґвей",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "frensis-skott-fitsdzherald",
+      "name": "Френсіс Скотт Фіцджеральд",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhordzh-orvell",
+      "name": "Джордж Орвелл",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "rey-bredberi",
+      "name": "Рей Бредбері",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhon-steynbek",
+      "name": "Джон Стейнбек",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "viliam-shekspir",
+      "name": "Вільям Шекспір",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzherom-devid-selindzher",
+      "name": "Джером Девід Селінджер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "frants-kafka",
+      "name": "Франц Кафка",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "alber-kamiu",
+      "name": "Альбер Камю",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "habriel-harsiia-markes",
+      "name": "Габріель Гарсія Маркес",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kharper-li",
+      "name": "Харпер Лі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "virdzhyniia-vulf",
+      "name": "Вірджинія Вулф",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ahata-kristi",
+      "name": "Агата Крісті",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic",
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Класичні автори",
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "artur-konan-doyl",
+      "name": "Артур Конан Дойл",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic",
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Класичні автори",
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "liuis-kerrol",
+      "name": "Льюїс Керрол",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhonatan-svift",
+      "name": "Джонатан Свіфт",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "meri-shelli",
+      "name": "Мері Шеллі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "brem-stoker",
+      "name": "Брем Стокер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "herbert-vells",
+      "name": "Герберт Веллс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "classic"
+      ],
+      "groupNames": [
+        "Класичні автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhon-r-r-tolkin",
+      "name": "Джон Р. Р. Толкін",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "klayv-steyplz-liuis",
+      "name": "Клайв Стейплз Льюїс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhordzh-r-r-martin",
+      "name": "Джордж Р. Р. Мартін",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhoan-roulinh",
+      "name": "Джоан Роулінг",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ursula-le-guin",
+      "name": "Урсула Ле Ґуїн",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "frenk-herbert",
+      "name": "Френк Герберт",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ayzek-azimov",
+      "name": "Айзек Азімов",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "artur-klark",
+      "name": "Артур Кларк",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "robert-haynlayn",
+      "name": "Роберт Гайнлайн",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "filip-dik",
+      "name": "Філіп Дік",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nil-geyman",
+      "name": "Ніл Ґейман",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "terri-pratchett",
+      "name": "Террі Пратчетт",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "robert-dzhordan",
+      "name": "Роберт Джордан",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "brendon-sanderson",
+      "name": "Брендон Сандерсон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "patrik-rotfuss",
+      "name": "Патрік Ротфусс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzho-aberkrombi",
+      "name": "Джо Аберкромбі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "andzhey-sapkovskyy",
+      "name": "Анджей Сапковський",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "li-barduho",
+      "name": "Лі Бардуго",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "sara-dzh-maas",
+      "name": "Сара Дж. Маас",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "holli-blek",
+      "name": "Голлі Блек",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "rebekka-iarros",
+      "name": "Ребекка Яррос",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "viktoriia-aveiard",
+      "name": "Вікторія Авеярд",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kassandra-kler",
+      "name": "Кассандра Клер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "siuzen-kollinz",
+      "name": "Сьюзен Коллінз",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "veronika-rot",
+      "name": "Вероніка Рот",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "marissa-maier",
+      "name": "Марісса Маєр",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhey-kristoff",
+      "name": "Джей Крістофф",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "samanta-shennon",
+      "name": "Саманта Шеннон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "naomi-novik",
+      "name": "Наомі Новік",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "robin-hobb",
+      "name": "Робін Гобб",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "fantasy_sci_fi"
+      ],
+      "groupNames": [
+        "Фентезі та фантастика"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "stiven-kinh",
+      "name": "Стівен Кінг",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "den-braun",
+      "name": "Ден Браун",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iu-nesbe",
+      "name": "Ю Несбе",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "stig-larsson",
+      "name": "Стіґ Ларссон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "pola-houkinz",
+      "name": "Пола Гоукінз",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "giliian-flinn",
+      "name": "Ґіліян Флінн",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "liian-moriarti",
+      "name": "Ліян Моріарті",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "harlan-koben",
+      "name": "Гарлан Кобен",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tess-herritsen",
+      "name": "Тесс Геррітсен",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzheyms-patterson",
+      "name": "Джеймс Паттерсон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "rut-vea",
+      "name": "Рут Веа",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "liusi-foli",
+      "name": "Люсі Фолі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "rayli-seyger",
+      "name": "Райлі Сейґер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "shyrli-dzhekson",
+      "name": "Ширлі Джексон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "edhar-allan-po",
+      "name": "Едгар Аллан По",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hovard-lavkraft",
+      "name": "Говард Лавкрафт",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "din-kunts",
+      "name": "Дін Кунц",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tomas-harris",
+      "name": "Томас Гарріс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "mystery_thriller_horror"
+      ],
+      "groupNames": [
+        "Детективи, трилери та горор"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kollin-huver",
+      "name": "Коллін Гувер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "emili-henri",
+      "name": "Емілі Генрі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "teylor-dzhenkins-rid",
+      "name": "Тейлор Дженкінс Рід",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "salli-runi",
+      "name": "Саллі Руні",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhodzho-moyies",
+      "name": "Джоджо Мойєс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nikolas-sparks",
+      "name": "Ніколас Спаркс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhuliia-kvin",
+      "name": "Джулія Квін",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ali-heyzelvud",
+      "name": "Алі Гейзелвуд",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kristina-loren",
+      "name": "Крістіна Лорен",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "khelen-khoanh",
+      "name": "Хелен Хоанг",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "el-kennedi",
+      "name": "Ель Кеннеді",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "penelopa-duhlas",
+      "name": "Пенелопа Дуглас",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ana-khuan",
+      "name": "Ана Хуан",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "loren-asher",
+      "name": "Лорен Ашер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "abbi-khimenes",
+      "name": "Аббі Хіменес",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "karli-forchun",
+      "name": "Карлі Форчун",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "linn-peynter",
+      "name": "Лінн Пейнтер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "sara-adams",
+      "name": "Сара Адамс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mariana-zapata",
+      "name": "Маріана Запата",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "reychel-linn-solomon",
+      "name": "Рейчел Лінн Соломон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "romance_contemporary"
+      ],
+      "groupNames": [
+        "Романтика та сучасна проза"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzheyms-klir",
+      "name": "Джеймс Клір",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mark-menson",
+      "name": "Марк Менсон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "deyl-karnehi",
+      "name": "Дейл Карнегі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "stiven-kovi",
+      "name": "Стівен Кові",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "robert-kiyosaki",
+      "name": "Роберт Кійосакі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "napoleon-hill",
+      "name": "Наполеон Гілл",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "saymon-sinek",
+      "name": "Саймон Сінек",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "deniel-kaneman",
+      "name": "Деніел Канеман",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iuval-noy-kharari",
+      "name": "Ювал Ной Харарі",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "malkolm-hladuell",
+      "name": "Малколм Гладуелл",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dzhordan-piterson",
+      "name": "Джордан Пітерсон",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "adam-hrant",
+      "name": "Адам Грант",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kel-niuport",
+      "name": "Кел Ньюпорт",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nassim-nikolas-taleb",
+      "name": "Нассім Ніколас Талеб",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "piter-til",
+      "name": "Пітер Тіль",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "erik-ris",
+      "name": "Ерік Ріс",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "donald-miller",
+      "name": "Дональд Міллер",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "set-godin",
+      "name": "Сет Ґодін",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "brene-braun",
+      "name": "Брене Браун",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "oliver-berkman",
+      "name": "Олівер Беркман",
+      "origin": "foreign",
+      "originName": "Зарубіжний автор",
+      "groups": [
+        "non_fiction"
+      ],
+      "groupNames": [
+        "Нон-фікшн автори"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "inshyy-avtor",
+      "name": "Інший автор",
+      "origin": "other",
+      "originName": "Інше",
+      "groups": [
+        "other"
+      ],
+      "groupNames": [
+        "Інше"
+      ],
+      "isDefault": true,
+      "isCustom": false
+    }
+  ]
+}

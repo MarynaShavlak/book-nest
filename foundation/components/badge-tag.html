@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Badge &amp; Tag</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+.kicker{font-family:var(--font-serif);font-size:1.6rem;color:var(--ink);font-weight:700;margin:10px 0 -8px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ BADGE ============ */
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--radius-full);font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;background:var(--surface-alt);color:var(--text-secondary)}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto;opacity:.9}
+.badge.primary{background:var(--accent-soft);color:var(--primary)}
+.badge.success{background:var(--success-bg);color:var(--success)}
+.badge.info{background:var(--info-bg);color:var(--info)}
+.badge.warning{background:var(--warning-bg);color:var(--warning)}
+.badge.danger{background:var(--danger-bg);color:var(--danger)}
+.badge.neutral{background:var(--surface-alt);color:var(--text-secondary)}
+/* solid */
+.badge.solid{color:#fff}
+.badge.solid.primary{background:var(--primary);color:var(--on-primary)}
+.badge.solid.success{background:var(--success)}
+.badge.solid.info{background:var(--info)}
+.badge.solid.warning{background:var(--warning)}
+.badge.solid.danger{background:var(--danger)}
+.badge.solid.neutral{background:var(--chip-bg);color:var(--chip-fg)}
+[data-theme="dark"] .badge.solid.success,[data-theme="dark"] .badge.solid.info,[data-theme="dark"] .badge.solid.warning,[data-theme="dark"] .badge.solid.danger{color:#1A130D}
+/* sizes */
+.badge.sm{height:20px;padding:0 8px;font-size:.72rem;gap:5px}
+.badge.sm .dot{width:6px;height:6px}
+.badge.lg{height:28px;padding:0 13px;font-size:.8125rem}
+/* count */
+.badge.count{min-width:20px;height:20px;padding:0 6px;justify-content:center;background:var(--primary);color:var(--on-primary);font-size:.72rem;font-variant-numeric:tabular-nums}
+.badge.count.danger{background:var(--danger);color:#fff}
+.badge.count.neutral{background:var(--surface-alt);color:var(--text-secondary)}
+/* dot badge */
+.dot-badge{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--success);flex:0 0 auto}
+.dot-badge.info{background:var(--info)}.dot-badge.warning{background:var(--warning)}.dot-badge.danger{background:var(--danger)}.dot-badge.muted{background:var(--muted)}
+/* anchored on icon */
+.badge-anchor{position:relative;display:inline-flex}
+.badge-anchor>.badge.count,.badge-anchor>.dot-badge{position:absolute;top:-5px;right:-6px;border:2px solid var(--surface)}
+.badge-anchor>.dot-badge{top:-1px;right:-1px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius);border:1px solid transparent;background:var(--surface-alt);color:var(--icon);display:grid;place-items:center}
+.icon-btn svg{width:20px;height:20px}
+
+/* ============ TAG / LABEL ============ */
+.tag{display:inline-flex;align-items:center;gap:7px;height:27px;padding:0 11px;border-radius:var(--radius-full);font-size:.8125rem;font-weight:500;white-space:nowrap;background:var(--tag-bg);color:var(--tag-fg);border:1px solid var(--border)}
+.tag .tdot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.tag svg{width:14px;height:14px;color:var(--muted);flex:0 0 auto}
+.tag.sm{height:22px;padding:0 9px;font-size:.75rem;gap:6px}
+.tag.removable{padding-right:4px;transition:opacity .15s,transform .15s}
+.tag-x{width:18px;height:18px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;margin-left:1px;transition:.12s}
+.tag-x:hover{background:var(--surface-alt);color:var(--ink)}
+.tag-x:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.tag-x svg{width:12px;height:12px;color:inherit}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.col{display:flex;flex-direction:column;gap:16px}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.spec .demo{min-height:40px;display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.empty{color:var(--muted);font-size:.8125rem;font-style:italic}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:130px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><path d="M7.5 7.5h.01"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Badge &amp; Tag</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Badge &amp; Tag</h1>
+    <p class="lead">Маленькі мітки. <b>Badge</b> — стан або число (статус книги, лічильник на дзвінку). <b>Tag</b> — категорія/метадані (жанр), може бути знімним (активний фільтр). Обидва не для вибору — для вибору є Chip.</p>
+  </div>
+
+  <!-- ===================== BADGE ===================== -->
+  <div class="kicker">Badge</div>
+
+  <section class="block">
+    <h2>Статуси книги</h2>
+    <p class="sub">Основний кейс: статус читання кольором семантики (м'який фон + колір).</p>
+    <div class="card row">
+      <span class="badge neutral"><span class="dot"></span>Хочу прочитати</span>
+      <span class="badge info"><span class="dot"></span>Читаю</span>
+      <span class="badge success"><span class="dot"></span>Прочитано</span>
+      <span class="badge primary"><span class="dot"></span>Частково прочитано</span>
+      <span class="badge warning"><span class="dot"></span>Відкладено</span>
+      <span class="badge danger"><span class="dot"></span>Покинуто</span>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>М'який і насичений</h2>
+    <p class="sub">Soft (типово) — спокійний; solid — для сильного акценту.</p>
+    <div class="col">
+      <div class="row"><span class="badge primary">Primary</span><span class="badge success">Success</span><span class="badge info">Info</span><span class="badge warning">Warning</span><span class="badge danger">Danger</span><span class="badge neutral">Neutral</span></div>
+      <div class="row"><span class="badge solid primary">Primary</span><span class="badge solid success">Success</span><span class="badge solid info">Info</span><span class="badge solid warning">Warning</span><span class="badge solid danger">Danger</span><span class="badge solid neutral">Neutral</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Лічильники та крапки</h2>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Лічильник</div><div class="demo"><span class="badge count">3</span><span class="badge count">12</span><span class="badge count danger">99+</span><span class="badge count neutral">5</span></div></div>
+      <div class="spec"><div class="state">На іконці</div><div class="demo"><span class="badge-anchor"><span class="icon-btn"><svg><use href="#i-bell"/></svg></span><span class="badge count danger">4</span></span><span class="badge-anchor"><span class="icon-btn"><svg><use href="#i-bell"/></svg></span><span class="dot-badge danger"></span></span></div><div class="note">Лічильник або просто крапка-індикатор; обідок відділяє від іконки.</div></div>
+      <div class="spec"><div class="state">Крапка-статус</div><div class="demo"><span class="dot-badge"></span><span class="dot-badge info"></span><span class="dot-badge warning"></span><span class="dot-badge danger"></span><span class="dot-badge muted"></span></div><div class="note">Без тексту — компактний індикатор стану.</div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Розміри</h2>
+    <div class="card row">
+      <span class="badge success sm"><span class="dot"></span>sm</span>
+      <span class="badge success"><span class="dot"></span>md</span>
+      <span class="badge success lg"><span class="dot"></span>lg</span>
+    </div>
+  </section>
+
+  <!-- ===================== TAG ===================== -->
+  <div class="kicker">Tag / Label</div>
+
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="row" style="margin-bottom:8px">
+      <span class="tag"><span class="tdot" style="background:#7C5AA6"></span>Фентезі</span>
+      <span class="tag"><svg><use href="#i-tag"/></svg>Класика</span>
+    </div>
+    <dl class="tref">
+      <div><dt>Tag</dt><dd>нейтральна мітка-метадані (<code>--tag-bg</code> + бордер), не клікається</dd></div>
+      <div><dt>dot</dt><dd>опційна кольорова крапка (колір жанру/серії)</dd></div>
+      <div class="last"><dt>removable</dt><dd>з × — для відображення активних фільтрів</dd></div>
+    </dl>
+  </section>
+
+  <section class="block">
+    <h2>Жанри</h2>
+    <p class="sub">Метадані з кольоровою крапкою жанру.</p>
+    <div class="card row">
+      <span class="tag"><span class="tdot" style="background:#7C5AA6"></span>Фентезі</span>
+      <span class="tag"><span class="tdot" style="background:#2A6299"></span>Детектив</span>
+      <span class="tag"><span class="tdot" style="background:#8A5314"></span>Класика</span>
+      <span class="tag"><span class="tdot" style="background:#BE3022"></span>Романтика</span>
+      <span class="tag"><span class="tdot" style="background:#2F7048"></span>Пригоди</span>
+      <span class="tag">Без кольору</span>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Знімні (активні фільтри)</h2>
+    <p class="sub">× прибирає мітку. Це показ застосованих фільтрів, не вибір (для вибору — Chip).</p>
+    <div class="card">
+      <div class="row" data-filters>
+        <span class="tag removable"><span class="tdot" style="background:#7C5AA6"></span>Фентезі<button class="tag-x" type="button" data-tag-remove aria-label="Прибрати Фентезі"><svg><use href="#i-x"/></svg></button></span>
+        <span class="tag removable">Рейтинг 4+<button class="tag-x" type="button" data-tag-remove aria-label="Прибрати Рейтинг 4+"><svg><use href="#i-x"/></svg></button></span>
+        <span class="tag removable">2024<button class="tag-x" type="button" data-tag-remove aria-label="Прибрати 2024"><svg><use href="#i-x"/></svg></button></span>
+        <span class="tag removable sm">Українською<button class="tag-x" type="button" data-tag-remove aria-label="Прибрати Українською"><svg><use href="#i-x"/></svg></button></span>
+        <span class="empty" data-empty hidden>Фільтри не застосовані</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Коли що</h2>
+    <dl class="tref">
+      <div><dt>Badge</dt><dd>стан (статус книги) або число (лічильник, сповіщення); не клікається</dd></div>
+      <div><dt>Tag</dt><dd>категорія/метадані (жанр); знімний — показ активних фільтрів</dd></div>
+      <div><dt>vs Chip</dt><dd>Chip — інтерактивний вибір (увімк/вимк фільтра, multi-select); Tag/Badge — лише відображення</dd></div>
+      <div><dt>Soft vs Solid</dt><dd>м'який — типово (спокійно); насичений — лише для сильного акценту</dd></div>
+      <div class="last"><dt>Колір</dt><dd>не лише кольором — у статус-бейджа є й текст/крапка</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  document.querySelectorAll('[data-filters]').forEach(function(box){
+    var empty=box.querySelector('[data-empty]');
+    function refresh(){ if(empty) empty.hidden = box.querySelectorAll('.tag').length>0; }
+    box.querySelectorAll('[data-tag-remove]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var tag=btn.closest('.tag'); tag.style.opacity='0'; tag.style.transform='scale(.92)';
+        setTimeout(function(){ tag.remove(); refresh(); }, 150);
+      });
+    });
+    refresh();
+  });
+})();
+</script>
+</body>
+</html>

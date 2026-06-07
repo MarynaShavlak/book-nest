@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Інпут</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-display:clamp(3.25rem,5vw,3.75rem); --fs-h1:clamp(2.75rem,4.2vw,3.25rem);
+  --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem; --fs-title:1.25rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem; --fs-button:1rem; --fs-nav:.9375rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-display:1.05; --lh-heading:1.2; --lh-snug:1.3; --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+.display,h1,.h1,h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0}
+h1,.h1{font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:var(--lh-heading)}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.hint{font-size:var(--fs-xs);line-height:1.4;color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+.label--required::after{content:" *";color:var(--danger)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Інпут-компонент + сторінка ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+
+.head{padding:48px 0 6px}
+.head .lead{margin-top:12px;max-width:62ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}
+.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+
+/* ===== INPUT COMPONENT (канонічний — як у tokens/index) ===== */
+.field .label{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.ifield{position:relative;display:flex;align-items:center}
+.ifield .ico{position:absolute;display:flex;color:var(--icon);pointer-events:none}
+.ifield .ico.lead{left:13px}
+.ifield .ico.trail{right:13px;color:var(--muted)}
+.ifield .ico.pwtoggle{pointer-events:auto;cursor:pointer}
+.ifield .ico.pwtoggle:hover{color:var(--text)}
+.ifield .ico svg{width:18px;height:18px}
+.input{width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 14px;color:var(--text);font:inherit;font-size:var(--fs-body);outline:0;
+  transition:border-color .15s, box-shadow .15s, background .15s}
+.input::placeholder{color:var(--muted)}
+.input.has-lead{padding-left:42px}
+.input.has-trail{padding-right:42px}
+.input:hover:not(:disabled):not(.is-disabled),.input.is-hover{border-color:var(--accent-border)}
+.input:focus:not(:disabled),.input.is-focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.input:disabled,.input.is-disabled{background:var(--surface-alt);color:var(--muted);border-color:var(--border);box-shadow:none;opacity:.6;cursor:not-allowed}
+select.input{appearance:none;-webkit-appearance:none;cursor:pointer}
+textarea.input{min-height:96px;resize:vertical;line-height:1.5}
+.input[type=number]{-moz-appearance:textfield}
+.input[type=number]::-webkit-outer-spin-button,.input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+/* стани через .field */
+.field.is-error .input{border-color:var(--danger)}
+.field.is-error .input:focus,.field.is-error .input.is-focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 24%,transparent)}
+.field.is-error .ico.lead{color:var(--danger)}
+.field.is-success .input{border-color:var(--success)}
+.field.is-success .input:focus,.field.is-success .input.is-focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--success) 22%,transparent)}
+.msg{display:none;align-items:center;gap:6px;font-size:.78rem;margin-top:6px}
+.msg svg{width:14px;height:14px;flex:0 0 auto}
+.field.is-error .msg.err{display:flex;color:var(--danger)}
+.field.is-success .msg.ok{display:flex;color:var(--success)}
+.help{display:flex;align-items:flex-start;gap:6px;font-size:var(--fs-xs);line-height:1.4;color:var(--muted);margin-top:6px}
+.help svg{width:14px;height:14px;flex:0 0 auto;margin-top:1px;color:var(--muted)}
+.field.is-error .help,.field.is-success .help{display:none}
+.subrow{display:flex;justify-content:space-between;align-items:center;margin-top:7px;gap:12px}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:18px}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+.spec .note{margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.5}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);
+  border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* token reference */
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);
+  padding:6px 22px;display:grid;grid-template-columns:150px 1fr;gap:0}
+.tref>div{display:contents}
+.tref dt{padding:13px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:13px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+
+/* playground */
+.play{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:24px;max-width:460px}
+.play .field{margin-bottom:18px}
+.play .field:last-child{margin-bottom:0}
+
+/* афікс: префікс / суфікс (адорнмент) */
+.input-affix{display:flex;align-items:stretch;width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.input-affix:hover{border-color:var(--accent-border)}
+.input-affix:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.input-affix input{flex:1 1 auto;min-width:0;border:0;background:transparent;font:inherit;font-size:var(--fs-body);color:var(--text);outline:0;padding:12px 14px}
+.input-affix input::placeholder{color:var(--muted)}
+.input-affix .affix{display:inline-flex;align-items:center;padding:0 14px;color:var(--text-secondary);font-size:var(--fs-body);white-space:nowrap;flex:0 0 auto;background:var(--surface-alt)}
+.input-affix .affix.pre{border-right:1px solid var(--border)}
+.input-affix .affix.suf{border-left:1px solid var(--border)}
+.input-affix .affix.inline{background:transparent;border:0;color:var(--muted);padding-left:4px}
+.input-affix.is-disabled{background:var(--surface-alt);opacity:.6;cursor:not-allowed}
+.input-affix.is-disabled input{cursor:not-allowed}
+
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-acircle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Інпут</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+
+  <div class="head">
+    <h1>Інпут</h1>
+    <p class="lead">Текстове поле в усіх станах і варіантах, побудоване на токенах. Базова геометрія збігається з полем зі сторінки «Додати книгу»: фон <code>--field</code>, бордер <code>--border</code>, радіус <code>--radius</code> (12px). Перемкни тему вгорі, щоб побачити все в темному режимі.</p>
+  </div>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <p class="sub">Стани зафіксовано примусово, щоб бачити їх поруч. Наприкінці є інтерактивний майданчик.</p>
+    <div class="gallery">
+
+      <div class="spec">
+        <div class="state">Default</div>
+        <div class="field"><label class="label">Назва книги</label>
+          <div class="ifield"><input class="input" placeholder="Введіть назву книги"></div></div>
+        <div class="note">Спокій: бордер <code>--border</code>, фон <code>--field</code>, плейсхолдер <code>--muted</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Hover</div>
+        <div class="field"><label class="label">Назва книги</label>
+          <div class="ifield"><input class="input is-hover" placeholder="Введіть назву книги"></div></div>
+        <div class="note">Курсор наведено: бордер темнішає до <code>--accent-border</code> (персиковий).</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Focus / Active</div>
+        <div class="field"><label class="label">Назва книги</label>
+          <div class="ifield"><input class="input is-focus" value="Володар перснів"></div></div>
+        <div class="note">У фокусі: бордер <code>--primary</code> + кільце <code>0 0 0 3px var(--focus-ring)</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Filled</div>
+        <div class="field"><label class="label">Автор</label>
+          <div class="ifield"><input class="input" value="Дж. Р. Р. Толкін"></div></div>
+        <div class="note">Заповнене: текст значення кольором <code>--text</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="field is-error">
+          <div class="state">Error</div>
+          <label class="label">E-mail</label>
+          <div class="ifield"><input class="input" value="serhii@"></div>
+          <div class="msg err"><svg><use href="#i-acircle"/></svg>Невірний формат e-mail</div>
+        </div>
+        <div class="note">Помилка: бордер <code>--danger</code>, повідомлення + кільце фокуса в <code>--danger</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Disabled</div>
+        <div class="field"><label class="label">Видавництво</label>
+          <div class="ifield"><span class="ico trail"><svg><use href="#i-building"/></svg></span>
+            <input class="input has-trail is-disabled" placeholder="Недоступно" disabled></div></div>
+        <div class="note">Вимкнено: фон <code>--surface-alt</code>, текст <code>--muted</code>, <code>opacity .6</code>, курсор not-allowed.</div>
+      </div>
+
+      <div class="spec">
+        <div class="field is-success">
+          <div class="state">Success</div>
+          <label class="label">Нікнейм</label>
+          <div class="ifield"><input class="input" value="booknest_reader"></div>
+          <div class="msg ok"><svg><use href="#i-check"/></svg>Нікнейм вільний</div>
+        </div>
+        <div class="note">Валідне (бонус): бордер <code>--success</code> + підтвердження.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Helper text</div>
+        <div class="field" style="margin-bottom:14px">
+          <label class="label">E-mail</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-mail"/></svg></span>
+            <input class="input has-lead" placeholder="Введіть ваш e-mail"></div>
+          <p class="help"><svg><use href="#i-info"/></svg>Надішлемо лист для підтвердження</p>
+        </div>
+        <div class="field">
+          <label class="label">Пароль</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-lock"/></svg></span>
+            <input class="input has-lead" type="password" placeholder="Створіть пароль"></div>
+          <p class="help">Мінімум 8 символів</p>
+        </div>
+        <div class="note">Підказка під полем: <code>--muted</code>, <code>--fs-xs</code>. Інфо-іконка зліва — опційна. На помилці/успіху ховається й заміняється повідомленням.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Слоти для іконок ліворуч і праворуч, префікс/суфікс одиниці, селект, текстова область, пароль, пошук.</p>
+    <div class="gallery">
+
+      <div class="spec">
+        <div class="state">Без іконки</div>
+        <div class="field"><label class="label label--required">Назва книги</label>
+          <div class="ifield"><input class="input" placeholder="Введіть назву книги"></div></div>
+        <div class="note">Як прості поля на «Додати книгу».</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Іконка зліва</div>
+        <div class="field"><label class="label">E-mail</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-mail"/></svg></span>
+            <input class="input has-lead" placeholder="Введіть ваш e-mail"></div></div>
+        <div class="note">Як на екранах входу/реєстрації.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Іконка справа</div>
+        <div class="field"><label class="label">Мова</label>
+          <div class="ifield"><span class="ico trail"><svg><use href="#i-globe"/></svg></span>
+            <input class="input has-trail" placeholder="Оберіть мову"></div></div>
+        <div class="note">Службова іконка-афорданс (видавництво/мова/рейтинг).</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Селект</div>
+        <div class="field"><label class="label">Жанри</label>
+          <div class="ifield"><span class="ico trail"><svg><use href="#i-chevron"/></svg></span>
+            <select class="input has-trail"><option>Оберіть жанри</option><option>Фентезі</option><option>Романтика</option></select></div></div>
+        <div class="note">Нативний <code>select</code> + шеврон праворуч.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Текстова область</div>
+        <div class="field"><label class="label">Коротко про книгу</label>
+          <textarea class="input" maxlength="500" placeholder="Опишіть сюжет, атмосферу або головну ідею книги…"></textarea>
+          <div class="subrow"><span class="hint">Без спойлерів</span><span class="hint" id="taCount">0/500</span></div></div>
+        <div class="note">Лічильник символів справа.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Пароль</div>
+        <div class="field"><label class="label">Пароль</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-lock"/></svg></span>
+            <input class="input has-lead has-trail" id="pw" type="password" value="booknest">
+            <span class="ico trail pwtoggle" data-target="pw"><svg><use href="#i-eye"/></svg></span></div></div>
+        <div class="note">Іконка зліва + перемикач показу праворуч.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Пошук</div>
+        <div class="field"><label class="label">Пошук у бібліотеці</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-search"/></svg></span>
+            <input class="input has-lead" type="search" placeholder="Назва, автор, серія…"></div></div>
+        <div class="note">Поле пошуку з лупою.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Суфікс одиниці</div>
+        <div class="field"><label class="label">Ціна</label>
+          <div class="input-affix"><input inputmode="numeric" value="380" aria-label="Ціна, грн"><span class="affix suf">грн</span></div></div>
+        <div class="note">Текстовий суфікс із роздільником (грн, стор., шт.).</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Суфікс «/ 320»</div>
+        <div class="field"><label class="label">Поточна сторінка</label>
+          <div class="input-affix"><input inputmode="numeric" value="144" aria-label="Поточна сторінка"><span class="affix inline">/ 320</span></div></div>
+        <div class="note">Інлайн-суфікс без роздільника — як у модалці «Оновити прогрес».</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Префікс</div>
+        <div class="field"><label class="label">Ціна</label>
+          <div class="input-affix"><span class="affix pre">₴</span><input inputmode="numeric" value="380" aria-label="Ціна"></div></div>
+        <div class="note">Префікс зліва з роздільником (валюта, протокол тощо).</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ТИПИ ВВОДУ -->
+  <section class="block">
+    <h2>Типи вводу</h2>
+    <p class="sub">Поля з обмеженням вводу та правильною клавіатурою на мобільному — кожне зі своєю іконкою.</p>
+    <div class="gallery">
+
+      <div class="spec">
+        <div class="state">E-mail</div>
+        <div class="field"><label class="label">E-mail</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-mail"/></svg></span>
+            <input class="input has-lead" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com"></div></div>
+        <div class="note"><code>type="email"</code> + <code>inputmode="email"</code> · іконка <code>i-mail</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Телефон</div>
+        <div class="field"><label class="label">Телефон</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-phone"/></svg></span>
+            <input class="input has-lead" type="tel" inputmode="tel" autocomplete="tel" placeholder="+380 67 123 45 67"></div></div>
+        <div class="note"><code>type="tel"</code> + <code>inputmode="tel"</code> · іконка <code>i-phone</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Посилання</div>
+        <div class="field"><label class="label">Посилання</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-link"/></svg></span>
+            <input class="input has-lead" type="url" inputmode="url" autocomplete="url" placeholder="https://…"></div></div>
+        <div class="note"><code>type="url"</code> + <code>inputmode="url"</code> · іконка <code>i-link</code>.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Число</div>
+        <div class="field"><label class="label">Кількість сторінок</label>
+          <div class="ifield"><span class="ico lead"><svg><use href="#i-hash"/></svg></span>
+            <input class="input has-lead" type="number" inputmode="numeric" min="0" placeholder="320"></div></div>
+        <div class="note"><code>type="number"</code> + <code>inputmode="numeric"</code> · іконка <code>i-hash</code>. Для «− N +» — NumberStepper.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ТОКЕНИ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">Що саме змінюється в кожному стані.</p>
+    <dl class="tref">
+      <div><dt>Базове</dt><dd>фон <code>--field</code> · бордер 1px <code>--border</code> · радіус <code>--radius</code> · текст <code>--text</code> · паддінг 12/14 (іконка → 42)</dd></div>
+      <div><dt>Hover</dt><dd>бордер → <code>--accent-border</code></dd></div>
+      <div><dt>Focus</dt><dd>бордер → <code>--primary</code> + <code>box-shadow 0 0 0 3px var(--focus-ring)</code></dd></div>
+      <div><dt>Error</dt><dd>бордер → <code>--danger</code> · повідомлення <code>--danger</code> · кільце фокуса в <code>--danger</code></dd></div>
+      <div><dt>Success</dt><dd>бордер → <code>--success</code> · підтвердження <code>--success</code></dd></div>
+      <div><dt>Helper</dt><dd>підказка під полем: <code>--muted</code>, <code>--fs-xs</code> · опційна інфо-іконка зліва · ховається на error/success</dd></div>
+      <div class="last"><dt>Disabled</dt><dd>фон <code>--surface-alt</code> · текст <code>--muted</code> · <code>opacity .6</code> · cursor not-allowed</dd></div>
+    </dl>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Наведи, сфокусуй, введи дані — стани справжні.</p>
+    <div class="play">
+      <div class="field" id="pgEmail">
+        <label class="label label--required">E-mail</label>
+        <div class="ifield"><span class="ico lead"><svg><use href="#i-mail"/></svg></span>
+          <input class="input has-lead" id="email" type="email" placeholder="Введіть ваш e-mail"></div>
+        <div class="msg err"><svg><use href="#i-acircle"/></svg>Невірний формат e-mail</div>
+      </div>
+      <div class="field">
+        <label class="label">Вікова категорія</label>
+        <div class="ifield"><span class="ico trail"><svg><use href="#i-chevron"/></svg></span>
+          <select class="input has-trail"><option>Оберіть вікову категорію</option><option>Young Adult</option><option>18+</option></select></div>
+      </div>
+      <div class="field">
+        <label class="label">Коротко про книгу</label>
+        <textarea class="input" id="pgTa" maxlength="500" placeholder="Опишіть сюжет…"></textarea>
+        <div class="subrow"><span class="hint">Без спойлерів</span><span class="hint" id="pgCount">0/500</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){
+    var n=root.dataset.theme==='dark'?'light':'dark';
+    root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon();
+  });
+
+  /* пароль */
+  document.querySelectorAll('.pwtoggle').forEach(function(t){
+    t.addEventListener('click',function(){
+      var inp=document.getElementById(t.dataset.target), show=inp.type==='password';
+      inp.type=show?'text':'password';
+      t.firstElementChild.setAttribute('href', show?'#i-eye-off':'#i-eye');
+    });
+  });
+
+  /* лічильники */
+  function bindCount(taId,outId){
+    var ta=document.getElementById(taId), out=document.getElementById(outId);
+    if(!ta||!out) return;
+    var upd=function(){ out.textContent=ta.value.length+'/500'; };
+    ta.addEventListener('input',upd); upd();
+  }
+  bindCount('pgTa','pgCount');
+  // демо-textarea у "Варіантах"
+  var demoTa=document.querySelector('section.block textarea.input'), demoOut=document.getElementById('taCount');
+  if(demoTa&&demoOut){ demoTa.addEventListener('input',function(){demoOut.textContent=demoTa.value.length+'/500';}); }
+
+  /* жива валідація e-mail у playground */
+  var f=document.getElementById('pgEmail'), email=document.getElementById('email');
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function check(){ f.classList.toggle('is-error', email.value.length>0 && !re.test(email.value.trim())); }
+  email.addEventListener('blur',check);
+  email.addEventListener('input',function(){ if(f.classList.contains('is-error')) check(); });
+})();
+</script>
+</body>
+</html>

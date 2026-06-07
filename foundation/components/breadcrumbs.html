@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Breadcrumbs</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ BREADCRUMBS ============ */
+.bc{display:flex;min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.bc::-webkit-scrollbar{display:none}
+.bc ol{list-style:none;display:flex;align-items:center;margin:0;padding:0}
+.bc li{display:inline-flex;align-items:center;min-width:0}
+.bc a{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.9375rem;padding:3px 7px;border-radius:var(--radius-xs);white-space:nowrap;transition:color .15s,background-color .15s}
+.bc a:hover{color:var(--ink);background:var(--surface-alt)}
+.bc a:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.bc a svg{width:16px;height:16px;flex:0 0 auto}
+.bc .current{color:var(--ink);font-weight:600;font-size:.9375rem;padding:3px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.bc .sep{display:inline-flex;align-items:center;color:var(--muted);opacity:.6;margin:0 1px;flex:0 0 auto}
+.bc .sep svg{width:16px;height:16px}
+.bc-more{border:0;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;padding:1px 8px 5px;border-radius:var(--radius-xs);font-size:1.05rem;line-height:1;transition:.12s}
+.bc-more:hover{background:var(--surface-alt);color:var(--ink)}
+.bc-more:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.bc-hidden{display:none !important}
+/* slash variant */
+.bc.slash .sep svg{display:none}
+.bc.slash .sep::after{content:"/";color:var(--muted);font-size:.95rem;font-weight:400}
+/* size */
+.bc.sm a,.bc.sm .current{font-size:.875rem;padding:2px 6px}
+.bc.sm .sep svg{width:14px;height:14px}
+.bc.sm a svg{width:15px;height:15px}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:18px 22px}
+.demo{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:8px 20px 16px;margin-bottom:16px}
+.demo .lbl{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);padding:12px 2px 8px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:150px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Breadcrumbs</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Breadcrumbs</h1>
+    <p class="lead">Шлях до поточної сторінки в ієрархії: «Бібліотека › Серії › Хроніки Нарнії». Предки — посилання, остання — поточна сторінка (не клікається). Допомагає зорієнтуватись і піднятись на рівень вище.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="card">
+      <nav class="bc" aria-label="Хлібні крихти">
+        <ol>
+          <li><a href="#"><svg><use href="#i-home"/></svg>Головна</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><a href="#">Бібліотека</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><a href="#">Серії</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><span class="current" aria-current="page">Хроніки Нарнії</span></li>
+        </ol>
+      </nav>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>nav</dt><dd><code>&lt;nav aria-label&gt;</code> + <code>&lt;ol&gt;</code> — впорядкований шлях</dd></div>
+      <div><dt>link</dt><dd>предки — <code>&lt;a&gt;</code> (muted, hover → ink)</dd></div>
+      <div><dt>current</dt><dd>остання — текст з <code>aria-current="page"</code></dd></div>
+      <div class="last"><dt>sep</dt><dd>шеврон, <code>aria-hidden</code> (декоративний)</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+
+    <div class="demo">
+      <div class="lbl">Без home-іконки</div>
+      <nav class="bc" aria-label="Шлях">
+        <ol>
+          <li><a href="#">Бібліотека</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><a href="#">Фентезі</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><span class="current" aria-current="page">Володар перснів</span></li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="demo">
+      <div class="lbl">Слеш-роздільник</div>
+      <nav class="bc slash" aria-label="Шлях">
+        <ol>
+          <li><a href="#">Списки</a><span class="sep" aria-hidden="true"></span></li>
+          <li><a href="#">Літо 2026</a><span class="sep" aria-hidden="true"></span></li>
+          <li><span class="current" aria-current="page">Редагування</span></li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="demo">
+      <div class="lbl">Розмір sm</div>
+      <nav class="bc sm" aria-label="Шлях">
+        <ol>
+          <li><a href="#"><svg><use href="#i-home"/></svg>Головна</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><a href="#">Покупки</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><span class="current" aria-current="page">Кошик</span></li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ЗГОРНУТИЙ -->
+  <section class="block">
+    <h2>Згорнутий (довгий шлях)</h2>
+    <p class="sub">Середина ховається під «…». Натисни, щоб розгорнути.</p>
+    <div class="card">
+      <nav class="bc" aria-label="Шлях" data-bc>
+        <ol>
+          <li><a href="#"><svg><use href="#i-home"/></svg>Головна</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li class="bc-ellipsis"><button class="bc-more" type="button" data-bc-expand aria-label="Показати весь шлях">…</button><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li class="bc-hidden"><a href="#">Бібліотека</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li class="bc-hidden"><a href="#">Серії</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><a href="#">Хроніки Нарнії</a><span class="sep" aria-hidden="true"><svg><use href="#i-chev-right"/></svg></span></li>
+          <li><span class="current" aria-current="page">Книга 2: Принц Каспіан</span></li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Поточна</dt><dd>остання — не посилання, з <code>aria-current="page"</code></dd></div>
+      <div><dt>Роздільник</dt><dd>декоративний (<code>aria-hidden</code>); шеврон або слеш</dd></div>
+      <div><dt>Довгі шляхи</dt><dd>згортай середину в «…», лиши перший і кілька останніх</dd></div>
+      <div><dt>vs Tabs</dt><dd>Breadcrumbs показують ієрархію (де ти); Tabs перемикають розділи одного рівня</dd></div>
+      <div class="last"><dt>Вузький екран</dt><dd>горизонтальний скрол; поточну можна вкоротити багатокрапкою</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  document.querySelectorAll('[data-bc-expand]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var nav=btn.closest('[data-bc]');
+      nav.querySelectorAll('.bc-hidden').forEach(function(li){ li.classList.remove('bc-hidden'); });
+      var ell=btn.closest('.bc-ellipsis'); if(ell) ell.classList.add('bc-hidden');
+    });
+  });
+})();
+</script>
+</body>
+</html>

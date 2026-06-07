@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Modal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* trimmed BUTTON (для футерів і тригерів) */
+.btn{--btn-fg:var(--ink);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:600;font-size:.9375rem;line-height:1;color:var(--btn-fg);border:1px solid transparent;border-radius:var(--radius);background:transparent;cursor:pointer;height:44px;padding:0 18px;white-space:nowrap;transition:background-color .18s,border-color .18s,box-shadow .18s,transform .06s}
+.btn svg{width:18px;height:18px}
+.btn:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.btn:not(:disabled):active{transform:translateY(1px)}
+.btn.primary{--btn-fg:var(--on-primary);background:var(--primary);box-shadow:var(--shadow-btn)}
+.btn.primary:not(:disabled):hover{background:var(--primary-hover)}
+.btn.secondary{--btn-fg:var(--ink);background:var(--surface);border-color:var(--border)}
+.btn.secondary:not(:disabled):hover{background:var(--surface-alt);border-color:var(--accent-border)}
+.btn.ghost{--btn-fg:var(--text)}
+.btn.ghost:not(:disabled):hover{background:var(--surface-alt)}
+.btn.danger{--btn-fg:#fff;background:var(--danger)}
+.btn.danger:not(:disabled):hover{background:color-mix(in srgb,var(--danger) 86%,#000)}
+
+/* trimmed FIELD (для форм-модалок) */
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.field .label{font-size:.875rem;font-weight:600;color:var(--text);display:block;margin-bottom:6px}
+.inp{width:100%;height:44px;border:1px solid var(--border);border-radius:var(--radius);background:var(--field);padding:0 14px;font:inherit;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.inp::placeholder{color:var(--muted)}
+.inp:focus{outline:0;border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+textarea.inp{height:auto;min-height:84px;padding:11px 14px;resize:vertical;line-height:1.5}
+.help{font-size:.8125rem;color:var(--muted);margin-top:6px}
+
+/* ============ MODAL ============ */
+.modal-scrim{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(34,22,12,.5);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+[data-theme="dark"] .modal-scrim{background:rgba(0,0,0,.62)}
+.modal-scrim.open{opacity:1;visibility:visible}
+.modal{position:relative;display:flex;flex-direction:column;width:100%;max-width:520px;max-height:calc(100vh - 48px);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-pop);
+  overflow:hidden;transform:translateY(10px) scale(.985);transition:transform .2s ease}
+.modal-scrim.open .modal{transform:none}
+.modal.static{transform:none}
+.modal.sm{max-width:420px}.modal.md{max-width:520px}.modal.lg{max-width:640px}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 28px 0}
+.modal-title{font-family:var(--font-serif);color:var(--ink);font-weight:700;font-size:1.5rem;line-height:1.15;margin:0}
+.modal-sub{color:var(--muted);font-size:.9375rem;margin-top:6px}
+.modal-close{flex:0 0 auto;width:36px;height:36px;margin:-4px -6px 0 0;border:0;background:transparent;color:var(--muted);border-radius:var(--radius);display:grid;place-items:center;cursor:pointer;transition:.15s}
+.modal-close:hover{background:var(--surface-alt);color:var(--ink)}
+.modal-close:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.modal-close svg{width:20px;height:20px}
+.modal-body{padding:18px 28px;overflow-y:auto}
+.modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 28px 24px}
+/* банер у тілі */
+.modal-banner{display:flex;gap:9px;align-items:flex-start;background:var(--info-bg);color:var(--info);border-radius:var(--radius);padding:10px 13px;font-size:.8125rem;line-height:1.45;margin-top:4px}
+.modal-banner svg{width:16px;height:16px;flex:0 0 auto;margin-top:1px}
+/* книга в підтвердженні */
+.bookline{display:flex;align-items:center;gap:12px;text-align:left;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-top:16px}
+.bookline .cv{width:34px;height:48px;border-radius:6px;background:var(--accent-soft);flex:0 0 auto}
+.bookline .bt{font-weight:600;color:var(--ink);font-size:.9375rem}
+.bookline .ba{color:var(--muted);font-size:.8125rem}
+/* підтвердження (центроване) */
+.modal.confirm .modal-head{padding:0}
+.modal.confirm .modal-close{position:absolute;top:14px;right:14px;margin:0;z-index:1}
+.modal.confirm .modal-body{text-align:center;padding-top:30px}
+.modal-icon{width:56px;height:56px;border-radius:var(--radius-full);display:grid;place-items:center;margin:0 auto 14px;background:var(--accent-soft);color:var(--icon)}
+.modal-icon svg{width:26px;height:26px}
+.modal-icon.danger{background:var(--danger-bg);color:var(--danger)}
+.modal-icon.success{background:var(--success-bg);color:var(--success)}
+.modal.confirm .modal-title{font-size:1.375rem}
+.modal-msg{color:var(--text-secondary);margin-top:8px;line-height:1.5}
+.modal.confirm .modal-foot{justify-content:center;padding-top:22px}
+@media (max-width:520px){.modal.confirm .modal-foot,.modal-foot{flex-direction:column-reverse}.modal-foot .btn{width:100%}}
+@media (prefers-reduced-motion:reduce){.modal-scrim,.modal{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:170px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+.frame{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:28px;display:flex;justify-content:center}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Modal</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Modal</h1>
+    <p class="lead">Центрований діалог на затемненні: серифний заголовок + ×, тіло (форма чи контент) і футер «ghost Скасувати + primary». Усі модалки твого проєкту — форми, підтвердження, видалення — це один компонент із варіантами.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div class="frame">
+      <div class="modal md static" role="dialog" aria-label="Приклад">
+        <div class="modal-head"><div><h2 class="modal-title">Заголовок</h2><div class="modal-sub">Опційний підзаголовок</div></div><button class="modal-close" type="button" aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+        <div class="modal-body"><div class="field"><span class="label">Поле</span><input class="inp" placeholder="Контент діалогу"></div></div>
+        <div class="modal-foot"><button class="btn ghost" type="button">Скасувати</button><button class="btn primary" type="button">Дія</button></div>
+      </div>
+    </div>
+    <dl class="tref" style="margin-top:18px">
+      <div><dt>scrim</dt><dd>затемнення на весь екран; клік повз діалог — закриває</dd></div>
+      <div><dt>head</dt><dd>серифний <code>title</code> + опц. <code>subtitle</code> + кнопка ×</dd></div>
+      <div><dt>body</dt><dd>контент; прокручується, якщо високий</dd></div>
+      <div class="last"><dt>foot</dt><dd>дії праворуч: ghost «Скасувати» + primary (або danger)</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ (живі) -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Натисни — відкриється справжня модалка (ESC / клік повз / × закривають).</p>
+    <div class="card row">
+      <button class="btn primary" type="button" data-modal-open="m-form"><svg><use href="#i-plus"/></svg>Форма (md)</button>
+      <button class="btn secondary" type="button" data-modal-open="m-confirm">Підтвердження (sm)</button>
+      <button class="btn secondary" type="button" data-modal-open="m-delete">Деструктив (sm)</button>
+      <button class="btn secondary" type="button" data-modal-open="m-long">Велика форма / прокрутка (lg)</button>
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <dl class="tref">
+      <div><dt>Відкрити</dt><dd>тригер з <code>data-modal-open="id"</code></dd></div>
+      <div><dt>Закрити</dt><dd><kbd>Esc</kbd>, клік по затемненню, × або «Скасувати»</dd></div>
+      <div><dt>Фокус</dt><dd>пастка фокуса в діалозі (<kbd>Tab</kbd> циклічно); після закриття — назад на тригер</dd></div>
+      <div><dt>Прокрутка</dt><dd>тіло сторінки блокується, доки відкрито</dd></div>
+      <div class="last"><dt>Семантика</dt><dd><code>role="dialog"</code> + <code>aria-modal="true"</code> + <code>aria-labelledby</code> на заголовок</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Використання</h2>
+    <dl class="tref">
+      <div><dt>Розміри</dt><dd><code>.sm</code> — підтвердження; <code>.md</code> — форми; <code>.lg</code> — великі форми</dd></div>
+      <div><dt>Футер</dt><dd>одна головна дія (primary/danger) + ghost «Скасувати»; деструктив — <code>.danger</code> + іконка</dd></div>
+      <div><dt>Підтвердження</dt><dd>іконка-кружок зверху + заголовок + пояснення; для незворотного — попереди в тексті</dd></div>
+      <div class="last"><dt>Банер</dt><dd>підказку/попередження в тілі — <code>.modal-banner</code> (info/warning)</dd></div>
+    </dl>
+  </section>
+</div>
+
+<!-- ===== Модалки (приховані до відкриття) ===== -->
+<div class="modal-scrim" id="m-form">
+  <div class="modal md" role="dialog" aria-modal="true" aria-labelledby="m-form-t">
+    <div class="modal-head"><h2 class="modal-title" id="m-form-t">Створити список</h2><button class="modal-close" type="button" data-modal-close aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><span class="label">Назва списку</span><input class="inp" data-autofocus placeholder="Напр. «Літо 2026»"><div class="help">Коротка назва, видима лише тобі.</div></div>
+      <div class="field"><span class="label">Опис (необов'язково)</span><textarea class="inp" placeholder="Про що цей список…"></textarea></div>
+      <div class="modal-banner"><svg><use href="#i-info"/></svg>Список приватний — його бачиш тільки ти.</div>
+    </div>
+    <div class="modal-foot"><button class="btn ghost" type="button" data-modal-close>Скасувати</button><button class="btn primary" type="button" data-modal-close><svg><use href="#i-plus"/></svg>Створити</button></div>
+  </div>
+</div>
+
+<div class="modal-scrim" id="m-confirm">
+  <div class="modal sm confirm" role="dialog" aria-modal="true" aria-labelledby="m-confirm-t">
+    <button class="modal-close" type="button" data-modal-close aria-label="Закрити"><svg><use href="#i-x"/></svg></button>
+    <div class="modal-body">
+      <div class="modal-icon success"><svg><use href="#i-check"/></svg></div>
+      <h2 class="modal-title" id="m-confirm-t">Позначити прочитаною?</h2>
+      <p class="modal-msg">Книга переїде до прочитаних, а прогрес стане 100%.</p>
+    </div>
+    <div class="modal-foot"><button class="btn ghost" type="button" data-modal-close>Скасувати</button><button class="btn primary" type="button" data-autofocus data-modal-close>Позначити</button></div>
+  </div>
+</div>
+
+<div class="modal-scrim" id="m-delete">
+  <div class="modal sm confirm" role="dialog" aria-modal="true" aria-labelledby="m-delete-t">
+    <button class="modal-close" type="button" data-modal-close aria-label="Закрити"><svg><use href="#i-x"/></svg></button>
+    <div class="modal-body">
+      <div class="modal-icon danger"><svg><use href="#i-trash"/></svg></div>
+      <h2 class="modal-title" id="m-delete-t">Видалити книгу?</h2>
+      <p class="modal-msg">Цю дію неможливо буде скасувати.</p>
+      <div class="bookline"><span class="cv"></span><span><span class="bt">Гірський перевал</span><br><span class="ba">Емілі Бронте</span></span></div>
+    </div>
+    <div class="modal-foot"><button class="btn ghost" type="button" data-autofocus data-modal-close>Скасувати</button><button class="btn danger" type="button" data-modal-close><svg><use href="#i-trash"/></svg>Видалити</button></div>
+  </div>
+</div>
+
+<div class="modal-scrim" id="m-long">
+  <div class="modal lg" role="dialog" aria-modal="true" aria-labelledby="m-long-t">
+    <div class="modal-head"><div><h2 class="modal-title" id="m-long-t">Додати серію</h2><div class="modal-sub">Заповни поля та збережи</div></div><button class="modal-close" type="button" data-modal-close aria-label="Закрити"><svg><use href="#i-x"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><span class="label">Назва серії</span><input class="inp" data-autofocus placeholder="Введіть назву серії"><div class="help">Наприклад: «Хроніки Нарнії».</div></div>
+      <div class="field"><span class="label">Автор</span><input class="inp" placeholder="Джон Сміт"></div>
+      <div class="field"><span class="label">Опис</span><textarea class="inp" placeholder="Коротко опишіть серію…"></textarea></div>
+      <div class="field"><span class="label">Орієнтовна кількість книг</span><input class="inp" type="number" placeholder="5"></div>
+      <div class="field"><span class="label">Нотатки</span><textarea class="inp" placeholder="Будь-що, що варто пам'ятати…"></textarea></div>
+      <div class="modal-banner"><svg><use href="#i-info"/></svg>Книги можна додати до серії пізніше — зі сторінки книги.</div>
+    </div>
+    <div class="modal-foot"><button class="btn ghost" type="button" data-modal-close>Скасувати</button><button class="btn primary" type="button" data-modal-close>Створити серію</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function focusables(s){
+    return [].slice.call(s.querySelectorAll('button,[href],input:not([type=hidden]),select,textarea,[tabindex]:not([tabindex="-1"])'))
+      .filter(function(el){ return !el.disabled && el.offsetParent!==null; });
+  }
+  function open(s, trigger){
+    s.classList.add('open'); document.body.style.overflow='hidden'; s._trigger=trigger||null;
+    setTimeout(function(){
+      var a=s.querySelector('[data-autofocus]'); var f=focusables(s);
+      (a || (f.length?f[0]:s.querySelector('.modal'))).focus();
+    }, 40);
+  }
+  function close(s){
+    s.classList.remove('open');
+    if(!document.querySelector('.modal-scrim.open')) document.body.style.overflow='';
+    if(s._trigger){ s._trigger.focus(); s._trigger=null; }
+  }
+
+  document.querySelectorAll('[data-modal-open]').forEach(function(t){
+    t.addEventListener('click', function(){ var s=document.getElementById(t.getAttribute('data-modal-open')); if(s) open(s,t); });
+  });
+  document.querySelectorAll('.modal-scrim').forEach(function(s){
+    s.addEventListener('mousedown', function(e){ if(e.target===s) s._downOnScrim=true; });
+    s.addEventListener('mouseup', function(e){ if(e.target===s && s._downOnScrim) close(s); s._downOnScrim=false; });
+    s.querySelectorAll('[data-modal-close]').forEach(function(b){ b.addEventListener('click', function(){ close(s); }); });
+    s.addEventListener('keydown', function(e){
+      if(e.key==='Escape'){ e.preventDefault(); close(s); return; }
+      if(e.key==='Tab'){
+        var f=focusables(s); if(!f.length) return;
+        var first=f[0], last=f[f.length-1];
+        if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

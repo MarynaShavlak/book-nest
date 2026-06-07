@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Компоненти · Segmented Control</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ SEGMENTED CONTROL ============ */
+.seg{position:relative;display:inline-flex;background:var(--field);border:1px solid var(--border);border-radius:var(--radius-full);padding:4px;vertical-align:middle}
+.seg-thumb{position:absolute;left:0;top:4px;bottom:4px;width:0;border-radius:var(--radius-full);background:var(--surface);box-shadow:var(--shadow-card);transition:transform .25s cubic-bezier(.4,0,.2,1),width .25s cubic-bezier(.4,0,.2,1),background-color .2s;z-index:0}
+.seg-opt{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;background:transparent;cursor:pointer;
+  font-family:var(--font-sans);font-size:.9375rem;font-weight:600;color:var(--muted);padding:9px 18px;border-radius:var(--radius-full);white-space:nowrap;outline:0;transition:color .2s}
+.seg-opt svg{width:16px;height:16px;flex:0 0 auto}
+.seg-opt:not([aria-checked="true"]):not(:disabled):hover{color:var(--text)}
+.seg-opt[aria-checked="true"]{color:var(--ink)}
+.seg-opt:focus-visible{box-shadow:0 0 0 3px var(--focus-ring)}
+.seg-opt:disabled{opacity:.4;cursor:not-allowed}
+/* статичний (без thumb — fallback / знімки станів) */
+.seg.static .seg-opt[aria-checked="true"]{background:var(--surface);box-shadow:var(--shadow-card)}
+/* accent (теплий, як на макеті) */
+.seg.accent .seg-thumb{background:var(--accent-soft)}
+.seg.accent .seg-opt[aria-checked="true"]{color:var(--accent-soft-fg)}
+.seg.accent.static .seg-opt[aria-checked="true"]{background:var(--accent-soft);box-shadow:none}
+/* full-width */
+.seg.block{display:flex;width:100%}
+.seg.block .seg-opt{flex:1}
+/* sizes */
+.seg.sm .seg-opt{padding:6px 14px;font-size:.875rem}
+.seg.sm .seg-opt svg{width:14px;height:14px}
+/* disabled whole */
+.seg.is-disabled{opacity:.55;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.seg-thumb{transition:none}}
+
+/* layout */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:22px}
+.stack{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.stack:last-child{margin-bottom:0}
+.out{font-size:.8125rem;color:var(--muted)}.out b{color:var(--ink)}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:20px}
+.spec .demo{min-height:52px;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+.spec .note{margin-top:14px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:200px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.9375rem}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+.play{max-width:560px}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-stack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Segmented Control</b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Segmented Control</h1>
+    <p class="lead">Злита доріжка для 2–4 взаємовиключних варіантів — «Соло книга / Частина серії», «Серія завершена / ще виходить», перемикач вигляду. Активний сегмент позначає повзунок-thumb, що ковзає. Компактна альтернатива до ChipGroup.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <div style="margin-bottom:8px">
+      <div class="seg" data-seg>
+        <span class="seg-thumb"></span>
+        <button class="seg-opt" type="button" role="radio" aria-checked="false">Соло книга</button>
+        <button class="seg-opt" type="button" role="radio" aria-checked="true">Частина серії</button>
+      </div>
+    </div>
+    <dl class="tref">
+      <div><dt>track</dt><dd>доріжка <code>--field</code> + бордер, заокруглена <code>--radius-full</code></dd></div>
+      <div><dt>thumb</dt><dd>повзунок активного сегмента: <code>--surface</code> + <code>--shadow-card</code>, ковзає</dd></div>
+      <div class="last"><dt>segment</dt><dd>кнопка-опція: <code>--muted</code>, активна → <code>--ink</code>; опційна іконка</dd></div>
+    </dl>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Усі — живі: клікни або стрілками. Thumb ковзає під різну ширину сегментів.</p>
+    <div class="demo-grid">
+
+      <div class="spec">
+        <div class="state">2 сегменти</div>
+        <div class="demo"><div class="seg" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">Соло книга</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Частина серії</button></div></div>
+        <div class="note">Типовий бінарний вибір.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">3 сегменти</div>
+        <div class="demo"><div class="seg sm" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">Усі</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Читаю</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Прочитані</button></div></div>
+        <div class="note">Фільтр-перемикач. Тримай ≤4 сегменти.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">З іконками</div>
+        <div class="demo"><div class="seg sm" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true"><svg><use href="#i-grid"/></svg>Сітка</button><button class="seg-opt" type="button" role="radio" aria-checked="false"><svg><use href="#i-list"/></svg>Список</button></div></div>
+        <div class="note">Перемикач вигляду.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Accent (теплий)</div>
+        <div class="demo"><div class="seg accent" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="false">Соло книга</button><button class="seg-opt" type="button" role="radio" aria-checked="true">Частина серії</button></div></div>
+        <div class="note">Thumb <code>--accent-soft</code> — як на твоєму макеті.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">На всю ширину</div>
+        <div class="demo" style="display:block"><div class="seg block" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">Завершена</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Ще виходить</button></div></div>
+        <div class="note"><code>.block</code> — рівні сегменти на ширину контейнера.</div>
+      </div>
+
+      <div class="spec">
+        <div class="state">Розміри</div>
+        <div class="demo">
+          <div class="seg sm" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">sm</button><button class="seg-opt" type="button" role="radio" aria-checked="false">sm</button></div>
+          <div class="seg" data-seg><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">md</button><button class="seg-opt" type="button" role="radio" aria-checked="false">md</button></div>
+        </div>
+        <div class="note">sm / md.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <p class="sub">Знімки (статичні, без thumb).</p>
+    <div class="demo-grid">
+      <div class="spec"><div class="state">Активний / неактивний</div><div class="demo"><div class="seg static"><button class="seg-opt" type="button" aria-checked="true">Соло книга</button><button class="seg-opt" type="button" aria-checked="false">Частина серії</button></div></div></div>
+      <div class="spec"><div class="state">Hover (неактивний)</div><div class="demo"><div class="seg static"><button class="seg-opt" type="button" aria-checked="true">Соло книга</button><button class="seg-opt" type="button" aria-checked="false" style="color:var(--text)">Частина серії</button></div></div><div class="note">Неактивний світлішає до <code>--text</code>.</div></div>
+      <div class="spec"><div class="state">Focus</div><div class="demo"><div class="seg static"><button class="seg-opt" type="button" aria-checked="true" style="box-shadow:0 0 0 3px var(--focus-ring)">Соло книга</button><button class="seg-opt" type="button" aria-checked="false">Частина серії</button></div></div><div class="note"><code>:focus-visible</code> кільце.</div></div>
+      <div class="spec"><div class="state">Disabled (увесь)</div><div class="demo"><div class="seg static is-disabled"><button class="seg-opt" type="button" aria-checked="true">Соло книга</button><button class="seg-opt" type="button" aria-checked="false">Частина серії</button></div></div></div>
+      <div class="spec"><div class="state">Disabled (сегмент)</div><div class="demo"><div class="seg static"><button class="seg-opt" type="button" aria-checked="true">Соло</button><button class="seg-opt" type="button" aria-checked="false">Серія</button><button class="seg-opt" type="button" aria-checked="false" disabled>Збірка</button></div></div><div class="note">Окремий сегмент можна вимкнути.</div></div>
+    </div>
+  </section>
+
+  <!-- ПОВЕДІНКА -->
+  <section class="block">
+    <h2>Поведінка</h2>
+    <dl class="tref">
+      <div><dt>Семантика</dt><dd><code>role="radiogroup"</code>, сегменти <code>role="radio"</code> + <code>aria-checked</code></dd></div>
+      <div><dt>Клавіатура</dt><dd><kbd>←</kbd><kbd>→</kbd>/<kbd>↑</kbd><kbd>↓</kbd> рух і вибір (roving tabindex, з обгортанням), <kbd>Home</kbd>/<kbd>End</kbd> — край</dd></div>
+      <div><dt>Thumb</dt><dd>ковзає до активного сегмента; ширину міряє по сегменту (різні підписи — ок); перераховується на resize</dd></div>
+      <div class="last"><dt>vs ChipGroup</dt><dd>Segmented — 2–4 взаємовиключних у злитій доріжці (компактний тумблер); ChipGroup — окремі пілюлі, багато опцій та/або мультивибір</dd></div>
+    </dl>
+  </section>
+
+  <!-- СПРОБУЙ -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Твої кейси з форми «Серія».</p>
+    <div class="card play">
+      <div class="stack">
+        <label class="label">Тип запису</label>
+        <div class="seg" data-seg data-out="o1"><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">Соло книга</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Частина серії</button></div>
+        <div class="out" data-outbox="o1"></div>
+      </div>
+      <div class="stack">
+        <label class="label">Статус серії</label>
+        <div class="seg accent" data-seg data-out="o2"><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="false">Серія завершена</button><button class="seg-opt" type="button" role="radio" aria-checked="true">Серія ще виходить</button></div>
+        <div class="out" data-outbox="o2"></div>
+      </div>
+      <div class="stack">
+        <label class="label">Бібліотека</label>
+        <div class="seg block sm" data-seg data-out="o3"><span class="seg-thumb"></span><button class="seg-opt" type="button" role="radio" aria-checked="true">Усі</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Читаю</button><button class="seg-opt" type="button" role="radio" aria-checked="false">Прочитані</button></div>
+        <div class="out" data-outbox="o3"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  function initSeg(seg, onChange){
+    var opts=[].slice.call(seg.querySelectorAll('.seg-opt'));
+    var thumb=seg.querySelector('.seg-thumb');
+    if(!seg.getAttribute('role')) seg.setAttribute('role','radiogroup');
+    function place(opt){ if(!thumb||!opt||!opt.offsetWidth) return; thumb.style.width=opt.offsetWidth+'px'; thumb.style.transform='translateX('+opt.offsetLeft+'px)'; }
+    function active(){ return opts.filter(function(o){return o.getAttribute('aria-checked')==='true';})[0]||opts[0]; }
+    function enabled(){ return opts.filter(function(o){return !o.disabled;}); }
+    function select(opt, focus){
+      opts.forEach(function(o){ var on=o===opt; o.setAttribute('aria-checked', on?'true':'false'); o.tabIndex=on?0:-1; });
+      place(opt); if(focus) opt.focus(); if(onChange) onChange((opt.textContent||'').trim());
+    }
+    function move(from,dir){ var n=opts.length,i=from,g=0; do{ i=(i+dir+n)%n; g++; }while(opts[i].disabled&&g<=n); if(!opts[i].disabled) select(opts[i],true); }
+    var cur=active();
+    opts.forEach(function(o){ o.tabIndex = (o===cur)?0:-1;
+      o.addEventListener('click',function(){ if(o.disabled) return; select(o,false); });
+      o.addEventListener('keydown',function(e){
+        var idx=opts.indexOf(o);
+        if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); move(idx,1); }
+        else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); move(idx,-1); }
+        else if(e.key==='Home'){ e.preventDefault(); select(enabled()[0],true); }
+        else if(e.key==='End'){ e.preventDefault(); var en=enabled(); select(en[en.length-1],true); }
+      });
+    });
+    function reflow(){ place(active()); }
+    requestAnimationFrame(reflow);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(reflow);
+    window.addEventListener('resize', reflow);
+    if(onChange) onChange((cur.textContent||'').trim());
+  }
+
+  document.querySelectorAll('.seg[data-seg]').forEach(function(seg){
+    var key=seg.getAttribute('data-out');
+    var box=key? document.querySelector('[data-outbox="'+key+'"]') : null;
+    initSeg(seg, box? function(v){ box.innerHTML='Обрано: <b>'+v+'</b>'; } : null);
+  });
+})();
+</script>
+</body>
+</html>

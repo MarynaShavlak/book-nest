@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Атом · Action Row</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на <link> до tokens.css і typography.css -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-h1:clamp(2.75rem,4.2vw,3.25rem); --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+h2,.h2{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h2);font-weight:var(--fw-semibold);line-height:1.2}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+a{color:var(--primary);font-weight:600}
+</style>
+
+<!-- ===== Сторінка + компонент ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);transition:background .3s ease,color .3s ease}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 90px}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.crumbs{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9375rem}
+.crumbs .mark{width:28px;height:28px;color:var(--primary)}
+.crumbs b{color:var(--ink);font-weight:600}
+.theme-fab{width:40px;height:40px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:18px;height:18px}
+.head{padding:48px 0 6px}.head .lead{margin-top:12px;max-width:64ch}
+.block{padding:36px 0;border-top:1px solid var(--border);margin-top:36px}
+.block>h2{margin-bottom:6px}.block .sub{color:var(--muted);font-size:.9375rem;margin-bottom:24px}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--text);background:var(--field);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.82em}
+
+/* ============ ACTION ROW (атом) ============ */
+.action{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:transparent;cursor:pointer;
+  padding:12px 14px;border-radius:var(--radius);color:var(--text);font-family:var(--font-sans);font-size:.9375rem;font-weight:500;text-decoration:none;
+  transition:background .15s,color .15s}
+.action .a-ico{width:20px;height:20px;flex:0 0 auto;color:var(--icon)}
+.action .a-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit}
+.action .a-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.action .a-body .a-label{flex:none}
+.action .a-desc{font-size:.8125rem;font-weight:400;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.action .a-trail{flex:0 0 auto;display:flex;align-items:center;gap:9px;color:var(--muted);font-size:.8125rem}
+.action .a-chev{width:18px;height:18px;color:var(--muted);flex:0 0 auto}
+.action .a-badge{min-width:20px;height:20px;padding:0 6px;border-radius:var(--radius-full);background:var(--accent-soft);color:var(--accent-soft-fg);font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+/* стани */
+.action:hover:not(:disabled):not(.is-selected){background:var(--surface-alt)}
+.action:active:not(:disabled){background:var(--accent-soft)}
+.action:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.action.is-selected{background:var(--accent-soft);color:var(--accent-soft-fg);font-weight:600}
+.action.is-selected .a-ico{color:var(--primary)}
+.action:disabled,.action.is-disabled{opacity:.45;cursor:not-allowed}
+/* варіант: danger */
+.action.is-danger{color:var(--danger)}
+.action.is-danger .a-ico{color:var(--danger)}
+.action.is-danger:hover:not(:disabled){background:var(--danger-bg)}
+/* розміри */
+.action.sm{padding:8px 12px;gap:10px;font-size:.875rem}
+.action.sm .a-ico{width:18px;height:18px}
+.action.lg{padding:15px 16px}
+
+/* демо-перемикач для trailing-слота */
+.mini-switch{width:36px;height:20px;border-radius:999px;background:var(--primary);position:relative;flex:0 0 auto}
+.mini-switch::after{content:"";position:absolute;top:2px;left:18px;width:16px;height:16px;border-radius:50%;background:var(--on-primary);transition:left .15s}
+.mini-switch.off{background:var(--border)}
+.mini-switch.off::after{left:2px}
+
+/* контейнер списку (для прикладів) */
+.action-list{display:flex;flex-direction:column;gap:2px}
+.list-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:8px;max-width:420px}
+
+/* layout */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;align-items:start}
+.spec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:16px}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:4px 6px 10px}
+.spec .note{margin:10px 6px 2px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.anat{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:16px;max-width:440px}
+.anat .tag{font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;align-items:start}
+.tref{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-card);padding:6px 22px;display:grid;grid-template-columns:130px 1fr}
+.tref>div{display:contents}
+.tref dt{padding:12px 0;border-bottom:1px dashed var(--border);color:var(--ink);font-weight:600;font-size:.875rem;font-family:ui-monospace,Menlo,monospace}
+.tref dd{padding:12px 0;border-bottom:1px dashed var(--border);margin:0;color:var(--text);font-size:.875rem}
+.tref .last dt,.tref .last dd{border-bottom:0}
+kbd{font-family:var(--font-sans);font-size:.78rem;font-weight:600;background:var(--field);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--ink)}
+.codeblock{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;line-height:1.6;color:var(--text);white-space:pre}
+.codeblock .t{color:var(--primary)} .codeblock .a{color:var(--success)} .codeblock .c{color:var(--muted)}
+@media (max-width:560px){.tref{grid-template-columns:1fr}.tref dt{padding-bottom:2px;border-bottom:0}.tref dd{padding-top:2px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.4 2.4 2.4 4.6-5.2"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="crumbs"><svg class="mark"><use href="#i-book"/></svg>Бібліотека компонентів<span>›</span><b>Action Row <span style="color:var(--muted);font-weight:400">(атом)</span></b></div>
+  <button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <h1>Action Row</h1>
+    <p class="lead">Атомний рядок «іконка + підпис + опційний trailing». Один компонент із пропсами, що складається в Action List, меню, налаштування, навігацію. Сам по собі — клікабельний рядок з повним набором станів.</p>
+  </div>
+
+  <!-- АНАТОМІЯ -->
+  <section class="block">
+    <h2>Анатомія</h2>
+    <p class="sub">Чотири слоти.</p>
+    <div class="anat">
+      <svg class="a-ico" style="width:20px;height:20px;color:var(--icon)"><use href="#i-refresh"/></svg>
+      <div class="a-body"><span class="a-label" style="color:var(--text)">Змінити статус</span><span class="a-desc">опис (необов'язково)</span></div>
+      <span class="a-trail">Читаю<svg class="a-chev"><use href="#i-chev-right"/></svg></span>
+    </div>
+    <dl class="tref" style="margin-top:14px">
+      <div><dt>icon</dt><dd>лідер-іконка <code>--icon</code>, 20px (опційно)</dd></div>
+      <div><dt>label</dt><dd>основний підпис <code>--text</code></dd></div>
+      <div><dt>description</dt><dd>другий рядок <code>--muted</code> (опційно)</dd></div>
+      <div class="last"><dt>trailing</dt><dd>слот праворуч: шеврон / значення / badge / будь-який вузол</dd></div>
+    </dl>
+  </section>
+
+  <!-- СТАНИ -->
+  <section class="block">
+    <h2>Стани</h2>
+    <div class="gallery">
+      <div class="spec"><div class="state">Default</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Додати до списку</span></button></div></div>
+      <div class="spec"><div class="state">Hover</div><div class="list-card" style="padding:6px"><button class="action" type="button" style="background:var(--surface-alt)"><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Додати до списку</span></button></div><div class="note"><code>--surface-alt</code></div></div>
+      <div class="spec"><div class="state">Active</div><div class="list-card" style="padding:6px"><button class="action" type="button" style="background:var(--accent-soft)"><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Додати до списку</span></button></div><div class="note"><code>--accent-soft</code> на натиск</div></div>
+      <div class="spec"><div class="state">Focus</div><div class="list-card" style="padding:6px"><button class="action" type="button" style="box-shadow:0 0 0 3px var(--focus-ring)"><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Додати до списку</span></button></div><div class="note"><code>:focus-visible</code></div></div>
+      <div class="spec"><div class="state">Selected (current)</div><div class="list-card" style="padding:6px"><button class="action is-selected" type="button"><svg class="a-ico"><use href="#i-book"/></svg><span class="a-label">Моя бібліотека</span></button></div><div class="note">Активний пункт нав/меню: <code>--accent-soft</code> + іконка <code>--primary</code></div></div>
+      <div class="spec"><div class="state">Disabled</div><div class="list-card" style="padding:6px"><button class="action" type="button" disabled><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Додати до списку</span></button></div><div class="note"><code>opacity .45</code></div></div>
+    </div>
+  </section>
+
+  <!-- ВАРІАНТИ -->
+  <section class="block">
+    <h2>Варіанти</h2>
+    <p class="sub">Leading, trailing, дворядковий, danger, посилання.</p>
+    <div class="gallery">
+      <div class="spec"><div class="state">З іконкою</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-clock"/></svg><span class="a-label">Додати в чергу</span></button></div></div>
+      <div class="spec"><div class="state">Без іконки</div><div class="list-card" style="padding:6px"><button class="action" type="button"><span class="a-label">Додати в чергу</span></button></div><div class="note">Лідер-іконка опційна.</div></div>
+      <div class="spec"><div class="state">Дворядковий</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-bell"/></svg><div class="a-body"><span class="a-label">Сповіщення</span><span class="a-desc">Нагадування про читання</span></div></button></div><div class="note"><code>label</code> + <code>description</code>.</div></div>
+      <div class="spec"><div class="state">Trailing: шеврон</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-refresh"/></svg><span class="a-label">Змінити статус</span><svg class="a-chev"><use href="#i-chev-right"/></svg></button></div><div class="note">Відкриває далі.</div></div>
+      <div class="spec"><div class="state">Trailing: значення</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-refresh"/></svg><span class="a-label">Статус</span><span class="a-trail">Читаю<svg class="a-chev"><use href="#i-chev-right"/></svg></span></button></div><div class="note">Поточне значення + шеврон.</div></div>
+      <div class="spec"><div class="state">Trailing: badge</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-check-circle"/></svg><span class="a-label">Очистити завершені</span><span class="a-trail"><span class="a-badge">12</span></span></button></div><div class="note">Лічильник.</div></div>
+      <div class="spec"><div class="state">Trailing: перемикач</div><div class="list-card" style="padding:6px"><button class="action" type="button"><svg class="a-ico"><use href="#i-bell"/></svg><span class="a-label">Сповіщення</span><span class="a-trail"><span class="mini-switch"></span></span></button></div><div class="note">У слот можна вкласти будь-який контрол.</div></div>
+      <div class="spec"><div class="state">Danger</div><div class="list-card" style="padding:6px"><button class="action is-danger" type="button"><svg class="a-ico"><use href="#i-trash"/></svg><span class="a-label">Видалити список</span></button></div><div class="note"><code>--danger</code>; hover <code>--danger-bg</code>.</div></div>
+      <div class="spec"><div class="state">Як посилання</div><div class="list-card" style="padding:6px"><a class="action" href="#"><svg class="a-ico"><use href="#i-external"/></svg><span class="a-label">Відкрити в Goodreads</span><svg class="a-chev"><use href="#i-external"/></svg></a></div><div class="note"><code>&lt;a&gt;</code> для переходу на сторінку.</div></div>
+    </div>
+  </section>
+
+  <!-- РОЗМІРИ -->
+  <section class="block">
+    <h2>Розміри</h2>
+    <p class="sub">md за замовчуванням; sm — для щільних меню (на дотик тримай md, ≥44px).</p>
+    <div class="row2">
+      <div class="list-card"><button class="action" type="button"><svg class="a-ico"><use href="#i-star"/></svg><span class="a-label">md (default)</span><svg class="a-chev"><use href="#i-chev-right"/></svg></button></div>
+      <div class="list-card"><button class="action sm" type="button"><svg class="a-ico"><use href="#i-star"/></svg><span class="a-label">sm (компактний)</span><svg class="a-chev"><use href="#i-chev-right"/></svg></button></div>
+    </div>
+  </section>
+
+  <!-- ПРОПСИ -->
+  <section class="block">
+    <h2>Пропси (API)</h2>
+    <dl class="tref">
+      <div><dt>icon</dt><dd>лідер-іконка (опційно)</dd></div>
+      <div><dt>label</dt><dd>текст рядка (обов'язково)</dd></div>
+      <div><dt>description</dt><dd>другий рядок (опційно)</dd></div>
+      <div><dt>trailing</dt><dd><code>'chevron'</code> | <code>'value'</code> | <code>'badge'</code> | вузол | нічого</dd></div>
+      <div><dt>variant</dt><dd><code>'default'</code> | <code>'danger'</code></dd></div>
+      <div><dt>size</dt><dd><code>'md'</code> | <code>'sm'</code></dd></div>
+      <div><dt>selected</dt><dd>поточний пункт (нав/меню)</dd></div>
+      <div><dt>as / href</dt><dd><code>'button'</code> (дія) або <code>&lt;a&gt;</code> (перехід)</dd></div>
+      <div><dt>disabled</dt><dd>неактивний</dd></div>
+      <div class="last"><dt>onClick</dt><dd>обробник дії</dd></div>
+    </dl>
+    <div class="codeblock" style="margin-top:16px"><span class="c">// React-ескіз API</span>
+&lt;<span class="t">ActionRow</span>
+  <span class="a">icon</span>={&lt;RefreshIcon/&gt;}
+  <span class="a">label</span>=<span class="a">"Змінити статус"</span>
+  <span class="a">trailing</span>=<span class="a">"chevron"</span>
+  <span class="a">value</span>=<span class="a">"Читаю"</span>
+  <span class="a">onClick</span>={openStatusPicker}
+/&gt;
+
+&lt;<span class="t">ActionRow</span> <span class="a">icon</span>={&lt;TrashIcon/&gt;} <span class="a">label</span>=<span class="a">"Видалити"</span> <span class="a">variant</span>=<span class="a">"danger"</span> /&gt;</div>
+  </section>
+
+  <!-- LIVE -->
+  <section class="block">
+    <h2>Спробуй</h2>
+    <p class="sub">Список із <code>selected</code>: клік робить рядок поточним (як у сайдбарі).</p>
+    <div class="list-card" data-nav>
+      <button class="action is-selected" type="button"><svg class="a-ico"><use href="#i-book"/></svg><span class="a-label">Моя бібліотека</span></button>
+      <button class="action" type="button"><svg class="a-ico"><use href="#i-clock"/></svg><span class="a-label">Черга читання</span></button>
+      <button class="action" type="button"><svg class="a-ico"><use href="#i-list"/></svg><span class="a-label">Списки</span></button>
+      <button class="action" type="button"><svg class="a-ico"><use href="#i-star"/></svg><span class="a-label">Улюблені</span><span class="a-trail"><span class="a-badge">5</span></span></button>
+    </div>
+  </section>
+
+  <!-- ВИКОРИСТАННЯ -->
+  <section class="block">
+    <h2>Де застосовувати</h2>
+    <dl class="tref">
+      <div><dt>Quick Actions</dt><dd>картка швидких дій</dd></div>
+      <div><dt>Налаштування</dt><dd>дворядкові рядки + перемикач/значення у trailing</dd></div>
+      <div><dt>Меню</dt><dd>контекст-меню, дропдауни (з <code>aria-haspopup</code>)</dd></div>
+      <div class="last"><dt>Навігація</dt><dd>сайдбар/таби — зі станом <code>selected</code></dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){ var n=root.dataset.theme==='dark'?'light':'dark'; root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon(); });
+
+  // приклад selected у списку навігації
+  document.querySelectorAll('[data-nav]').forEach(function(list){
+    var rows=[].slice.call(list.querySelectorAll('.action'));
+    rows.forEach(function(r){
+      r.addEventListener('click',function(){ if(r.disabled) return; rows.forEach(function(x){ x.classList.remove('is-selected'); }); r.classList.add('is-selected'); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

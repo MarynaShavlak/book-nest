@@ -1,0 +1,783 @@
+{
+  "version": 1,
+  "entity": "book_publishers",
+  "description": "Default predefined publishers for BookNest publisher autocomplete/select. User can add custom publishers separately.",
+  "items": [
+    {
+      "id": "a-ba-ba-ha-la-ma-ha",
+      "name": "А-ба-ба-га-ла-ма-га",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "avers",
+      "name": "Аверс",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "akademiia",
+      "name": "Академія",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "akademvydav",
+      "name": "Академвидав",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "aksioma",
+      "name": "Аксіома",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "alerta",
+      "name": "Алерта",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "apriori",
+      "name": "Апріорі",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "assa",
+      "name": "АССА",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "astroliabiia",
+      "name": "Астролябія",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "balans-klub",
+      "name": "Баланс-Клуб",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "bilka",
+      "name": "Білка",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "bohdan",
+      "name": "Богдан",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "brayt-buks",
+      "name": "Брайт Букс",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vavylonska-biblioteka",
+      "name": "Вавилонська бібліотека",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vydavnytstvo-21",
+      "name": "Видавництво 21",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vydavnytstvo-anetty-antonenko",
+      "name": "Видавництво Анетти Антоненко",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vydavnytstvo-zhupanskoho",
+      "name": "Видавництво Жупанського",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vydavnytstvo-staroho-leva",
+      "name": "Видавництво Старого Лева",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vydavnytstvo-ukrainskoho-katolytskoho-universytetu",
+      "name": "Видавництво Українського католицького університету",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vikhola",
+      "name": "Віхола",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hamazyn",
+      "name": "Гамазин",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "heneza",
+      "name": "Генеза",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hnozys",
+      "name": "Гнозис",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "hramota",
+      "name": "Грамота",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dyskursus",
+      "name": "Дискурсус",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dukh-i-litera",
+      "name": "Дух і Літера",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "elektroknyha",
+      "name": "Електрокнига",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "zelenyy-pes",
+      "name": "Зелений Пес",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "znannia",
+      "name": "Знання",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "instytut-knyhy",
+      "name": "Інститут книги",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kalvariia",
+      "name": "Кальварія",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kartush",
+      "name": "Картуш",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "km-buks",
+      "name": "КМ-Букс",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "knyholav",
+      "name": "Книголав",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kondor",
+      "name": "Кондор",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kolo",
+      "name": "Коло",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "komora",
+      "name": "Комора",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "krok",
+      "name": "Крок",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ksd",
+      "name": "КСД",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "laboratoriia",
+      "name": "Лабораторія",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "laurus",
+      "name": "Лаурус",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "lileia-nv",
+      "name": "Лілея-НВ",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "lira-k",
+      "name": "Ліра-К",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "litera",
+      "name": "Літера",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "litopys",
+      "name": "Літопис",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "liuta-sprava",
+      "name": "Люта Справа",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mamino",
+      "name": "Маміно",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mandrivets",
+      "name": "Мандрівець",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "makhaon-ukraina",
+      "name": "Махаон-Україна",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "meduza",
+      "name": "Медуза",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "merydian-chernovits",
+      "name": "Меридіан Черновіц",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "moia-knyzhkova-polytsia",
+      "name": "Моя книжкова полиця",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "navchalna-knyha-bohdan",
+      "name": "Навчальна книга — Богдан",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nash-format",
+      "name": "Наш Формат",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nika-tsentr",
+      "name": "Ніка-Центр",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nora-druk",
+      "name": "Нора-Друк",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "osnovy",
+      "name": "Основи",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "parasolia",
+      "name": "Парасоля",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "pehas",
+      "name": "Пегас",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "pero",
+      "name": "Перо",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "piramida",
+      "name": "Піраміда",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "portal",
+      "name": "Портал",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "prometey",
+      "name": "Прометей",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ranok",
+      "name": "Ранок",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ridna-mova",
+      "name": "Рідна мова",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "rodovid",
+      "name": "Родовід",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "samit-knyha",
+      "name": "Саміт-Книга",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "svichado",
+      "name": "Свічадо",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "smoloskyp",
+      "name": "Смолоскип",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tempora",
+      "name": "Темпора",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "teza",
+      "name": "Теза",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "urbino",
+      "name": "Урбіно",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "fabula",
+      "name": "Фабула",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "folio",
+      "name": "Фоліо",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "fontan-kazok",
+      "name": "Фонтан казок",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "chas-maystriv",
+      "name": "Час майстрів",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "chytarium",
+      "name": "Читаріум",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "chorni-vivtsi",
+      "name": "Чорні вівці",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "shkola",
+      "name": "Школа",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iunivers",
+      "name": "Юніверс",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "iurinkom-inter",
+      "name": "Юрінком Інтер",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "arthuss",
+      "name": "ArtHuss",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "bookchef",
+      "name": "BookChef",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "discursus",
+      "name": "Discursus",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ist-publishing",
+      "name": "IST Publishing",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "kalamar",
+      "name": "Kalamar",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "k-fund-books",
+      "name": "K.Fund Books",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "nebo-booklab-publishing",
+      "name": "Nebo BookLab Publishing",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "osnovy-publishing",
+      "name": "Osnovy Publishing",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "projector-publishing",
+      "name": "Projector Publishing",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "pabulum",
+      "name": "Pabulum",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "readberry",
+      "name": "Readberry",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "snowdrop",
+      "name": "Snowdrop",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "tut",
+      "name": "TUT",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vivat",
+      "name": "Vivat",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "yakaboo-publishing",
+      "name": "Yakaboo Publishing",
+      "type": "ukrainian",
+      "typeName": "Українське видавництво",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "inshe",
+      "name": "Інше",
+      "type": "other",
+      "typeName": "Інше",
+      "isDefault": true,
+      "isCustom": false
+    }
+  ]
+}

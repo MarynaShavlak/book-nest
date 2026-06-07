@@ -1,0 +1,471 @@
+{
+  "version": 1,
+  "entity": "book_tags",
+  "description": "Default predefined tags for BookNest autocomplete multi-select. User can add custom tags separately.",
+  "items": [
+    {
+      "id": "dark-academia",
+      "name": "dark academia",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "light-academia",
+      "name": "light academia",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "cozy",
+      "name": "cozy",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "cozy-mystery",
+      "name": "cozy mystery",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "cozy-fantasy",
+      "name": "cozy fantasy",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "atmospheric",
+      "name": "atmospheric",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "emotional",
+      "name": "emotional",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dark",
+      "name": "dark",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "light-read",
+      "name": "light read",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "sad",
+      "name": "sad",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "funny",
+      "name": "funny",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "inspiring",
+      "name": "inspiring",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "comfort-read",
+      "name": "comfort read",
+      "type": "atmosphere",
+      "typeName": "Атмосфера",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "slow-burn",
+      "name": "slow burn",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "enemies-to-lovers",
+      "name": "enemies to lovers",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "friends-to-lovers",
+      "name": "friends to lovers",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "love-triangle",
+      "name": "love triangle",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "forbidden-love",
+      "name": "forbidden love",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "second-chance",
+      "name": "second chance",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "fake-dating",
+      "name": "fake dating",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "small-town",
+      "name": "small town",
+      "type": "romance_trope",
+      "typeName": "Романтичні тропи",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "morally-gray-character",
+      "name": "morally gray character",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "strong-female-lead",
+      "name": "strong female lead",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "chosen-one",
+      "name": "chosen one",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "unreliable-narrator",
+      "name": "unreliable narrator",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "multiple-pov",
+      "name": "multiple POV",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "single-pov",
+      "name": "single POV",
+      "type": "character_trope",
+      "typeName": "Персонажі",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "witches",
+      "name": "witches",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "vampires",
+      "name": "vampires",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "werewolves",
+      "name": "werewolves",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "dragons",
+      "name": "dragons",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "fae",
+      "name": "fae",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "magic-school",
+      "name": "magic school",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "royal-court",
+      "name": "royal court",
+      "type": "creatures_magic",
+      "typeName": "Магія та істоти",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "found-family",
+      "name": "found family",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "heist",
+      "name": "heist",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "quest",
+      "name": "quest",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "survival",
+      "name": "survival",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "war",
+      "name": "war",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "political-intrigue",
+      "name": "political intrigue",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "family-secrets",
+      "name": "family secrets",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "revenge",
+      "name": "revenge",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "coming-of-age",
+      "name": "coming of age",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "time-travel",
+      "name": "time travel",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "alternate-history",
+      "name": "alternate history",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "mythology",
+      "name": "mythology",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "retelling",
+      "name": "retelling",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "fairytale-retelling",
+      "name": "fairytale retelling",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "greek-mythology",
+      "name": "Greek mythology",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "slavic-mythology",
+      "name": "Slavic mythology",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "ukrainian-mythology",
+      "name": "Ukrainian mythology",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "plot-twist",
+      "name": "plot twist",
+      "type": "plot_theme",
+      "typeName": "Сюжет і теми",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "spicy",
+      "name": "spicy",
+      "type": "spice_level",
+      "typeName": "Рівень романтики",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "no-spice",
+      "name": "no spice",
+      "type": "spice_level",
+      "typeName": "Рівень романтики",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "short-book",
+      "name": "short book",
+      "type": "format",
+      "typeName": "Формат",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "long-book",
+      "name": "long book",
+      "type": "format",
+      "typeName": "Формат",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "standalone",
+      "name": "standalone",
+      "type": "format",
+      "typeName": "Формат",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "series",
+      "name": "series",
+      "type": "format",
+      "typeName": "Формат",
+      "isDefault": true,
+      "isCustom": false
+    }
+  ]
+}

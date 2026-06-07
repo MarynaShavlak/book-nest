@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNest — Вхід</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=s||(d?'dark':'light');})();</script>
+
+<!-- У проєкті заміни два <style> нижче на:
+     <link rel="stylesheet" href="tokens.css">
+     <link rel="stylesheet" href="typography.css"> -->
+
+<!-- ===== tokens.css (вшито) ===== -->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F6F0E7; --surface:#FDFCFA; --surface-alt:#F1E9DD; --field:#F4EDE2; --border:#E0D5C5;
+  --ink:#3D2719; --text:#4A4039; --text-secondary:#6F625D; --muted:#736858;
+  --primary:#A96E47; --primary-hover:#8F5A38; --on-primary:#FDFCFA;
+  --accent-soft:#EED4BF; --accent-soft-fg:#3D2719; --accent-border:#E2C3A3; --tag-bg:#F4ECE3; --tag-fg:#4A4039;
+  --icon:#63412E; --chip-bg:#63412E; --chip-fg:#FDFCFA;
+  --success:#2F7048; --success-bg:#EAF6EA; --warning:#8A5314; --warning-bg:#FFF3DF;
+  --danger:#BE3022; --danger-bg:#FFE9E7; --info:#2A6299; --info-bg:#EAF4FF;
+  --focus-ring:rgba(169,110,71,.18);
+  --shadow-card:0 1px 2px rgba(58,38,24,.04),0 8px 24px rgba(58,38,24,.05);
+  --shadow-hover:0 12px 28px rgba(58,38,24,.08);
+  --shadow-pop:0 16px 40px rgba(58,38,24,.14);
+  --shadow-page:0 20px 60px rgba(58,38,24,.10);
+  --shadow-btn:0 2px 8px rgba(169,110,71,.28);
+  --radius-lg:24px; --radius-md:16px; --radius:12px; --radius-sm:10px; --radius-xs:8px; --radius-full:9999px;
+  --font-serif:"Playfair Display","Lora",Georgia,serif;
+  --font-sans:"Manrope","Inter",system-ui,-apple-system,sans-serif;
+  --fs-display:clamp(3.25rem,5vw,3.75rem); --fs-h1:clamp(2.75rem,4.2vw,3.25rem);
+  --fs-h2:clamp(1.75rem,2.6vw,2.125rem); --fs-h3:1.375rem; --fs-title:1.25rem;
+  --fs-body:1rem; --fs-label:.875rem; --fs-sm:.8125rem; --fs-xs:.75rem; --fs-button:1rem; --fs-nav:.9375rem;
+  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+  --lh-display:1.05; --lh-heading:1.2; --lh-snug:1.3; --lh-body:1.5; --tracking-display:-0.01em;
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17120E; --surface:#241C15; --surface-alt:#1E1712; --field:#332820; --border:#41342A;
+  --ink:#F4EADF; --text:#DFD2C5; --text-secondary:#B0A092; --muted:#9E9184;
+  --primary:#B0744F; --primary-hover:#C68A66; --on-primary:#FCF7F1;
+  --accent-soft:#3A2A1E; --accent-soft-fg:#EAD9C8; --accent-border:#4E3A29; --tag-bg:#2E231B; --tag-fg:#DFD2C5;
+  --icon:#C9A98C; --chip-bg:#7A5840; --chip-fg:#F4EADF;
+  --success:#7FB37F; --success-bg:#1C2A1C; --warning:#ECA45D; --warning-bg:#2C2415;
+  --danger:#E36B5C; --danger-bg:#2E1A18; --info:#82AED6; --info-bg:#19232F;
+  --focus-ring:rgba(176,116,79,.30);
+  --shadow-card:0 1px 2px rgba(0,0,0,.30),0 8px 24px rgba(0,0,0,.36);
+  --shadow-hover:0 12px 28px rgba(0,0,0,.42); --shadow-pop:0 16px 40px rgba(0,0,0,.55);
+  --shadow-page:0 24px 60px rgba(0,0,0,.55); --shadow-btn:0 2px 10px rgba(176,116,79,.40);
+}
+</style>
+
+<!-- ===== typography.css (вшито) ===== -->
+<style>
+body{font-family:var(--font-sans);font-size:var(--fs-body);font-weight:var(--fw-regular);line-height:var(--lh-body);color:var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,.h1{font-family:var(--font-serif);color:var(--ink);margin:0;font-size:var(--fs-h1);font-weight:var(--fw-bold);line-height:1.1;letter-spacing:var(--tracking-display)}
+.lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted)}
+.hint{font-size:var(--fs-xs);line-height:1.4;color:var(--muted)}
+.label{font-family:var(--font-sans);font-size:var(--fs-label);font-weight:var(--fw-semibold);line-height:1.3;color:var(--text)}
+button,.btn{font-family:var(--font-sans);font-size:var(--fs-button);font-weight:var(--fw-semibold);line-height:1}
+a{color:var(--primary);text-underline-offset:2px;font-weight:600}
+a:hover{color:var(--primary-hover)}
+</style>
+
+<!-- ===== Сторінка ===== -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);display:grid;place-items:center;padding:32px 20px;transition:background .3s ease,color .3s ease}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(90% 70% at 18% 0%, color-mix(in srgb,var(--accent-soft) 35%, transparent), transparent 55%)}
+
+.theme-fab{position:fixed;top:18px;right:18px;z-index:30;width:42px;height:42px;border-radius:var(--radius-full);
+  display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--text);
+  cursor:pointer;box-shadow:var(--shadow-card);transition:.2s}
+.theme-fab:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.theme-fab svg{width:19px;height:19px}
+
+.auth{position:relative;width:100%;max-width:1060px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-page);overflow:hidden;
+  display:grid;grid-template-columns:0.82fr 1fr}
+@media (prefers-reduced-motion:no-preference){
+  .auth{opacity:0;transform:translateY(14px);animation:rise .6s cubic-bezier(.2,.7,.2,1) .05s forwards}
+}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* HERO */
+.hero{background:var(--surface-alt);padding:38px 36px;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:34px}
+.brand .mark{width:34px;height:34px;color:var(--primary)}
+.brand .logo{font-family:var(--font-serif);font-weight:700;color:var(--ink);font-size:1.3rem;line-height:1}
+.brand .tagline{display:block;color:var(--muted);font-size:.72rem;font-weight:400;margin-top:2px}
+.hero-title{font-family:var(--font-serif);font-weight:700;color:var(--ink);line-height:1.12;
+  font-size:clamp(2rem,2.6vw,2.55rem);max-width:13ch}
+.hero .lead{margin-top:14px;max-width:32ch}
+.illus{margin:22px 0 26px;width:100%;height:auto;display:block}
+.features{margin-top:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-card)}
+.feature{display:flex;align-items:center;gap:13px}
+.feature .fico{flex:0 0 auto;width:36px;height:36px;border-radius:var(--radius);background:var(--accent-soft);
+  color:var(--icon);display:grid;place-items:center}
+.feature .fico svg{width:18px;height:18px}
+.feature .ftext{font-size:.9375rem;color:var(--text);line-height:1.35;font-weight:500}
+
+/* FORM */
+.form{padding:40px 40px 38px;display:flex;flex-direction:column;justify-content:center}
+.form h1{margin-bottom:8px}
+.form .lead{margin-bottom:26px}
+.field{margin-bottom:18px}
+.field .label{display:block;margin-bottom:6px}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap .ico{position:absolute;left:13px;color:var(--icon);display:flex;pointer-events:none}
+.input-wrap .ico svg{width:18px;height:18px}
+.input-wrap .ico.right{left:auto;right:13px;pointer-events:auto;cursor:pointer;color:var(--muted)}
+.input-wrap .ico.right:hover{color:var(--text)}
+.input{width:100%;background:var(--field);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 14px 12px 42px;color:var(--text);font:inherit;font-size:var(--fs-body);outline:0;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:var(--muted)}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.pwfield .input{padding-right:42px}
+.field .err{display:none;color:var(--danger);font-size:.78rem;margin-top:6px}
+.field.invalid .input{border-color:var(--danger)}
+.field.invalid .input:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 24%,transparent)}
+.field.invalid .err{display:block}
+
+/* remember + forgot */
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 22px}
+.cbx{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:.9375rem;color:var(--text)}
+.cbx input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:1.5px solid var(--border);
+  border-radius:6px;background:var(--field);cursor:pointer;flex:0 0 auto;position:relative;transition:.15s}
+.cbx input:checked{background:var(--primary);border-color:var(--primary)}
+.cbx input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+  border:solid var(--on-primary);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.cbx input:focus-visible{box-shadow:0 0 0 3px var(--focus-ring)}
+.forgot{font-size:.875rem;white-space:nowrap}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;cursor:pointer;
+  padding:13px 18px;border-radius:var(--radius);transition:.2s;width:100%}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow-btn)}
+.btn-primary:hover{background:var(--primary-hover);transform:translateY(-1px)}
+.btn-social{background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.btn-social:hover{background:var(--surface-alt)}
+.btn-social svg{width:20px;height:20px}
+
+/* divider + socials */
+.divider{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:.8125rem;margin:20px 0}
+.divider::before,.divider::after{content:"";height:1px;background:var(--border);flex:1}
+.socials{display:flex;flex-direction:column;gap:10px}
+
+/* success */
+.alert{display:none;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius);
+  font-size:.9375rem;line-height:1.45;margin-bottom:22px;background:var(--success-bg);color:var(--success)}
+.alert.show{display:flex}
+.alert svg{width:18px;height:18px;flex:0 0 auto;margin-top:1px}
+
+.alt-action{text-align:center;font-size:.9375rem;color:var(--muted);margin-top:24px}
+.secure{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;color:var(--muted);font-size:.8125rem}
+.secure svg{width:15px;height:15px}
+
+@media (max-width:900px){
+  .auth{grid-template-columns:1fr;max-width:520px}
+  .hero{border-right:0;border-bottom:1px solid var(--border)}
+  .illus{max-width:300px;margin-inline:auto}
+}
+@media (max-width:560px){
+  body{padding:0}
+  .auth{border-radius:0;border:0;min-height:100vh}
+  .hero{padding:28px 22px}
+  .illus,.features{display:none}
+  .form{padding:30px 22px}
+  .theme-fab{top:12px;right:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><path d="M17 7h4v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-google" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.3 29.3 35 24 35c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 16.3 3 9.7 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 43c5.2 0 9.9-1.7 13.6-4.7l-6.3-5.2C29.1 34.8 26.7 35 24 35c-5.3 0-9.7-2.7-11.3-6.9l-6.6 5.1C9.5 38.6 16.2 43 24 43z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.3 5.2C39.9 36.2 44 30.7 44 23c0-1.3-.1-2.6-.4-3.5z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17.39 2.94 12.9 4.7 9.82c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.4M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></symbol>
+</svg>
+
+<button class="theme-fab" id="themeToggle" aria-label="Перемкнути тему"><svg id="ticon"><use href="#i-moon"/></svg></button>
+
+<main class="auth">
+
+  <!-- HERO -->
+  <aside class="hero">
+    <div class="brand">
+      <svg class="mark"><use href="#i-book"/></svg>
+      <div>
+        <span class="logo">BookNest</span>
+        <span class="tagline">твій особистий книжковий простір</span>
+      </div>
+    </div>
+
+    <h2 class="hero-title">Повернись до своїх історій</h2>
+    <p class="lead">Уся твоя бібліотека, нотатки, цитати та читацькі плани — завжди з тобою.</p>
+
+    <svg class="illus" viewBox="0 0 320 210" role="img" aria-label="Стос книжок і чашка">
+      <line x1="26" y1="181" x2="294" y2="181" stroke="var(--border)" stroke-width="2" stroke-linecap="round"/>
+      <rect x="44" y="157" width="158" height="22" rx="4" fill="var(--chip-bg)"/>
+      <rect x="186" y="161" width="10" height="18" rx="2" fill="var(--surface)" opacity=".5"/>
+      <rect x="58" y="135" width="150" height="22" rx="4" fill="var(--primary)"/>
+      <rect x="192" y="139" width="10" height="18" rx="2" fill="var(--on-primary)" opacity=".55"/>
+      <rect x="48" y="113" width="140" height="22" rx="4" fill="var(--accent-border)"/>
+      <rect x="172" y="117" width="10" height="18" rx="2" fill="var(--surface)" opacity=".6"/>
+      <rect x="206" y="92" width="62" height="50" rx="9" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M268 102c15 0 15 24 0 24" fill="none" stroke="var(--border)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M237 110.5c0-3.2 4.6-3.5 4.6-.2 0 2.4-4.6 5.7-4.6 5.7s-4.6-3.3-4.6-5.7c0-3.3 4.6-3 4.6.2z" fill="var(--primary)"/>
+      <path d="M224 84c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <path d="M240 82c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <path d="M256 84c-4-5 4-9 0-14" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <path d="M96 113c-7-16-4-31 5-44" fill="none" stroke="var(--icon)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      <path d="M99 92c-7-2-12 1-14 6 6 2 11-1 14-6z" fill="var(--accent-border)"/>
+      <path d="M103 80c2-7 8-9 14-8-1 6-7 10-14 8z" fill="var(--accent-border)"/>
+    </svg>
+
+    <div class="features">
+      <div class="feature"><span class="fico"><svg><use href="#i-book"/></svg></span><span class="ftext">Уся твоя бібліотека під рукою</span></div>
+      <div class="feature"><span class="fico"><svg><use href="#i-note"/></svg></span><span class="ftext">Нотатки, цитати та персонажі</span></div>
+      <div class="feature"><span class="fico"><svg><use href="#i-trend"/></svg></span><span class="ftext">Статистика і цілі читання</span></div>
+    </div>
+  </aside>
+
+  <!-- FORM -->
+  <section class="form">
+    <h1>Вхід у BookNest</h1>
+    <p class="lead">Рада знову тебе бачити! 👋</p>
+
+    <div class="alert" id="okAlert"><svg><use href="#i-check"/></svg><span><b>Вхід виконано.</b> Ласкаво просимо!</span></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" id="fEmail">
+        <label class="label" for="email">E-mail</label>
+        <div class="input-wrap"><span class="ico"><svg><use href="#i-mail"/></svg></span>
+          <input class="input" id="email" type="email" placeholder="Введіть ваш e-mail" autocomplete="email"></div>
+        <div class="err">Невірний формат e-mail</div>
+      </div>
+
+      <div class="field pwfield" id="fPw">
+        <label class="label" for="pw">Пароль</label>
+        <div class="input-wrap"><span class="ico"><svg><use href="#i-lock"/></svg></span>
+          <input class="input" id="pw" type="password" placeholder="Введіть ваш пароль" autocomplete="current-password">
+          <span class="ico right pwtoggle" data-target="pw"><svg><use href="#i-eye"/></svg></span></div>
+        <div class="err">Введіть пароль</div>
+      </div>
+
+      <div class="row-between">
+        <label class="cbx"><input type="checkbox" id="remember"><span>Запам'ятати мене</span></label>
+        <a href="#" class="forgot">Забули пароль?</a>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Увійти</button>
+
+      <div class="divider">або увійти за допомогою</div>
+      <div class="socials">
+        <button class="btn btn-social" type="button"><svg><use href="#i-google"/></svg>Увійти з Google</button>
+        <button class="btn btn-social" type="button"><svg><use href="#i-apple"/></svg>Увійти з Apple</button>
+      </div>
+
+      <div class="alt-action">Ще не маєш акаунту? <a href="registration.html">Зареєструватися</a></div>
+      <div class="secure"><svg><use href="#i-shield"/></svg>Ми дбаємо про безпеку твоїх даних</div>
+    </form>
+  </section>
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+
+  /* тема */
+  var tBtn=document.getElementById('themeToggle'), tIcon=document.getElementById('ticon');
+  function applyIcon(){ tIcon.firstElementChild.setAttribute('href', root.dataset.theme==='dark'?'#i-sun':'#i-moon'); }
+  applyIcon();
+  tBtn.addEventListener('click',function(){
+    var n=root.dataset.theme==='dark'?'light':'dark';
+    root.dataset.theme=n; localStorage.setItem('theme',n); applyIcon();
+  });
+
+  /* показ пароля */
+  document.querySelectorAll('.pwtoggle').forEach(function(t){
+    t.addEventListener('click',function(){
+      var inp=document.getElementById(t.dataset.target);
+      var show=inp.type==='password';
+      inp.type=show?'text':'password';
+      t.firstElementChild.setAttribute('href', show?'#i-eye-off':'#i-eye');
+    });
+  });
+
+  /* валідація */
+  var fEmail=document.getElementById('fEmail'), email=document.getElementById('email');
+  var fPw=document.getElementById('fPw'), pw=document.getElementById('pw');
+  var emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function mark(f,ok){ f.classList.toggle('invalid',!ok); return ok; }
+
+  document.getElementById('loginForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var okE=mark(fEmail, emailRe.test(email.value.trim()));
+    var okP=mark(fPw, pw.value.length>0);
+    if(okE&&okP){
+      var a=document.getElementById('okAlert');
+      a.classList.add('show'); a.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  });
+})();
+</script>
+</body>
+</html>
