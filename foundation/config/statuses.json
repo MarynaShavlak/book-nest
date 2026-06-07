@@ -1,0 +1,386 @@
+{
+  "version": 1,
+  "entity": "booknest_statuses",
+  "description": "Single source of truth for BookNest badges, statuses and UI pills.",
+  "allowedTones": [
+    "neutral",
+    "primary",
+    "accent",
+    "success",
+    "info",
+    "warning",
+    "danger"
+  ],
+  "readingStatuses": [
+    {
+      "value": "not_started",
+      "label": "Не почато",
+      "tone": "neutral",
+      "icon": "i-circle-slash",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "want_to_read",
+      "label": "Хочу прочитати",
+      "tone": "accent",
+      "icon": "i-bookmark",
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "reading",
+      "label": "Читаю",
+      "tone": "info",
+      "icon": "i-book",
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "value": "paused",
+      "label": "На паузі",
+      "tone": "warning",
+      "icon": "i-clock",
+      "isDefault": false,
+      "sortOrder": 3
+    },
+    {
+      "value": "finished",
+      "label": "Прочитано",
+      "tone": "success",
+      "icon": "i-check-circle",
+      "isDefault": false,
+      "sortOrder": 4
+    },
+    {
+      "value": "dnf",
+      "label": "Покинуто",
+      "tone": "neutral",
+      "icon": "i-x-circle",
+      "isDefault": false,
+      "sortOrder": 5
+    },
+    {
+      "value": "rereading",
+      "label": "Перечитую",
+      "tone": "info",
+      "icon": "i-refresh",
+      "isDefault": false,
+      "sortOrder": 6
+    }
+  ],
+  "ownershipStatuses": [
+    {
+      "value": "none",
+      "label": "Немає",
+      "tone": "neutral",
+      "icon": "i-circle-slash",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "want_to_buy",
+      "label": "Хочу купити",
+      "tone": "accent",
+      "icon": "i-cart",
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "in_transit",
+      "label": "В дорозі",
+      "tone": "info",
+      "icon": "i-truck",
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "value": "owned",
+      "label": "Маю",
+      "tone": "success",
+      "icon": "i-check-circle",
+      "isDefault": false,
+      "sortOrder": 3
+    },
+    {
+      "value": "borrowed_from_someone",
+      "label": "Позичена у когось",
+      "tone": "info",
+      "icon": "i-arrow-down-circle",
+      "isDefault": false,
+      "sortOrder": 4
+    },
+    {
+      "value": "lent_to_someone",
+      "label": "Видана комусь",
+      "tone": "warning",
+      "icon": "i-arrow-up-right",
+      "isDefault": false,
+      "sortOrder": 5
+    }
+  ],
+  "bookFormats": [
+    {
+      "value": "not_specified",
+      "label": "Не вказано",
+      "tone": "neutral",
+      "icon": "i-circle-slash",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "paper",
+      "label": "Паперова",
+      "tone": "neutral",
+      "icon": "i-book",
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "ebook",
+      "label": "Електронна",
+      "tone": "neutral",
+      "icon": "i-tablet",
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "value": "audiobook",
+      "label": "Аудіокнига",
+      "tone": "neutral",
+      "icon": "i-headphones",
+      "isDefault": false,
+      "sortOrder": 3
+    }
+  ],
+  "seriesStatuses": [
+    {
+      "value": "completed",
+      "label": "Серія завершена",
+      "shortLabel": "Завершена",
+      "tone": "success",
+      "icon": "i-check-circle",
+      "isDefault": false,
+      "sortOrder": 0
+    },
+    {
+      "value": "ongoing",
+      "label": "Серія ще виходить",
+      "shortLabel": "Ще виходить",
+      "tone": "info",
+      "icon": "i-clock",
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "unknown",
+      "label": "Невідомо",
+      "shortLabel": "Невідомо",
+      "tone": "neutral",
+      "icon": "i-help-circle",
+      "isDefault": true,
+      "sortOrder": 2
+    }
+  ],
+  "deliveryStatuses": [
+    {
+      "value": "ordered",
+      "label": "Замовлено",
+      "tone": "neutral",
+      "icon": "i-package",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "in_transit",
+      "label": "В дорозі",
+      "tone": "info",
+      "icon": "i-truck",
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "ready_for_pickup",
+      "label": "Очікує отримання",
+      "tone": "accent",
+      "icon": "i-package-check",
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "value": "cancelled",
+      "label": "Скасовано",
+      "tone": "danger",
+      "icon": "i-x-circle",
+      "isDefault": false,
+      "sortOrder": 3
+    }
+  ],
+  "deliveryDueStatuses": [
+    {
+      "value": "expected_today",
+      "label": "Очікується сьогодні",
+      "tone": "accent",
+      "icon": "i-clock",
+      "isComputed": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "expected_tomorrow",
+      "label": "Очікується завтра",
+      "tone": "info",
+      "icon": "i-clock",
+      "isComputed": true,
+      "sortOrder": 1
+    },
+    {
+      "value": "arriving_soon",
+      "label": "Очікується скоро",
+      "tone": "accent",
+      "icon": "i-bell",
+      "isComputed": true,
+      "sortOrder": 2
+    },
+    {
+      "value": "delayed",
+      "label": "Затримується",
+      "tone": "warning",
+      "icon": "i-alert-triangle",
+      "isComputed": true,
+      "sortOrder": 3
+    },
+    {
+      "value": "no_delivery_date",
+      "label": "Без дати доставки",
+      "tone": "neutral",
+      "icon": "i-circle-slash",
+      "isComputed": true,
+      "sortOrder": 4
+    }
+  ],
+  "loanStatuses": [
+    {
+      "value": "active",
+      "label": "Активна",
+      "tone": "neutral",
+      "icon": "i-clock",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "returned",
+      "label": "Повернуто",
+      "borrowedLabel": "Повернуто власнику",
+      "lentLabel": "Повернуто мені",
+      "tone": "success",
+      "icon": "i-check-circle",
+      "isDefault": false,
+      "sortOrder": 1
+    }
+  ],
+  "loanDueStatuses": [
+    {
+      "value": "due_today",
+      "label": "Повернути сьогодні",
+      "borrowedLabel": "Повернути сьогодні",
+      "lentLabel": "Мають повернути сьогодні",
+      "tone": "accent",
+      "icon": "i-bell",
+      "isComputed": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "due_soon",
+      "label": "Скоро повернути",
+      "borrowedLabel": "Скоро повернути",
+      "lentLabel": "Скоро мають повернути",
+      "tone": "warning",
+      "icon": "i-bell",
+      "isComputed": true,
+      "sortOrder": 1
+    },
+    {
+      "value": "overdue",
+      "label": "Прострочено",
+      "borrowedLabel": "Прострочено повернення",
+      "lentLabel": "Прострочено повернення мені",
+      "tone": "danger",
+      "icon": "i-alert-triangle",
+      "isComputed": true,
+      "sortOrder": 2
+    },
+    {
+      "value": "no_due_date",
+      "label": "Без дати повернення",
+      "tone": "neutral",
+      "icon": "i-circle-slash",
+      "isComputed": true,
+      "sortOrder": 3
+    }
+  ],
+  "queuePriorities": [
+    {
+      "value": "high",
+      "label": "Високий",
+      "tone": "danger",
+      "icon": "i-arrow-up",
+      "isDefault": false,
+      "sortOrder": 0
+    },
+    {
+      "value": "normal",
+      "label": "Звичайний",
+      "tone": "neutral",
+      "icon": "i-minus",
+      "isDefault": true,
+      "sortOrder": 1
+    },
+    {
+      "value": "low",
+      "label": "Низький",
+      "tone": "neutral",
+      "icon": "i-arrow-down",
+      "isDefault": false,
+      "sortOrder": 2
+    }
+  ],
+  "contentFlags": [
+    {
+      "value": "spoiler",
+      "label": "Спойлер",
+      "tone": "warning",
+      "icon": "i-eye-off",
+      "sortOrder": 0
+    }
+  ],
+  "rules": [
+    {
+      "id": "delivery_only_for_in_transit",
+      "description": "deliveryStatuses apply only when ownershipStatus is in_transit."
+    },
+    {
+      "id": "delivery_received_action",
+      "description": "When user marks delivery as received, ownershipStatus changes from in_transit to owned."
+    },
+    {
+      "id": "delivery_due_statuses_are_computed",
+      "description": "deliveryDueStatuses are calculated from expectedDeliveryDate and are not selected manually."
+    },
+    {
+      "id": "loan_only_for_borrowed_or_lent",
+      "description": "loanStatuses and loanDueStatuses apply only when ownershipStatus is borrowed_from_someone or lent_to_someone."
+    },
+    {
+      "id": "loan_due_statuses_are_computed",
+      "description": "loanDueStatuses are calculated from returnDueDate and returnedAt."
+    },
+    {
+      "id": "spoiler_is_content_flag",
+      "description": "Spoiler is a content flag for notes, quotes, characters or descriptions. It is not a book status."
+    },
+    {
+      "id": "favorite_is_boolean",
+      "description": "Favorite is stored as isFavorite boolean and is not a status."
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+/* ============================================================
+   BookNest — shadcn/ui theme contract (Tailwind v4)
+   Імена змінних — як очікує shadcn (--background, --primary, --muted …),
+   значення — з палітр BookNest. Це РАНТАЙМ-контракт для shadcn-застосунку.
+
+   Використання (app/globals.css):
+     @import "tailwindcss";
+     @import "tw-animate-css";     // додає init shadcn
+     @import "./shadcn-theme.css"; // цей файл
+   Шрифти підключай через next/font (виставляють --font-sans / --font-serif).
+
+   ВАЖЛИВО: це АЛЬТЕРНАТИВА зв'язці tokens.css + tailwind-theme.css.
+   У shadcn-застосунку бери ЦЕЙ файл (не обидва підходи разом), бо --muted тут
+   означає ПОВЕРХНЮ (приглушений текст = --muted-foreground), а в tokens.css
+   --muted — це колір тексту. Не змішуй.
+
+   Палітра за замовчуванням — теракота (:root / .dark).
+   Друга палітра — помаранч: додай data-palette="bright-orange" на <html>.
+   Тема (світла/темна) — клас .dark (через next-themes attribute="class").
+   ============================================================ */
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* шрифти (спільні; значення дає next/font або tokens.css) */
+  --font-sans:  "Manrope", "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", "Lora", Georgia, serif;
+  --radius: 0.75rem; /* 12px — базовий радіус BookNest */
+
+  /* ── ТЕРАКОТА · світла ── */
+  --background: #F6F0E7;  --foreground: #4A4039;
+  --card: #FDFCFA;        --card-foreground: #4A4039;
+  --popover: #FDFCFA;     --popover-foreground: #4A4039;
+  --primary: #A96E47;     --primary-foreground: #FDFCFA;
+  --secondary: #F1E9DD;   --secondary-foreground: #3D2719;
+  --muted: #F1E9DD;       --muted-foreground: #736858;
+  --accent: #EED4BF;      --accent-foreground: #3D2719;
+  --destructive: #BE3022; --destructive-foreground: #FDFCFA;
+  --border: #E0D5C5;      --input: #E0D5C5;  --ring: #A96E47;
+
+  --chart-1: #A96E47; --chart-2: #2A6299; --chart-3: #2F7048; --chart-4: #8A5314; --chart-5: #BE3022;
+
+  --sidebar: #F1E9DD;                 --sidebar-foreground: #4A4039;
+  --sidebar-primary: #A96E47;         --sidebar-primary-foreground: #FDFCFA;
+  --sidebar-accent: #EED4BF;          --sidebar-accent-foreground: #3D2719;
+  --sidebar-border: #E0D5C5;          --sidebar-ring: #A96E47;
+}
+
+.dark {
+  /* ── ТЕРАКОТА · темна ── */
+  --background: #17120E;  --foreground: #DFD2C5;
+  --card: #241C15;        --card-foreground: #DFD2C5;
+  --popover: #241C15;     --popover-foreground: #DFD2C5;
+  --primary: #B0744F;     --primary-foreground: #FCF7F1;
+  --secondary: #1E1712;   --secondary-foreground: #F4EADF;
+  --muted: #1E1712;       --muted-foreground: #9E9184;
+  --accent: #3A2A1E;      --accent-foreground: #EAD9C8;
+  --destructive: #E36B5C; --destructive-foreground: #FCF7F1;
+  --border: #41342A;      --input: #41342A;  --ring: #B0744F;
+
+  --chart-1: #B0744F; --chart-2: #82AED6; --chart-3: #7FB37F; --chart-4: #ECA45D; --chart-5: #E36B5C;
+
+  --sidebar: #1E1712;                 --sidebar-foreground: #DFD2C5;
+  --sidebar-primary: #B0744F;         --sidebar-primary-foreground: #FCF7F1;
+  --sidebar-accent: #3A2A1E;          --sidebar-accent-foreground: #EAD9C8;
+  --sidebar-border: #41342A;          --sidebar-ring: #B0744F;
+}
+
+[data-palette="bright-orange"] {
+  /* ── ПОМАРАНЧ · світла ── */
+  --background: #F6F0E7;  --foreground: #4A4039;
+  --card: #FDFCFA;        --card-foreground: #4A4039;
+  --popover: #FDFCFA;     --popover-foreground: #4A4039;
+  --primary: #ED8041;     --primary-foreground: #3D2719; /* акцент світлий → темний текст */
+  --secondary: #F1E9DD;   --secondary-foreground: #3D2719;
+  --muted: #F1E9DD;       --muted-foreground: #736858;
+  --accent: #EED4BF;      --accent-foreground: #3D2719;
+  --destructive: #BE3022; --destructive-foreground: #FDFCFA;
+  --border: #E0D5C5;      --input: #E0D5C5;  --ring: #ED8041;
+
+  --chart-1: #ED8041; --chart-2: #2A6299; --chart-3: #2F7048; --chart-4: #8A5314; --chart-5: #BE3022;
+
+  --sidebar: #F1E9DD;                 --sidebar-foreground: #4A4039;
+  --sidebar-primary: #ED8041;         --sidebar-primary-foreground: #3D2719;
+  --sidebar-accent: #EED4BF;          --sidebar-accent-foreground: #3D2719;
+  --sidebar-border: #E0D5C5;          --sidebar-ring: #ED8041;
+}
+
+[data-palette="bright-orange"].dark {
+  /* ── ПОМАРАНЧ · темна ── */
+  --background: #17120E;  --foreground: #DFD2C5;
+  --card: #241C15;        --card-foreground: #DFD2C5;
+  --popover: #241C15;     --popover-foreground: #DFD2C5;
+  --primary: #EE8B53;     --primary-foreground: #2A1A0E;
+  --secondary: #1E1712;   --secondary-foreground: #F4EADF;
+  --muted: #1E1712;       --muted-foreground: #9E9184;
+  --accent: #3A2A1E;      --accent-foreground: #EAD9C8;
+  --destructive: #E36B5C; --destructive-foreground: #FCF7F1;
+  --border: #41342A;      --input: #41342A;  --ring: #EE8B53;
+
+  --chart-1: #EE8B53; --chart-2: #82AED6; --chart-3: #7FB37F; --chart-4: #ECA45D; --chart-5: #E36B5C;
+
+  --sidebar: #1E1712;                 --sidebar-foreground: #DFD2C5;
+  --sidebar-primary: #EE8B53;         --sidebar-primary-foreground: #2A1A0E;
+  --sidebar-accent: #3A2A1E;          --sidebar-accent-foreground: #EAD9C8;
+  --sidebar-border: #41342A;          --sidebar-ring: #EE8B53;
+}
+
+/* ── Міст до Tailwind-утиліт (bg-background, text-foreground, bg-primary …) ── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}

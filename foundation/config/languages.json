@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "entity": "book_languages",
+  "description": "Default book languages for Book Nest.",
+  "items": [
+    {
+      "id": "ukrainian",
+      "value": "ukrainian",
+      "label": "Українська",
+      "nativeLabel": "Українська",
+      "code": "uk",
+      "isDefault": true,
+      "isCustom": false
+    },
+    {
+      "id": "english",
+      "value": "english",
+      "label": "Англійська",
+      "nativeLabel": "English",
+      "code": "en",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "polish",
+      "value": "polish",
+      "label": "Польська",
+      "nativeLabel": "Polski",
+      "code": "pl",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "german",
+      "value": "german",
+      "label": "Німецька",
+      "nativeLabel": "Deutsch",
+      "code": "de",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "french",
+      "value": "french",
+      "label": "Французька",
+      "nativeLabel": "Français",
+      "code": "fr",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "spanish",
+      "value": "spanish",
+      "label": "Іспанська",
+      "nativeLabel": "Español",
+      "code": "es",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "italian",
+      "value": "italian",
+      "label": "Італійська",
+      "nativeLabel": "Italiano",
+      "code": "it",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "czech",
+      "value": "czech",
+      "label": "Чеська",
+      "nativeLabel": "Čeština",
+      "code": "cs",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "russian",
+      "value": "russian",
+      "label": "Російська",
+      "nativeLabel": "Русский",
+      "code": "ru",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "other",
+      "value": "other",
+      "label": "Інше",
+      "nativeLabel": "Other",
+      "code": "other",
+      "isDefault": false,
+      "isCustom": false
+    }
+  ]
+}

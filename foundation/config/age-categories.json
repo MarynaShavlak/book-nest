@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "entity": "age_categories",
+  "description": "Default age categories for BookNest books.",
+  "items": [
+    {
+      "value": "not_specified",
+      "label": "Не вказано",
+      "description": "Вікова категорія для книги не вказана.",
+      "minAge": null,
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "value": "no_restrictions",
+      "label": "Без обмежень",
+      "description": "Книга без вікових обмежень.",
+      "minAge": 0,
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "value": "6_plus",
+      "label": "6+",
+      "description": "Книга рекомендована для читачів від 6 років.",
+      "minAge": 6,
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "value": "12_plus",
+      "label": "12+",
+      "description": "Книга рекомендована для читачів від 12 років.",
+      "minAge": 12,
+      "isDefault": false,
+      "sortOrder": 3
+    },
+    {
+      "value": "14_plus",
+      "label": "14+",
+      "description": "Книга рекомендована для читачів від 14 років.",
+      "minAge": 14,
+      "isDefault": false,
+      "sortOrder": 4
+    },
+    {
+      "value": "16_plus",
+      "label": "16+",
+      "description": "Книга рекомендована для читачів від 16 років.",
+      "minAge": 16,
+      "isDefault": false,
+      "sortOrder": 5
+    },
+    {
+      "value": "18_plus",
+      "label": "18+",
+      "description": "Книга рекомендована для дорослих читачів.",
+      "minAge": 18,
+      "isDefault": false,
+      "sortOrder": 6
+    }
+  ]
+}

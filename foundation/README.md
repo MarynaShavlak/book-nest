@@ -18,16 +18,20 @@ foundation/
 │  ├─ tokens.css                 ВАРІАНТ 1: теракота (за замовчуванням) — світла+темна
 │  ├─ tokens-bright-orange.css   ВАРІАНТ 2: помаранч — світла+темна (альтернатива на підміну)
 │  ├─ typography.css             базові стилі тексту/заголовків
-│  └─ tailwind-theme.css         готовий @theme-мапінг токенів на Tailwind-утиліти
-├─ data/                    → lib/
-│  ├─ status-config.js      статуси книги (єдине джерело правди для badge)
-│  └─ empty-states.js       16 сценаріїв порожніх станів
-├─ assets/                  → public/
-│  ├─ icons/                ui-icons (99) + genre-icons (89): спрайти + окремі svg
-│  ├─ illustrations/        17 PNG для порожніх станів
-│  └─ logo/                 5 SVG логотипів + README
-├─ components/              специфікації UI-компонентів (54 демо-сторінки)
-└─ screens/                 повноекранні макети — візуальні цілі роутів (31)
+│  ├─ tailwind-theme.css         @theme-міст (імена BookNest) — для НЕ-shadcn варіанту
+│  └─ shadcn-theme.css           ⭐ для shadcn: імена shadcn × 2 палітри × світла/темна + @theme
+├─ data/                         → lib/
+│  ├─ status-config.js           статуси книги (єдине джерело правди для badge)
+│  └─ empty-states.js            16 сценаріїв порожніх станів
+├─ lib/validation/               → lib/validation/  (zod-схеми форм з auth-spec)
+│  ├─ constants.ts               LIMITS, регулярки, блок-лист паролів
+│  └─ auth.ts                    схеми register/login/reset/new-password + типи
+├─ assets/                       → public/
+│  ├─ icons/                     ui-icons (99, lucide-сумісні) + genre-icons (89)
+│  ├─ illustrations/             17 PNG для порожніх станів
+│  └─ logo/                      5 SVG логотипів + README
+├─ components/                   54 специфікації UI-компонентів + MAPPING.md (→ shadcn/кастом)
+└─ screens/                      повноекранні макети — візуальні цілі роутів (31)
 ```
 
 ## Як підключати в Next
@@ -41,6 +45,11 @@ foundation/
 ```
 Після цього `bg-bg text-text`, `bg-primary text-on-primary`, `rounded-md shadow-card`
 працюють одразу й перемикаються між світлою/темною самі (майже без `dark:`).
+
+**Для shadcn/ui — інакше:** замість `tokens.css` + `tailwind-theme.css` підключай
+`shadcn-theme.css` (імена змінних як очікує shadcn: `bg-background`, `text-foreground`,
+`bg-primary`…; темна через клас `.dark`; друга палітра через `data-palette="bright-orange"`).
+Деталі — у шапці файлу та в `components/MAPPING.md`.
 
 **Зміна палітри:** підключай рівно ОДИН із `tokens*.css` — обидва визначають `:root`,
 тож другий перекриє перший. Світла/темна теми лишаються всередині кожного варіанта.

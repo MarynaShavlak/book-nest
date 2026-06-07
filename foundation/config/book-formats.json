@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "entity": "book_formats",
+  "description": "Default book formats for Book Nest. A book can have one or multiple formats.",
+  "items": [
+    {
+      "id": "paper",
+      "value": "paper",
+      "label": "Паперова",
+      "description": "Фізична паперова книга.",
+      "icon": "book-open",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "ebook",
+      "value": "ebook",
+      "label": "Електронна",
+      "description": "Електронна версія книги.",
+      "icon": "tablet",
+      "isDefault": false,
+      "isCustom": false
+    },
+    {
+      "id": "audiobook",
+      "value": "audiobook",
+      "label": "Аудіокнига",
+      "description": "Книга в аудіоформаті.",
+      "icon": "headphones",
+      "isDefault": false,
+      "isCustom": false
+    }
+  ]
+}
