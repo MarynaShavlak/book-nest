@@ -34,12 +34,32 @@ export const seriesStatuses = [
 ];
 
 export const deliveryStatuses = [
-  { value:"ordered", label:"Замовлено", tone:"neutral", icon:"i-package", isDefault:true },
-  { value:"in_transit", label:"В дорозі", tone:"info", icon:"i-truck" },
-  { value:"arriving_soon", label:"Очікується скоро", tone:"accent", icon:"i-clock" },
-  { value:"delayed", label:"Затримується", tone:"warning", icon:"i-alert-triangle" },
-  { value:"received", label:"Отримано", tone:"success", icon:"i-check-circle" },
-];
+    {
+        value: "ordered",
+        label: "Замовлено",
+        tone: "neutral",
+        icon: "i-package",
+    },
+    {
+        value: "in_transit",
+        label: "В дорозі",
+        tone: "info",
+        icon: "i-truck",
+    },
+    {
+        value: "received",
+        label: "Отримано",
+        tone: "success",
+        icon: "i-check-circle",
+    },
+    {
+        value: "cancelled",
+        label: "Скасовано",
+        tone: "neutral",
+        icon: "i-x-circle",
+    }
+    ]
+;
 
 export const loanDueStatuses = [
   { value:"active", label:"Активна", tone:"neutral", icon:"i-clock", isDefault:true },
