@@ -748,34 +748,629 @@ Behavior:
 
 ### 7.4. Series preview
 
-Блок **Series preview** показується тільки якщо книга є частиною серії.
+Блок **Series preview** показує коротку інформацію про серію, якщо поточна книга є частиною книжкового циклу.
 
-When to show:
+Цей блок не має дублювати повну **Series Details Page**. Його задача — швидко показати користувачу, до якої серії належить книга, який це номер частини, який загальний прогрес по серії та дати швидкий перехід до сторінки серії.
 
-```text id="ip73o6"
+---
+
+#### 7.4.1. When to show
+
+Блок **Series preview** показується тільки тоді, коли книга належить до серії.
+
+Recommended condition:
+
+```text
 bookType = series_part
 seriesId exists
 ```
 
-Recommended fields:
+або:
 
-| Field        | Source                                    |
-| ------------ | ----------------------------------------- |
-| Назва серії  | `series.title`                            |
-| Частина      | `series.partNumber` / `series.totalBooks` |
-| Статус серії | `series.status`                           |
+```text
+book.seriesId !== null
+```
 
-Action:
+Додатково потрібно перевірити:
 
-```text id="hqe9nj"
+* серія існує;
+* серія належить поточному користувачу;
+* книга справді прив’язана до цієї серії.
+
+---
+
+#### 7.4.2. When not to show
+
+Блок не показується, якщо:
+
+```text
+bookType = solo
+seriesId = null
+```
+
+або якщо книга є standalone book.
+
+Recommended MVP behavior:
+
+```text
+Для solo books блок Series preview не показується.
+```
+
+Не потрібно показувати empty state типу:
+
+```text
+Ця книга не належить до серії
+```
+
+у right sidebar, щоб не перевантажувати сторінку.
+
+Action **Додати до серії** може бути доступна через:
+
+```text
+Редагувати книгу
+```
+
+або через Book Form Series Section.
+
+---
+
+#### 7.4.3. Purpose
+
+Блок **Series preview** допомагає користувачу швидко зрозуміти:
+
+* до якої серії належить книга;
+* який це номер частини;
+* скільки всього книг у серії;
+* чи завершена серія як книжковий цикл;
+* який прогрес користувача по серії;
+* чи ця книга є поточною / наступною в серії;
+* як швидко перейти до Series Details Page.
+
+---
+
+#### 7.4.4. Recommended fields
+
+| Field                   | Source                                           | Description                                    |
+| ----------------------- | ------------------------------------------------ | ---------------------------------------------- |
+| Назва серії             | `series.title`                                   | назва серії                                    |
+| Автор серії             | `series.author`                                  | показується, якщо є                            |
+| Частина                 | `book.partNumber`                                | номер книги в серії                            |
+| Загальна кількість книг | `series.totalBooksCount` або `series.booksCount` | показується як “Книга 2 з 5”                   |
+| Статус серії            | `series.status`                                  | Завершена / Ще виходить / Невідомо             |
+| Прогрес серії           | calculated                                       | скільки книг користувач прочитав               |
+| Next book state         | calculated                                       | чи ця книга поточна / наступна / вже прочитана |
+| Action                  | —                                                | Переглянути серію                              |
+
+---
+
+#### 7.4.5. UI example
+
+Example for book that belongs to a series:
+
+```text
+Серія
+
+Тінь і кістка
+Книга 2 з 3
+
+Серія завершена
+Прочитано 1 з 3 книг · 33%
+
+[Переглянути серію]
+```
+
+Example when current book is the next book in series:
+
+```text
+Серія
+
+Тінь і кістка
+Книга 2 з 3
+
+Це наступна книга у серії
+Прочитано 1 з 3 книг · 33%
+
+[Переглянути серію]
+```
+
+Example when current book is already finished:
+
+```text
+Серія
+
+Тінь і кістка
+Книга 2 з 3
+
+Цю книгу вже прочитано
+Прочитано 2 з 3 книг · 67%
+
+[Переглянути серію]
+```
+
+---
+
+#### 7.4.6. Series title
+
+Назва серії є головним елементом блоку.
+
+Behavior:
+
+* назва серії має бути клікабельною або мати окрему кнопку **Переглянути серію**;
+* клік веде на Series Details Page;
+* якщо назва дуже довга, її можна обрізати в 1–2 рядки;
+* повна назва може бути доступна через tooltip.
+
+Example:
+
+```text
+Тінь і кістка
+```
+
+---
+
+#### 7.4.7. Part number display
+
+Part number показує, якою частиною серії є поточна книга.
+
+Recommended format:
+
+```text
+Книга 2 з 3
+```
+
+Logic:
+
+* `2` — це `book.partNumber`;
+* `3` — це `series.totalBooksCount`, якщо він вказаний;
+* якщо `totalBooksCount` не вказаний, можна використовувати кількість доданих книг у серії.
+
+Examples:
+
+```text
+Книга 2 з 3
+Книга 4 з 7
+Книга 2
+```
+
+Якщо `totalBooksCount` відсутній:
+
+```text
+Книга 2
+```
+
+або:
+
+```text
+Книга 2 з 4 доданих
+```
+
+Recommended MVP:
+
+```text
+Якщо totalBooksCount відсутній, показувати тільки “Книга 2”.
+```
+
+---
+
+#### 7.4.8. Missing part number
+
+Якщо книга має `seriesId`, але не має `partNumber`, блок має показати warning.
+
+Content:
+
+```text
+Номер частини не вказаний
+```
+
+Recommended UI:
+
+```text
+Серія
+
+Тінь і кістка
+Номер частини не вказаний
+
+[Переглянути серію]
+[Редагувати книгу]
+```
+
+Behavior:
+
+* блок не має ламатися;
+* action **Редагувати книгу** відкриває Edit Book Form;
+* користувач може додати `partNumber` у Series Section in Book Form.
+
+Important:
+
+```text
+Нові книги не мають додаватися до серії без partNumber.
+Такий state потрібен тільки для старих або некоректних даних.
+```
+
+---
+
+#### 7.4.9. Series status
+
+Series status показує стан книжкового циклу.
+
+Options:
+
+| Value       | Label       |
+| ----------- | ----------- |
+| `completed` | Завершена   |
+| `ongoing`   | Ще виходить |
+| `unknown`   | Невідомо    |
+
+Important:
+
+```text
+Series status не означає, що користувач прочитав серію.
+```
+
+Example:
+
+```text
+Серія завершена
+```
+
+або:
+
+```text
+Серія ще виходить
+```
+
+---
+
+#### 7.4.10. User progress in series
+
+У Series preview можна показати короткий прогрес користувача по серії.
+
+Recommended format:
+
+```text
+Прочитано 2 з 5 книг · 40%
+```
+
+Progress calculation:
+
+```text
+finished books count / total books count * 100
+```
+
+Якщо `series.totalBooksCount` вказаний:
+
+```text
+Прочитано 2 з 5 книг · 40%
+```
+
+Якщо `series.totalBooksCount` не вказаний:
+
+```text
+Прочитано 2 з 4 доданих · 50%
+```
+
+Якщо прогрес не можна порахувати:
+
+```text
+Прогрес серії ще недоступний
+```
+
+Important:
+
+```text
+У цьому блоці показується тільки короткий summary.
+Повна статистика серії показується на Series Details Page.
+```
+
+---
+
+#### 7.4.11. Current book state in series
+
+Блок може показувати короткий contextual state для поточної книги.
+
+Possible states:
+
+| State                       | When to show                         | Label                                   |
+| --------------------------- | ------------------------------------ | --------------------------------------- |
+| Current book is finished    | `readingStatus = finished`           | Цю книгу вже прочитано                  |
+| Current book is reading     | `readingStatus = reading`            | Ви читаєте цю книгу зараз               |
+| Current book is rereading   | `readingStatus = rereading`          | Ви перечитуєте цю книгу                 |
+| Current book is next        | calculated next book is current book | Це наступна книга у серії               |
+| Previous books not finished | earlier books are not finished       | Перед цією книгою є непрочитані частини |
+| All series finished         | all books in series are finished     | Серію прочитано                         |
+
+Example:
+
+```text
+Це наступна книга у серії
+```
+
+або:
+
+```text
+Перед цією книгою є непрочитані частини
+```
+
+---
+
+#### 7.4.12. Next book logic
+
+Series preview може використовувати next book logic тільки для короткого contextual label.
+
+Base logic:
+
+```text
+Next book = перша книга з найменшим partNumber, яка не має readingStatus = finished
+```
+
+Якщо є книга зі статусом:
+
+```text
+reading
+```
+
+або:
+
+```text
+rereading
+```
+
+вона вважається поточною / наступною.
+
+У Series preview не потрібно показувати повний блок **Наступна книга**. Повний next book block має бути на Series Details Page.
+
+Recommended MVP:
+
+```text
+Book Details показує тільки короткий label.
+Series Details Page показує повний Next Book block.
+```
+
+---
+
+#### 7.4.13. Actions
+
+Main action:
+
+```text
 Переглянути серію
 ```
 
 Behavior:
 
-* action веде на сторінку деталей серії;
-* якщо книга є solo book, блок не показується;
-* якщо серія має значення типу `1 з 1`, блок краще не показувати, щоб не створювати відчуття фейкової серії.
+* redirect на Series Details Page;
+* route:
+
+```text
+/series/:seriesId
+```
+
+Secondary actions, якщо потрібні:
+
+```text
+Редагувати серію книги
+Прибрати з серії
+```
+
+Recommended MVP behavior:
+
+| Action                 | Behavior                                              |
+| ---------------------- | ----------------------------------------------------- |
+| Переглянути серію      | redirect to `/series/:seriesId`                       |
+| Редагувати серію книги | відкриває Edit Book Form або Book Form Series Section |
+| Прибрати з серії       | відкриває confirmation unlink flow                    |
+
+Important:
+
+```text
+Book Details не має напряму редагувати series relation без відповідного flow.
+```
+
+Тобто:
+
+* зміна серії книги відбувається через Edit Book Form;
+* відв’язування книги від серії відбувається через Remove / Unlink Book from Series flow;
+* редагування самої серії відбувається через Create / Edit Series flow.
+
+---
+
+#### 7.4.14. Remove from series action
+
+Action:
+
+```text
+Прибрати з серії
+```
+
+Цю дію можна показати в More menu всередині Series preview або залишити тільки в Edit Book Form.
+
+Recommended MVP:
+
+```text
+Основний шлях: Редагувати книгу → Series Section → прибрати серію.
+```
+
+Якщо action показується прямо в Series preview, потрібно обов’язково показати confirmation modal.
+
+Confirmation title:
+
+```text
+Прибрати книгу з серії?
+```
+
+Confirmation text:
+
+```text
+Книга залишиться у вашій бібліотеці, але більше не буде відображатися в цій серії.
+```
+
+Buttons:
+
+```text
+Скасувати
+Прибрати з серії
+```
+
+Important:
+
+```text
+Ця дія не видаляє книгу з бібліотеки.
+```
+
+---
+
+#### 7.4.15. Series not found state
+
+Якщо книга має `seriesId`, але серія не знайдена, потрібно показати safe state.
+
+Possible reasons:
+
+* серія була видалена;
+* relation залишився некоректним;
+* сталася помилка синхронізації.
+
+UI text:
+
+```text
+Серію не знайдено
+```
+
+Helper text:
+
+```text
+Книга має зв’язок із серією, але цю серію не вдалося знайти.
+```
+
+Actions:
+
+```text
+Редагувати книгу
+```
+
+Behavior:
+
+* не показувати назву неіснуючої серії;
+* не вести на неіснуючу Series Details Page;
+* дозволити користувачу виправити relation через Edit Book Form.
+
+---
+
+#### 7.4.16. Deleted series behavior
+
+Якщо серія була видалена через Delete Series flow:
+
+* книга залишається в бібліотеці;
+* `seriesId` у книги має бути очищений;
+* `partNumber` має бути очищений;
+* Series preview більше не показується.
+
+Expected result:
+
+```text
+Книга стає standalone book.
+```
+
+Important:
+
+```text
+Book Details не має показувати Series preview для видаленої серії.
+```
+
+---
+
+#### 7.4.17. Loading state
+
+Поки дані серії завантажуються, показати compact loading state.
+
+Example:
+
+```text
+Завантажуємо серію...
+```
+
+Recommended UI:
+
+* skeleton card;
+* disabled action;
+* не показувати старі або неповні дані як актуальні.
+
+---
+
+#### 7.4.18. Error state
+
+Якщо дані серії не вдалося завантажити:
+
+```text
+Не вдалося завантажити інформацію про серію
+```
+
+Action:
+
+```text
+Спробувати ще раз
+```
+
+Fallback:
+
+* Book Details має залишатися доступною;
+* помилка series preview не має ламати всю сторінку книги.
+
+---
+
+#### 7.4.19. Responsive behavior
+
+На desktop:
+
+* Series preview показується в right sidebar після Statuses;
+* блок має бути компактним;
+* не дублює повну Series Details Page.
+
+На mobile:
+
+* Series preview переходить у загальний потік блоків;
+* рекомендовано показувати після Statuses або після Reading progress;
+* кнопка **Переглянути серію** має бути достатньо помітною.
+
+---
+
+#### 7.4.20. What should not be here
+
+У Series preview не потрібно додавати:
+
+* повний список книг серії;
+* повний Reading Order Block;
+* повну статистику серії;
+* редагування полів серії;
+* створення нової серії;
+* додавання нових книг у серію;
+* drag-and-drop порядок книг;
+* рекомендації схожих серій;
+* нотатки по серії;
+* цитати по серії;
+* персонажів серії.
+
+Ці дані мають бути на Series Details Page або в окремих feature docs.
+
+---
+
+#### 7.4.21. Acceptance Criteria
+
+* Series preview показується тільки якщо книга є частиною серії.
+* Для solo books Series preview не показується.
+* Користувач бачить назву серії.
+* Користувач бачить номер частини книги в серії.
+* Якщо `totalBooksCount` доступний, користувач бачить формат “Книга N з M”.
+* Користувач бачить статус серії.
+* Статус серії не плутається з user reading progress.
+* Користувач бачить короткий прогрес по серії, якщо дані доступні.
+* Користувач може перейти на Series Details Page.
+* Action **Переглянути серію** веде на `/series/:seriesId`.
+* Якщо `partNumber` відсутній, користувач бачить warning.
+* Якщо серія не знайдена, користувач бачить safe error state.
+* Якщо серія була видалена, Series preview не показується.
+* Помилка завантаження серії не ламає всю Book Details Page.
+* На mobile Series preview перебудовується в одну колонку.
+* Series preview не дублює повну Series Details Page.
 
 ---
 
