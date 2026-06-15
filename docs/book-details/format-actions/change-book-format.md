@@ -1,3 +1,9 @@
+# Change Book Format
+
+> Source: change-book-format.md lines 1-249
+
+---
+
 # Feature: Change Book Format
 
 ## 1. Purpose
