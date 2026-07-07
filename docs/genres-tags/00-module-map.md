@@ -1,48 +1,97 @@
 # Genres / Tags Module Map
 
-## 1. Module responsibility
+## Module purpose
 
-Модуль відповідає за:
+The `Genres / Tags` module helps users organize, browse and filter their personal BookNest library by predefined genres and user-created tags.
 
-- сторінку **Жанри / Теги**;
-- вкладки **Жанри** та **Теги**;
+## Core concepts
+
+### Genres
+
+Genres are predefined system categories.
+
+Users can select genres for books, but cannot create, edit, delete or merge genres in MVP.
+
+### Tags
+
+Tags are user-created labels.
+
+Users can create, edit and delete their own tags.
+
+Tags can represent:
+
+- tropes;
+- atmosphere;
+- themes;
+- characters;
+- format;
+- custom personal labels.
+
+### Tag colors
+
+Tags use a predefined BookNest color palette.
+
+Users select colors from available semantic color keys. Arbitrary custom colors are not supported in MVP.
+
+## Main page
+
+```text
+Genres / Tags Page
+├─ Header
+├─ Add Tag CTA
+├─ Search / Sort / Filters toolbar
+├─ Top statistics summary cards
+├─ Genres tab
+├─ Tags tab
+└─ Info hint
+```
+
+## Sketch-based MVP additions
+
+The module includes the following documented UI/product improvements:
+
+1. Top statistics summary cards.
+2. Advanced genre cards with icon, counts, reading progress, rating and cover preview.
+3. Queue count inside genre cards.
+4. Popular tags block with tag chips and book counters.
+5. Show all / show more behavior.
+6. Tab-specific search.
+7. Sorting and filters toolbar.
+8. Info hint explaining the difference between genres and tags.
+9. Add Tag CTA only.
+10. Navigation from genre/tag to filtered My Library.
+
+## Integrations
+
+This module integrates with:
+
+- Book Form;
+- Book Details;
+- My Library filters;
+- Reading Queue;
+- Dashboard / Statistics.
+
+## MVP boundaries
+
+Included in MVP:
+
 - predefined genres;
 - user-created tags;
-- статистику по жанрах і тегах;
-- пошук, фільтри, сортування;
-- створення, редагування і видалення власних тегів;
-- інтеграцію жанрів і тегів у Create / Edit Book Form;
-- інтеграцію з Book Details;
-- інтеграцію з My Library filters;
-- інтеграцію зі статистикою та Dashboard.
+- Add/Edit/Delete Tag;
+- predefined tag color palette;
+- genres/tags page;
+- popular tags;
+- genre cards with statistics;
+- navigation to filtered My Library.
 
-## 2. Core concept
+Not included in MVP:
 
-```text
-Genres = стабільні книжкові категорії.
-Tags = персональні мітки користувача: тропи, атмосфера, теми, персонажі, власні позначки.
-```
-
-## 3. MVP decision
-
-```text
-Жанри predefined.
-Теги user-created only.
-Немає predefined tags.
-```
-
-Це означає:
-
-- тег не з'являється у списку, поки користувач його не створив;
-- autocomplete для тегів показує тільки теги поточного користувача;
-- системних тегів у MVP немає;
-- теги належать конкретному `userId`.
-
-## 4. Main user flows
-
-```text
-Book Form → select genres → save book → genre stats update
-Book Form → create/select user tags → save book → tag stats update
-Genres / Tags Page → click genre/tag → My Library opens with filter
-Genres / Tags Page → add/edit/delete tag → user tag list updates
-```
+- custom genres;
+- predefined tags;
+- automatic tag suggestions;
+- automatic genre detection;
+- merge tags;
+- detailed genre page;
+- detailed tag page;
+- advanced tag color system;
+- custom user color palettes.

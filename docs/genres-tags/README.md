@@ -1,26 +1,27 @@
-# Feature Module: Genres / Tags
+# Genres / Tags Module Documentation
 
-Модуль **Genres / Tags** описує сторінку **Жанри / Теги** у BookNest та всю пов'язану логіку жанрів і користувацьких тегів.
+## Purpose
 
-Сторінка допомагає користувачу навігувати по власній бібліотеці за великими книжковими категоріями, темами, настроями, тропами та персональними мітками.
+This module describes how BookNest handles book genres and user-created tags.
 
-Important:
+Genres are predefined book categories selected inside book forms. Tags are personal labels created by the user to describe tropes, mood, themes, characters, format, or any custom meaning.
 
-```text
-Genres і Tags — це різні сутності.
-Жанри беруться із заздалегідь визначеного списку.
-Теги не мають predefined list: користувач створює їх вручну, і тільки створені теги показуються в підказках та на сторінці тегів.
-```
+## MVP principles
+
+- Genres are predefined.
+- Users cannot create custom genres in MVP.
+- Tags are created manually by users.
+- There are no predefined tags in MVP.
+- Tag colors are selected from the predefined BookNest palette.
+- Genre and tag items can navigate to filtered My Library.
 
 ## Module structure
 
 ```text
-
 docs/genres-tags/
   README.md
   FILE_TREE.md
   00-module-map.md
-  01-implementation-order.md
 
   01-domain/
     README.md
@@ -32,51 +33,49 @@ docs/genres-tags/
     05-normalization-and-duplicates.md
     06-validation-rules.md
     07-data-safety-and-permissions.md
+    08-tag-color-palette.md
 
   02-pages/
-    README.md
     genres-tags-page/
-      README.md
-      00-overview-route-data.md
-      01-layout-header-tabs.md
+      01-layout-overview.md
       02-genres-tab.md
       03-tags-tab.md
       04-search-filters-sorting.md
       05-states-responsive-acceptance.md
+      06-sketch-based-mvp-updates.md
 
   03-actions/
-    README.md
     add-tag/
-      README.md
       00-entry-modal-fields.md
       01-submit-validation-errors.md
-      02-success-updates-acceptance.md
     edit-tag/
-      README.md
       00-entry-fields-submit.md
       01-validation-errors-acceptance.md
     delete-tag/
-      README.md
       00-entry-confirmation.md
-      01-submit-updates.md
-      02-errors-acceptance.md
 
   04-integrations/
-    README.md
-    00-navigation-entry-points.md
     01-book-form-genres-tags-section.md
     02-book-details-genres-tags-block.md
     03-my-library-filters-contract.md
     04-statistics-dashboard-contract.md
 
   05-shared/
-    README.md
-    00-cross-feature-update-matrix.md
-    01-summary-calculation-rules.md
-    02-filter-sort-rules.md
-    03-loading-error-empty-states.md
-    04-responsive-rules.md
     05-mvp-vs-future-scope.md
     06-master-acceptance-criteria.md
-
 ```
+
+## Sketch-based MVP additions
+
+The page documentation includes the following product improvements:
+
+1. Top statistics summary cards.
+2. Advanced genre cards with icon, counts, reading progress, rating and cover preview.
+3. Queue count inside genre cards.
+4. Popular tags block with tag chips and book counters.
+5. Show all / show more behavior.
+6. Tab-specific search.
+7. Sorting and filters toolbar.
+8. Info hint explaining genres vs tags.
+9. Add Tag CTA only.
+10. Navigation from genre/tag to filtered My Library.

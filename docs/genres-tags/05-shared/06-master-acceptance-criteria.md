@@ -1,99 +1,116 @@
 # Master Acceptance Criteria
 
-## General
+## Page structure
 
-- User can open **Жанри / Теги** page.
-- Page has tabs **Жанри** and **Теги**.
-- Genres and tags are not mixed into one list.
-- Genres are predefined.
-- Tags are created manually by user.
-- No predefined tags are shown.
-- User sees only own tags.
+- User can open the `Genres / Tags` page from the main navigation.
+- Page has two tabs: `Жанри` and `Теги`.
+- Active tab is visually clear.
+- Page layout is responsive on desktop, tablet, and mobile.
 
-## Genres
+## Add Tag / Add Genre rules
 
-- User can select genres in Book Form.
-- User cannot create custom genre in MVP.
-- Genres tab shows genres used by user's books.
-- Genre card shows books count.
-- Genre card can show read count, queue count and cover previews.
-- Clicking genre opens My Library filtered by genre.
+- Page has `Додати тег` action.
+- Page does not have `Додати жанр` action in MVP.
+- Users can create tags manually.
+- Users cannot create custom genres in MVP.
 
-## Tags
+## Summary cards
 
-- User can create tag manually.
-- User can select own tags in Book Form.
-- If user has no tags, tag autocomplete is empty and offers create action.
-- Tags tab shows current user's tags only.
-- Tag item shows name, type and books count.
-- User can edit own tag.
-- User can delete own tag.
-- Clicking tag opens My Library filtered by tag.
+- Page shows top statistics summary cards.
+- Summary cards use only current user's data.
+- Summary cards can show:
+  - used genres count;
+  - user-created tags count;
+  - books with genres count;
+  - books without genres count;
+  - average rating by genres.
+- If `Книги без жанрів` card is clickable, it opens My Library filtered to books without genres.
+- Summary values are recalculated after book/tag changes.
 
-## Add Tag
+## Genres tab
 
-- Add Tag modal has name field.
-- Name is required.
-- Duplicate normalized tag name is blocked per user.
-- Type is optional and defaults to custom.
-- Created tag appears in Tags tab.
-- Created tag appears in Book Form autocomplete.
+- Genres tab shows only genres used in current user's books.
+- Genre card shows genre name and total books count.
+- Genre card may show icon, read count, queue count, average rating, reading progress and cover preview.
+- Queue count is calculated from the current user's reading queue.
+- Average rating ignores books without rating.
+- Cover preview shows only books that belong to the selected genre.
+- User can click a genre card to open My Library filtered by this genre.
+- User can expand collapsed list using `Показати всі жанри`.
+- There is no create/edit/delete genre action in MVP.
 
-## Edit Tag
+## Tags tab
 
-- User can edit own tag name/type/description/color.
-- User cannot edit another user's tag.
-- Renamed tag updates everywhere.
-- Duplicate normalized name is blocked.
+- Tags tab shows only tags created by the current user.
+- Popular tags block shows most used user-created tags.
+- Tag chip shows tag name and books count.
+- Tag chip uses predefined BookNest tag color.
+- User can click a tag chip to open My Library filtered by this tag.
+- Tag filtering uses `tagId`, not tag name.
+- User can expand collapsed list using `Показати всі теги` or `Показати більше`.
+- Empty state explains that tags are created manually.
 
-## Delete Tag
+## Tag colors
 
-- User can delete own tag.
-- If tag is used, confirmation explains it will be removed from books.
-- Deleting tag does not delete books.
-- Deleted tag disappears from autocomplete and filters.
+- User can select a tag color only from the predefined BookNest palette.
+- User cannot enter arbitrary HEX/RGB/OKLCH color values.
+- If user does not select a color, the tag receives `parchment` color by default.
+- Tag color is stored as a semantic key, not as a raw color value.
+- Available color keys are:
+  - `parchment`
+  - `terracotta`
+  - `honey`
+  - `sage`
+  - `forest`
+  - `sky`
+  - `lavender`
+  - `rose`
+- Tag chips/cards use the selected color consistently across the app.
+- Changing tag color updates the tag display everywhere.
+- Changing tag color does not affect linked books.
+- Old tags without color are displayed with `parchment`.
+- Invalid color values fallback to `parchment` in UI rendering.
 
-## Search / Filters / Sorting
+## Search
 
-- User can search genres by name.
-- User can search own tags by name.
-- User can filter genres.
-- User can filter tags by type and usage.
-- User can sort by name and books count.
+- Search placeholder changes depending on active tab:
+  - `Пошук жанру...` for Genres tab;
+  - `Пошук тегу...` for Tags tab;
+  - `Пошук жанру або тегу...` for global/mixed mode.
+- Search is case-insensitive.
+- Search trims extra spaces.
+- Search supports partial matching.
+- Search does not create new tags automatically.
 
-## Integrations
+## Sorting and filters
 
-- Book Form has Genres field.
-- Book Form has Tags field.
-- Book Details shows selected genres and tags.
-- My Library supports genre filter.
-- My Library supports tag filter.
-- Dashboard / Statistics can use aggregated data.
+- Genres tab has genre-specific sorting options.
+- Tags tab has tag-specific sorting options.
+- User can sort genres by name, books count, read count, queue count, or average rating.
+- User can sort tags by name, books count, type, creation date, or last used date.
+- Filters do not modify book or tag data.
+- Filtered empty state appears when no items match.
 
-## States
+## Info hint
 
-- Loading state exists.
-- Empty genres/tags state exists.
-- Empty tags state explains that user must create tags manually.
-- Empty filtered state exists.
-- Error state exists.
+- Page shows a hint explaining the difference between genres and tags.
+- Recommended text:
+
+```text
+Жанри додаються з книг автоматично, а теги ви можете створювати самостійно.
+```
+
+## My Library navigation
+
+- Clicking a genre opens My Library filtered by this genre.
+- Clicking a tag opens My Library filtered by this tag id.
+- Active filters are visible in My Library.
+- User can clear genre/tag filters.
+- Navigation does not modify book data.
 
 ## Data safety
 
-- Genre/tag actions do not delete books.
-- Genre/tag actions do not change readingStatus.
-- Genre/tag actions do not change ownershipStatus.
-- Genre/tag actions do not change delivery data.
-- Genre/tag actions do not change loan data.
-- Genre/tag actions do not remove books from Reading Queue.
-- Genre/tag actions do not remove books from Custom Lists.
-- Genre/tag actions do not delete notes, quotes or characters.
-
-## Scope
-
-- Predefined genres are included in MVP.
-- User-created tags are included in MVP.
-- Predefined tags are not included.
-- Custom genres are not included.
-- Detailed genre/tag pages are not included.
-- Merge duplicate tags is not included.
+- Users can see only their own user-created tags.
+- Tag deletion never deletes books.
+- Genre and tag filters only change visible book list.
+- Renaming a tag does not break book connections if books store `tagIds`.

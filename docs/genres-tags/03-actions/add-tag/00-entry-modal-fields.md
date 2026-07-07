@@ -34,14 +34,43 @@ Subtitle:
 | ----- | -------- | ---- |
 | Назва тегу | yes | text input |
 | Тип тегу | no | select |
-| Колір | no | color / select |
+| Колір | no | predefined palette select |
 | Опис | no | textarea |
 
 ## Defaults
 
 ```ts
 type = "custom";
+color = "parchment";
 ```
+
+## Color behavior
+
+The color field is not a free color picker.
+
+The user can select only one color from the predefined BookNest tag color palette:
+
+- Пергамент — `parchment`
+- Теракота — `terracotta`
+- Медовий — `honey`
+- Шавлія — `sage`
+- Лісовий — `forest`
+- Небесний — `sky`
+- Лаванда — `lavender`
+- Пудрова троянда — `rose`
+
+If the user does not select a color manually, the tag is created with the default `parchment` color.
+
+## Recommended color selector UI
+
+```text
+Колір тегу
+
+[● Пергамент] [● Теракота] [● Медовий] [● Шавлія]
+[● Лісовий]   [● Небесний] [● Лаванда] [● Троянда]
+```
+
+Selected color should be visually highlighted.
 
 ## Buttons
 

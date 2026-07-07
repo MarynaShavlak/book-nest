@@ -1,13 +1,13 @@
 # MVP vs Future Scope
 
-## MVP
-
-Included:
+## MVP Included
 
 - Genres / Tags Page;
 - predefined genres;
 - user-created tags only;
 - no predefined tags;
+- predefined BookNest tag color palette;
+- tag color selection from predefined palette;
 - genre cards;
 - tag chips/cards;
 - Add Tag;
@@ -21,9 +21,7 @@ Included:
 - sorting;
 - empty/loading/error states.
 
-## Future
-
-Later:
+## Future Later
 
 - detailed genre page;
 - detailed tag page;
@@ -32,7 +30,10 @@ Later:
 - automatic genre detection;
 - mood groups;
 - recommendations by mood;
-- tag color system as full feature;
+- advanced tag color system as full feature;
+- custom user palettes;
+- arbitrary custom colors;
+- automatic color suggestions by tag type;
 - tag icons;
 - custom genres;
 - charts by genre/tag;
